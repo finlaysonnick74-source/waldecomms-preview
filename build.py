@@ -7,6 +7,8 @@ E=html.escape
 EMAIL='hello@waldecomms.com.au'
 PHONE=None  # e.g. ('+614xxxxxxxx','04xx xxx xxx') once confirmed
 NAV=[('/work/','Work'),('/services/','Services'),('/noise-makers/','Noise-makers'),('/what-people-say/','What people say'),('/contact/','Contact')]
+import json as _json, os as _os
+COV=_json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','coverage','coverage.json'))) if _os.path.exists(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','coverage','coverage.json')) else _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'coverage.json')))
 CASES=[
  dict(slug='hamilton-island',title='Hamilton Island',tape='Island of paradise',tags='travel',tag='Travel',img='hamilton-island',stat='#1',statl="Australia's most Google-searched destination, 2025",
   line="Helped Hamilton Island become Australia's #1 Google searched destination in 2025.",
@@ -119,17 +121,21 @@ work=f'''<section class="cs-hero"><div class="wrap"><h1 class="tape-stack" data-
 page('work/index.html','Work | WaldeComms','Case studies: Hamilton Island, Million Moves, Neon Dynamo, A Lasting Tale, Noasis, 36 Months, National Expansion.',work,'/work/')
 for i,c in enumerate(CASES):
   nx=CASES[(i+1)%len(CASES)]
-  imgs=[(f"/img/deck-{c['img']}.webp",'center')]
-  if c['img'] in('lasting-tale','noasis'):imgs=[(f"/img/deck-{c['img']}.webp",'top'),(f"/img/deck-{c['img']}.webp",'bottom')]
-  else: imgs=[(f"/img/deck-{c['img']}.webp",p) for p in ('left top','right top','left bottom','right bottom')]
-  wall=''.join(f'<button type="button" data-full="{s}" style="--r:{[-2,1.5,-1,2][k%4]}deg;--pos:{p}"><img src="{s}" alt="{E(c["title"])} press clipping {k+1}" loading="lazy" width="1467" height="826"></button>' for k,(s,p) in enumerate(imgs))
+  import datetime as _dt
+  def _d(x):
+    try:return _dt.date.fromisoformat(x).strftime('%-d %b %Y')
+    except Exception:return ''
+  items=COV.get(c['slug'],[])
+  clips=''.join(f'''<article class="clip" style="--r:{[-1.5,1,-.8,1.4][k%4]}deg">{(f'<figure class="clip__img"><img src="{x["img"]}" alt="" loading="lazy" width="720" height="405"><figcaption>Image: {E(x["site"] or "")}</figcaption></figure>') if x.get("img") else ''}<div class="clip__b"><p class="clip__o">{E(x["site"] or "")}</p><h3 class="clip__h">{E(x["title"])}</h3>{(f'<p class="clip__d"><time datetime="{x["date"]}">{_d(x["date"])}</time></p>') if x.get("date") else ''}<a class="clip__a" href="{E(x["url"])}" target="_blank" rel="noopener">Read the story ↗<span class="sr"> (opens {E(x["site"] or "")} in a new tab)</span></a></div></article>''' for k,x in enumerate(items))
+  deck=f'''<button type="button" class="wall__deck" data-full="/img/deck-{c['img']}.webp"><img src="/img/deck-{c['img']}.webp" alt="{E(c["title"])} coverage page from the WaldeComms deck" loading="lazy" width="1467" height="826"></button>'''
+  wall=deck+(f'<div class="clips">{clips}</div>' if items else '')
   ctr=''.join(f'<div class="rv"><div class="stb__n" {"data-to="+chr(34)+str(v)+chr(34) if isinstance(v,int) else ""} data-suffix="{s}">{v if isinstance(v,str) else (f"{v:,}" if isinstance(v,int) else v)}{s}</div><div class="stb__l">{l}</div></div>' for v,s,l in c['counters']) or f'<div class="rv"><div class="stb__n">{E(c["stat"])}</div><div class="stb__l">{E(c["statl"])}</div></div>'
   q=c.get('quote');qh=f'<figure class="case-quote" style="max-width:640px"><blockquote>“{E(q[0])}”</blockquote><figcaption>{E(q[1])}</figcaption></figure>' if q else ''
   body=f'''<section class="cs-hero"><div class="wrap"><p class="kick">{c['tag']}</p><h1 class="tape-stack" data-noise><span class="tape tape-in">{E(c['title'])}</span><span class="tape tape--p tape-in">{E(c['tape'])}</span></h1></div></section>
 <!-- Challenge copy not in the deck: needs WaldeComms input before launch -->
 <section class="sec"><div class="wrap cs-steps"><div class="rv"><h2 style="font-size:clamp(28px,4vw,48px)"><span class="tape tape--m">The noise we made</span></h2><p class="lead">{E(c['line'])}</p></div>
 <div class="rv"><h3>Where it landed</h3><ul>{''.join('<li>'+E(x)+'</li>' for x in c['coverage'])}</ul>{qh}</div></div></section>
-<section class="sec bg-m"><div class="wrap"><h2 style="font-size:clamp(28px,4vw,48px)"><span class="tape">Coverage wall</span></h2><p>Tap a clipping to enlarge.</p><div class="wall">{wall}</div></div></section>
+<section class="sec bg-m"><div class="wrap"><h2 style="font-size:clamp(28px,4vw,48px)"><span class="tape">Coverage wall</span></h2><p>{"Real stories, linked to the original. Tap the deck page to enlarge." if COV.get(c["slug"]) else "From the WaldeComms deck. Tap to enlarge."}</p><div class="wall">{wall}</div></div></section>
 <section class="bg-y"><div class="wrap stb">{ctr}</div></section>
 <section class="sec"><div class="wrap next"><div><p class="kick">Next case</p><h2 style="font-size:clamp(28px,5vw,64px)"><a href="/work/{nx['slug']}/">{E(nx['title'])} →</a></h2></div><a class="btn" href="/work/">All work</a></div></section>{CTA}'''
   page(f"work/{c['slug']}/index.html",f"{c['title']} | WaldeComms",c['line'],body,'/work/')

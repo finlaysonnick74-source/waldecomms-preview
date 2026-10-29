@@ -184,7 +184,7 @@ h2{font-size:clamp(36px,6.5vw,88px)}h3{font-size:clamp(22px,2.6vw,32px)}
 /* Clip horizontal artwork without creating an intermediate vertical scroll container. */
 html{overflow-x:clip}
 /* viewport-fit: Niki never taller than the screen; hero fits short/tall viewports */
-img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup){max-height:min(80vh,100%);max-height:min(80dvh,100%);object-fit:contain;height:auto}
+img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup):not(.volume__art){max-height:min(80vh,100%);max-height:min(80dvh,100%);object-fit:contain;height:auto}
 .hero{min-height:calc(100dvh - 64px)}
 .hero h1{font-size:clamp(28px,min(6.2vw,9.5dvh),100px)}
 .hero .tape{max-width:100%}
@@ -203,7 +203,7 @@ h2{font-size:clamp(32px,min(6.5vw,11dvh),88px)}                   /* rules 10,13
 summary{min-height:44px;display:flex;align-items:center}
 .mnav summary{display:inline-flex}
 /* hero fit v2: centred columns, Niki sized by viewport height, never cropped */
-img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup){max-height:80vh;max-height:80dvh}
+img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup):not(.volume__art){max-height:80vh;max-height:80dvh}
 .hero{align-items:center;padding-block:clamp(16px,3dvh,40px)}
 .hero .wrap{align-items:center}
 .hero .me{height:min(72dvh,640px);width:auto;max-width:100%;max-height:none;align-self:center}
@@ -211,3 +211,26 @@ img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup){max-heig
 .hero h1{font-size:clamp(28px,min(5.2vw,7.2dvh),92px)}
 .hero .sub{margin:1rem 0}
 @media(max-width:899px){.hero h1{font-size:clamp(28px,7.4vw,60px)}}
+/* coverage wall v2: deck page once + real clipping cards */
+.wall{display:block}
+.wall__deck{display:block;width:100%;max-width:980px;margin:0 auto 2rem;padding:0;border:3px solid var(--i);background:var(--c);cursor:zoom-in;box-shadow:6px 6px 0 var(--i);transform:none}
+.wall__deck img{width:100%;height:auto;aspect-ratio:auto}
+.clips{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:24px}
+.clip{background:var(--c);border:3px solid var(--i);box-shadow:6px 6px 0 var(--i);transform:rotate(var(--r));display:flex;flex-direction:column}
+.clip__img{margin:0;position:relative}.clip__img img{width:100%;aspect-ratio:16/9;object-fit:cover;border-bottom:3px solid var(--i)}
+.clip__img figcaption{position:absolute;right:6px;bottom:6px;font:700 11px var(--bd);background:var(--i);color:var(--c);padding:2px 6px}
+.clip__b{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.clip__o{margin:0;font:700 13px var(--bd);letter-spacing:.12em;text-transform:uppercase;color:var(--i);background:var(--y);align-self:flex-start;padding:2px 8px}
+.clip__h{margin:0;font:400 clamp(18px,1.6vw,22px)/1.15 var(--hd);text-transform:none;letter-spacing:0}
+.clip__d{margin:0;font:400 15px var(--bd)}
+.clip__a{margin-top:auto;font:700 16px var(--bd);min-height:44px;display:inline-flex;align-items:center}
+@media(prefers-reduced-motion:reduce){.clip{transform:none}}
+/* volume box v2: smaller, fits viewport beside Niki */
+.volume__layout{grid-template-columns:minmax(0,.8fr) minmax(0,640px);justify-content:center}
+.volume__quote{max-width:640px;max-height:calc(100dvh - 220px);overflow:auto;padding:clamp(18px,2.4vw,32px)}
+.volume__quote blockquote{font-size:clamp(20px,2vw,30px);line-height:1.2;overflow-wrap:break-word}
+.volume__quote figcaption{margin-top:1rem;font-size:15px}
+.volume__art{max-height:min(60dvh,460px)}
+@media(max-width:700px){.volume__quote blockquote{font-size:clamp(19px,5.2vw,24px)}.volume__quote{max-height:none}.volume__art{max-height:30dvh}}
+img.volume__art[src]{max-height:min(60dvh,460px);width:auto;max-width:100%}
+@media(max-width:700px){img.volume__art[src]{max-height:30dvh}}
