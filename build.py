@@ -163,7 +163,7 @@ for i,c in enumerate(CASES):
 <section class="sec"><div class="wrap next"><div><p class="kick">Next case</p><h2><a href="/work/{nx['slug']}/">{E(nx['title'])} →</a></h2></div><a class="btn" href="/work/">All work</a></div></section>{CTA}'''
   page(f"work/{c['slug']}/index.html",f"{c['title']} | WaldeComms",c['line'],body,'/work/')
 # SERVICES
-svc=f'''<section class="cs-hero"><div class="wrap"><p class="kick">Services</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What we do</span><span class="tape tape--p tape-in">to make noise</span></h1><p class="lead">Communications &amp; content for businesses that want to be the story, not just in it.</p></div></section>
+svc=f'''<section class="cs-hero"><div class="wrap" style="display:grid;gap:2rem;align-items:end;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div><p class="kick">Services</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What we do</span><span class="tape tape--p tape-in">to make noise</span></h1><p class="lead">Communications &amp; content for businesses that want to be the story, not just in it.</p></div><img src="/img/niki-megaphone.webp" alt="Illustration of Niki Waldegrave with a megaphone" style="justify-self:center"></div></section>
 <!-- Deliverables per the approved site plan; WaldeComms to confirm wording -->
 <section class="sec" data-fit-exempt="m" data-fit-reason="two service panels stack on mobile"><div class="wrap svc"><div class="panel bg-y rv"><h2>Shape the news</h2><p class="lead">Sharp news sense and premium contacts, so the story is told your way.</p>
 <details open><summary>Media relations</summary><p>Pitching, placing and managing stories across national TV, radio, print and online.</p></details>

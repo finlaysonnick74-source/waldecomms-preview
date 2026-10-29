@@ -368,3 +368,6 @@ a.btn,button.btn{min-height:var(--btn-h);height:var(--btn-h);font-size:var(--btn
 .hdr{height:var(--hdr-h)}.logo img{height:var(--logo-h)}
 .clips.hs .wall__deck{flex-basis:min(84vw,440px,calc((100dvh - 420px)*1.6))}.clip__img img{max-height:min(16dvh,140px)}
 .clip__h{-webkit-line-clamp:3!important}.clip__b{padding:12px 14px}
+
+@media(max-width:599px){.hdr-cta .btn[data-cta]{display:none}}
+.cs-hero img[src*="niki-"]{justify-self:center}
