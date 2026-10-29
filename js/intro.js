@@ -25,7 +25,7 @@
   else for(let i=0;i<6;i++){const p=out((t-3650-i*35)/450);strips[i].style.transform=`translate3d(0,${-101+101*p}%,0)`;}
   if(t>=4800){finish();return;}raf=requestAnimationFrame(n=>frame(n,start));
  }catch(e){console.warn('Intro recovered',e);finish();}}
- async function play(force=false){finish();if(/[?&]intro=1(?:&|$)/.test(location.search)){force=true;try{history.replaceState(null,'',location.pathname+location.hash);}catch(e){}}
+ async function play(force=false){finish();if(/[?&]intro=1(?:&|$)/.test(location.search)){force=true;document.documentElement.classList.add('intro-forced');try{history.replaceState(null,'',location.pathname+location.hash);}catch(e){}}
   if((!force&&matchMedia('(prefers-reduced-motion: reduce)').matches)||(!force&&/[?&]nointro(?:[=&]|$)/.test(location.search)))return;
   // Play on every launch or reload of the home page; skip only when the visitor clicks through from another page of this site (logo uses ?intro=1 to force it).
   try{const nav=(performance.getEntriesByType('navigation')[0]||{}).type,ref=document.referrer&&new URL(document.referrer).origin===location.origin;if(!force&&ref&&nav==='navigate')return;}catch(e){}

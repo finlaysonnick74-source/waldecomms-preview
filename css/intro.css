@@ -13,4 +13,4 @@ html.intro-on .mq__t{animation-play-state:paused}
 .i-wipe{position:absolute;inset:0;display:flex;pointer-events:none}.i-wipe i{flex:1;transform:translateY(-101%);will-change:transform}.i-wipe i:nth-child(3n+1){background:#FF2E88}.i-wipe i:nth-child(3n+2){background:#F6E83B}.i-wipe i:nth-child(3n){background:#A9F1DF}
 .i-meta{position:absolute;left:24px;bottom:20px;font:700 11px 'Archivo',sans-serif;letter-spacing:.1em}.i-skip{position:absolute;right:20px;top:20px;border:2px solid #101114;padding:10px 14px;background:#F6E83B;color:#101114;font:700 13px 'Archivo',sans-serif;cursor:pointer}
 @media(max-width:600px){.make{top:18%}.noise{bottom:20%}.i-meta{font-size:8px;left:16px}.i-lockup{width:94vw}.i-caption{bottom:23%}.i-figure{height:58%;bottom:20%}}
-@media(prefers-reduced-motion:reduce){#intro{display:none!important}}
+@media(prefers-reduced-motion:reduce){html:not(.intro-forced) #intro{display:none!important}}

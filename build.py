@@ -83,7 +83,7 @@ def page(path,title,desc,body,cur='',home=False):
   d=f'''<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><meta name="theme-color" content="#F6E83B">
 <link rel="icon" href="/img/logo.svg"><link rel="preload" href="/fonts/archivo-black.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/site.css?v={VER}">{'<link rel="stylesheet" href="/css/intro.css?v={VER}"><link rel="preload" href="/img/logo-niki-full.webp" as="image"><link rel="preload" href="/img/niki-brand.webp" as="image">' if home else ''}
+<link rel="stylesheet" href="/css/site.css?v={VER}">{'<link rel="stylesheet" href="/css/intro.css?v='+VER+'"><link rel="preload" href="/img/logo-niki-full.webp" as="image"><link rel="preload" href="/img/niki-brand.webp" as="image">' if home else ''}
 <script>document.documentElement.classList.add('js')</script></head><body>
 <a class="skiplink" href="#main">Skip to content</a>{intro}
 <header class="hdr"><div class="wrap"><a class="logo" href="/?intro=1" aria-label="WaldeComms home (replays the intro)"><img src="/img/logo-niki-compact.svg" alt="WaldeComms — Niki makes noise" width="157" height="44"></a>
@@ -96,7 +96,7 @@ def page(path,title,desc,body,cur='',home=False):
 <div><p><b>Ready to make noise?</b></p><a class="btn btn--p" href="/contact/">Brief us</a>{'<p><button class="btn btn--sm" type="button" data-replay>↻ Replay intro</button></p>' if home else ''}<p><small>© 2026 WaldeComms</small></p></div></div></footer>
 {'' if cur=='/contact/' else '<a class="btn btn--p sticky-cta" href="/contact/">Make noise</a>'}
 <div class="lb" role="dialog" aria-label="Press clipping"><button class="btn btn--sm" type="button">Close ✕</button></div>
-{'<script src="/js/intro.js?v={VER}"></script>' if home else ''}<script src="/js/site.js?v={VER}" defer></script></body></html>'''
+{'<script src="/js/intro.js?v='+VER+'"></script>' if home else ''}<script src="/js/site.js?v={VER}" defer></script></body></html>'''
   import re
   depth=path.count('/');pre='../'*depth or './'
   d=d.replace('<meta charset="utf-8">','<meta charset="utf-8"><meta name="robots" content="noindex">')
