@@ -50,3 +50,10 @@ $$('[data-replay]').forEach(b=>b.addEventListener('click',()=>{if(window.wcRepla
 })();
 
 document.querySelectorAll('.mq__pause').forEach(b=>b.addEventListener('click',()=>{const m=b.closest('.mq'),on=m.classList.toggle('is-paused');b.setAttribute('aria-pressed',on);b.textContent=on?'▶':'❚❚';b.setAttribute('aria-label',on?'Play scrolling list':'Pause scrolling list');}));
+
+(()=>{const m=document.getElementById('mmenu'),o=document.querySelector('.mnav-open');if(!m||!o)return;const c=m.querySelector('.mmenu__close');let last;
+const f=()=>[...m.querySelectorAll('a[href],button')].filter(e=>e.offsetParent!==null);
+function open(){last=document.activeElement;m.hidden=false;o.setAttribute('aria-expanded','true');document.documentElement.classList.add('menu-open');c.focus();document.addEventListener('keydown',key);}
+function close(){m.hidden=true;o.setAttribute('aria-expanded','false');document.documentElement.classList.remove('menu-open');document.removeEventListener('keydown',key);(last||o).focus();}
+function key(e){if(e.key==='Escape'){e.preventDefault();close();return;}if(e.key==='Tab'){const l=f(),a=l[0],z=l[l.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}}}
+o.addEventListener('click',open);c.addEventListener('click',close);m.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));addEventListener('resize',()=>{if(!m.hidden&&innerWidth>=960)close();});})();

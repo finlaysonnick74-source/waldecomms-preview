@@ -65,7 +65,8 @@ def page(path,title,desc,body,cur='',home=False):
 <a class="skiplink" href="#main">Skip to content</a>{intro}
 <header class="hdr"><div class="wrap"><a class="logo" href="/" aria-label="WaldeComms home"><img src="/img/logo-niki-compact.svg" alt="WaldeComms — Niki makes noise" width="157" height="44"></a>
 <nav class="nav" aria-label="Main">{nav}</nav><div class="hdr-cta"><a class="btn btn--sm" href="/contact/" data-cta>Make noise</a>
-<details class="mnav"><summary>Menu</summary><div class="mpanel"><a href="/">Home</a>{''.join(f'<a href="{h}">{t}</a>' for h,t in NAV)}</div></details></div></div></header>
+<button class="mnav-open" type="button" aria-expanded="false" aria-controls="mmenu">Menu</button></div></div></header>
+<div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Site menu" hidden><div class="mmenu__top"><img src="/img/logo-niki-compact.svg" alt="" width="157" height="44"><button class="mmenu__close" type="button" aria-label="Close menu">Close ✕</button></div><nav aria-label="Mobile"><a href="/"{' aria-current="page"' if cur=='/' else ''}>Home</a>{''.join(f'<a href="{h}"{chr(32)+chr(97)+"ria-current="+chr(34)+"page"+chr(34) if h==cur else ""}>{t}</a>' for h,t in NAV)}</nav><a class="btn btn--p mmenu__cta" href="/contact/">Make noise →</a></div>
 <main id="main">{body}</main>
 <footer class="ftr"><div class="wrap"><div><img src="/img/logo.svg" alt="WaldeComms" width="180" height="56" style="background:var(--c);padding:6px"><p>Communications &amp; content, Sydney.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p></div>
 <nav aria-label="Footer"><a href="/">Home</a>{''.join(f'<a href="{h}">{t}</a>' for h,t in NAV)}</nav>
