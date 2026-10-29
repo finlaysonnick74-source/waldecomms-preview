@@ -1,5 +1,7 @@
 # Generates the static pages. Content is ONLY from WaldeComms-MediaKit-full.pdf.
 import os,json,html
+from pathlib import Path
+os.chdir(Path(__file__).resolve().parent)
 E=html.escape
 # CONTACT: PLACEHOLDER. The deck has no email/phone. Confirm Niki's real address + number, then set PHONE.
 EMAIL='hello@waldecomms.com.au'
@@ -52,14 +54,14 @@ def contact_links(cls=''):
   return s
 def page(path,title,desc,body,cur='',home=False):
   nav=''.join(f'<a href="{h}"{" aria-current=page" if h==cur else ""}>{t}</a>' for h,t in NAV)
-  intro=open('/tmp/intro.html').read() if home else ''
+  intro=open('intro.html').read() if home else ''
   d=f'''<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><meta name="theme-color" content="#F6E83B">
 <link rel="icon" href="/img/logo.svg"><link rel="preload" href="/fonts/archivo-black.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/site.css">{'<link rel="stylesheet" href="/css/intro.css"><script>try{if(!localStorage.wcIntro&&!/nointro/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro-on")}catch(e){}</script>' if home else ''}
+<link rel="stylesheet" href="/css/site.css">{'<link rel="stylesheet" href="/css/intro.css"><link rel="preload" href="/img/logo-niki-full.webp" as="image"><link rel="preload" href="/img/niki-brand.webp" as="image">' if home else ''}
 <script>document.documentElement.classList.add('js')</script></head><body>
 <a class="skiplink" href="#main">Skip to content</a>{intro}
-<header class="hdr"><div class="wrap"><a class="logo" href="/" aria-label="WaldeComms home"><img src="/img/logo.svg" alt="WaldeComms" width="132" height="41"></a>
+<header class="hdr"><div class="wrap"><a class="logo" href="/" aria-label="WaldeComms home"><img src="/img/logo-niki-compact.svg" alt="WaldeComms — Niki makes noise" width="157" height="44"></a>
 <nav class="nav" aria-label="Main">{nav}</nav><div class="hdr-cta"><a class="btn btn--sm" href="/contact/" data-cta>Make noise</a>
 <details class="mnav"><summary>Menu</summary><div class="mpanel"><a href="/">Home</a>{''.join(f'<a href="{h}">{t}</a>' for h,t in NAV)}</div></details></div></div></header>
 <main id="main">{body}</main>
@@ -78,8 +80,17 @@ def page(path,title,desc,body,cur='',home=False):
 def card(c):
   return f'''<a class="card" href="/work/{c['slug']}/" data-tags="{c['tags']}"><div class="card__in"><div class="card__f"><img src="/img/deck-{c['img']}{'-sm' if c['img'] not in ('lasting-tale','noasis') else ''}.webp" alt="{E(c['title'])} coverage collage" loading="lazy" width="733" height="413"><span class="tag">{c['tag']}</span><span class="tape tape--y">{E(c['title'])}</span></div>
 <div class="card__b"><span class="kick">{c['tag']}</span><b>{E(c['stat'])}</b><span>{E(c['statl'])} →</span></div></div></a>'''
-def note(q,w,pend):
-  return (f'<!-- PENDING PERMISSION: {E(w)} quote, confirm before launch -->' if pend else '')+f'<figure class="note"><blockquote>“{E(q)}”</blockquote><figcaption>{E(w)}</figcaption></figure>'
+def volume(quotes, key):
+  slides=[]
+  for i,(q,w,pend) in enumerate(quotes):
+    name,_,role=w.partition(', ')
+    slides.append((f'<!-- PENDING PERMISSION: {E(w)} quote, confirm before launch -->' if pend else '')+f'<figure class="volume__quote"{ " hidden" if i else ""}><blockquote>“{E(q)}”</blockquote><figcaption>{E(name)}<span>{E(role)}</span></figcaption></figure>')
+  return f'''<section class="sec volume" data-volume aria-labelledby="{key}-title"><div class="wrap">
+<h2 id="{key}-title">Turn up the volume</h2><p class="kick">Real words. Real results.</p>
+<div class="volume__layout"><img class="volume__art" src="/img/niki-megaphone.webp" alt="Niki turning up the volume with a megaphone" width="900" height="1200" loading="lazy">
+<div class="volume__deck"><div class="volume__stage" tabindex="0" role="group" aria-label="Testimonials. Click or use arrow keys for the next quote" aria-live="polite" aria-atomic="true">{''.join(slides)}</div>
+<div class="volume__controls"><button class="btn btn--p" type="button" data-volume-next>Next quote →</button><button class="btn" type="button" data-volume-pause aria-pressed="false">Pause</button><span class="volume__count">1 / {len(quotes)}</span></div>
+<div class="volume__meter" aria-hidden="true"><div class="volume__fill"></div></div><p class="volume__hint">Tap the quote or use the arrow keys. A new voice every five seconds.</p></div></div></div></section>'''
 CTA=f'''<section class="sec bg-p"><div class="wrap"><h2 class="tape-stack" data-noise><span class="tape tape-in">Ready to</span><span class="tape tape--y tape-in">make noise?</span></h2><p class="lead">Tell us the story. We’ll make it the one people can’t ignore.</p><a class="btn" href="/contact/" data-magnetic>Start the conversation →</a></div></section>'''
 # HOME
 home=f'''<section class="hero"><div class="wrap"><div><p class="kick">WaldeComms · Communications &amp; content · Sydney</p>
@@ -97,7 +108,8 @@ home=f'''<section class="hero"><div class="wrap"><div><p class="kick">WaldeComms
 <div class="rv"><div class="stb__n">World-first</div><div class="stb__l">legislation change (36 Months)</div></div></div></section>
 <section class="sec" style="padding-bottom:2rem"><div class="wrap"><h2 class="tape-stack"><span class="tape tape-in">Recent work</span><span class="tape tape--m tape-in">that made noise</span></h2><p>Swipe or scroll the strip. Hover a card (tap on mobile) for the headline result.</p></div>
 <div class="hs" tabindex="0" aria-label="Featured work">{''.join(card(c) for c in CASES)}</div><div class="wrap"><a class="btn" href="/work/">Explore all the work →</a></div></section>
-<section class="sec bg-i"><div class="wrap"><p class="kick" style="color:var(--y)">Real words. Real results.</p><div class="notes" style="color:var(--i)">{note(*QUOTES[0])}{note(*QUOTES[1])}{note(*QUOTES[6])}</div><a class="btn btn--p" href="/what-people-say/">Read the whole wall →</a></div></section>
+{volume([QUOTES[0],QUOTES[1],QUOTES[6]], 'home-volume')}
+<section class="bg-i"><div class="wrap" style="padding-bottom:3rem"><a class="btn btn--p" href="/what-people-say/">Hear every voice →</a></div></section>
 {CTA}'''
 page('index.html',"WaldeComms | PR that makes noise, Sydney","WaldeComms is a Sydney PR agency that turns businesses into brands people can't ignore.",home,home=True)
 # WORK
@@ -112,7 +124,7 @@ for i,c in enumerate(CASES):
   else: imgs=[(f"/img/deck-{c['img']}.webp",p) for p in ('left top','right top','left bottom','right bottom')]
   wall=''.join(f'<button type="button" data-full="{s}" style="--r:{[-2,1.5,-1,2][k%4]}deg;--pos:{p}"><img src="{s}" alt="{E(c["title"])} press clipping {k+1}" loading="lazy" width="1467" height="826"></button>' for k,(s,p) in enumerate(imgs))
   ctr=''.join(f'<div class="rv"><div class="stb__n" {"data-to="+chr(34)+str(v)+chr(34) if isinstance(v,int) else ""} data-suffix="{s}">{v if isinstance(v,str) else (f"{v:,}" if isinstance(v,int) else v)}{s}</div><div class="stb__l">{l}</div></div>' for v,s,l in c['counters']) or f'<div class="rv"><div class="stb__n">{E(c["stat"])}</div><div class="stb__l">{E(c["statl"])}</div></div>'
-  q=c.get('quote');qh=f'<figure class="note" style="max-width:640px"><blockquote>“{E(q[0])}”</blockquote><figcaption>{E(q[1])}</figcaption></figure>' if q else ''
+  q=c.get('quote');qh=f'<figure class="case-quote" style="max-width:640px"><blockquote>“{E(q[0])}”</blockquote><figcaption>{E(q[1])}</figcaption></figure>' if q else ''
   body=f'''<section class="cs-hero"><div class="wrap"><p class="kick">{c['tag']}</p><h1 class="tape-stack" data-noise><span class="tape tape-in">{E(c['title'])}</span><span class="tape tape--p tape-in">{E(c['tape'])}</span></h1></div></section>
 <!-- Challenge copy not in the deck: needs WaldeComms input before launch -->
 <section class="sec"><div class="wrap cs-steps"><div class="rv"><h2 style="font-size:clamp(28px,4vw,48px)"><span class="tape tape--m">The noise we made</span></h2><p class="lead">{E(c['line'])}</p></div>
@@ -137,8 +149,8 @@ page('services/index.html','Services | WaldeComms','Shape the news. Dominate the
 team=f'''<section class="cs-hero bg-m" style="background:var(--m)"><div class="wrap" style="display:grid;gap:2rem;align-items:end;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div><h1 class="tape-stack" data-noise><span class="tape tape-in">The</span><span class="tape tape--p tape-in">noise-makers</span></h1><p class="lead">Five people, decades of newsroom and agency experience, one job: make your story impossible to ignore.</p></div><img src="/img/niki-peace.webp" alt="Illustration of Niki Waldegrave making a peace sign" width="600" height="800" style="width:min(60vw,320px);justify-self:center" loading="lazy"></div></section>
 <section class="sec"><div class="wrap team">{''.join(f'<article class="tm rv" tabindex="0"><img src="/img/team-{k}.webp" alt="Photo of {n}" loading="lazy" width="220" height="230"><h3>{n}</h3><p class="role">{r}</p><p class="line">{l}</p><p>{E(b)}</p><span class="tape tape--y flag">{f}</span></article>' for k,n,r,l,b,f in TEAM)}</div></section>{CTA}'''
 page('noise-makers/index.html','Noise-makers | WaldeComms','Meet the WaldeComms team: Niki Waldegrave, Lee Robson, Eloise Brain, Risham Zaigham, Helen Brunton.',team,'/noise-makers/')
-tst=f'''<section class="cs-hero"><div class="wrap"><p class="kick">Real words. Real results.</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What</span><span class="tape tape--p tape-in">people</span><span class="tape tape--m tape-in">say</span></h1><p class="lead">Drag the notes around. Or shuffle the wall.</p><button class="btn" type="button" data-shuffle>Shuffle the wall ↻</button></div></section>
-<section class="sec bg-i"><div class="wrap"><div class="notes" style="color:var(--i)">{''.join(note(*q) for q in QUOTES)}</div></div></section>{CTA}'''
+tst=f'''<section class="cs-hero"><div class="wrap"><p class="kick">Real words. Real results.</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What</span><span class="tape tape--p tape-in">people</span><span class="tape tape--m tape-in">say</span></h1><p class="lead">The voices behind the results. Turn it up.</p></div></section>
+{volume(QUOTES, 'all-volume')}{CTA}'''
 page('what-people-say/index.html','What people say | WaldeComms','Testimonials from AUSactive, Nova, Sunrise, the Today Show, Urban List and more.',tst,'/what-people-say/')
 con=f'''<section class="cs-hero bg-p" style="background:var(--p)"><div class="wrap"><h1 class="tape-stack" data-noise><span class="tape tape-in">Ready to</span><span class="tape tape--y tape-in">make noise?</span></h1>
 <!-- PLACEHOLDER CONTACT: deck has no email/phone. Confirm before launch; add tel: link via PHONE in build.py -->

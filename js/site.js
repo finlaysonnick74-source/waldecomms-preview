@@ -25,9 +25,25 @@ $$('[data-filter]').forEach(box=>{const chips=$$('.chip',box),cards=$$('.card',d
 const lb=document.querySelector('.lb');if(lb){let im;const cl=lb.querySelector('button');let from;
  $$('.wall button').forEach(b=>b.addEventListener('click',()=>{from=b;if(!im){im=new Image();lb.prepend(im)}im.src=b.dataset.full;im.alt=b.querySelector('img').alt;lb.classList.add('open');cl.focus()}));
  const close=()=>{lb.classList.remove('open');from&&from.focus()};cl.onclick=close;lb.addEventListener('click',e=>{if(e.target===lb)close()});addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.classList.contains('open'))close()})}
-/* sticky-note wall: drag to toss, shuffle button (new) */
-$$('.notes').forEach(w=>{$$('.note',w).forEach(n=>{let sx,sy,dx=0,dy=0;n.addEventListener('pointerdown',e=>{sx=e.clientX-dx;sy=e.clientY-dy;n.setPointerCapture(e.pointerId);n.classList.add('drag')});n.addEventListener('pointermove',e=>{if(!n.classList.contains('drag'))return;dx=e.clientX-sx;dy=e.clientY-sy;n.style.translate=`${dx}px ${dy}px`});const up=()=>n.classList.remove('drag');n.addEventListener('pointerup',up);n.addEventListener('pointercancel',up)});
- const sb=document.querySelector('[data-shuffle]');sb&&sb.addEventListener('click',()=>{const ns=$$('.note',w);ns.sort(()=>Math.random()-.5).forEach(n=>{n.style.translate='';n.style.setProperty('--r',(Math.random()*5-2.5).toFixed(1)+'deg');w.append(n)})})});
+/* Testimonial broadcast: local controls, native scrolling, transform-only progress. */
+$$('[data-volume]').forEach(w=>{
+ const slides=$$('.volume__quote',w),stage=w.querySelector('.volume__stage'),pause=w.querySelector('[data-volume-pause]'),fill=w.querySelector('.volume__fill'),count=w.querySelector('.volume__count'),motion=matchMedia('(prefers-reduced-motion: reduce)');
+ let index=0,paused=motion.matches,hover=false,focused=false,elapsed=0,last=0,raf=0;
+ const stopped=()=>paused||hover||focused||document.hidden;
+ function updatePause(){pause.textContent=paused?'Resume':'Pause';pause.setAttribute('aria-pressed',String(paused));}
+ function show(next){index=(next+slides.length)%slides.length;slides.forEach((s,i)=>{s.hidden=i!==index;s.classList.remove('slap')});if(!motion.matches){void slides[index].offsetWidth;slides[index].classList.add('slap')}count.textContent=`${index+1} / ${slides.length}`;elapsed=0;fill.style.transform='scaleX(0)';}
+ function tick(now){raf=0;if(stopped()){last=0;return}if(last)elapsed+=Math.min(now-last,100);last=now;if(elapsed>=5000)show(index+1);fill.style.transform=`scaleX(${elapsed/5000})`;raf=requestAnimationFrame(tick);}
+ function sync(){if(stopped()){cancelAnimationFrame(raf);raf=0;last=0}else if(!raf)raf=requestAnimationFrame(tick);}
+ w.querySelector('[data-volume-next]').addEventListener('click',()=>show(index+1));
+ stage.addEventListener('click',()=>show(index+1));
+ stage.addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','ArrowLeft','ArrowUp','Enter',' '].includes(e.key)){e.preventDefault();show(index+1)}});
+ pause.addEventListener('click',()=>{paused=!paused;if(!paused){hover=false;focused=false;}updatePause();sync()});
+ w.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hover=true;sync()}});w.addEventListener('pointerleave',()=>{hover=false;sync()});
+ w.addEventListener('focusin',()=>{focused=true;sync()});w.addEventListener('focusout',e=>{focused=w.contains(e.relatedTarget);sync()});
+ document.addEventListener('visibilitychange',sync);
+ motion.addEventListener('change',e=>{if(e.matches){paused=true;updatePause();sync()}});
+ updatePause();sync();
+});
 /* brief form -> composes an email (no backend on Cloudflare Pages) */
 $$('form[data-mailto]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();if(!f.reportValidity())return;const d=new FormData(f),body=[...d].map(([k,v])=>k+': '+v).join('\n');location.href='mailto:'+f.dataset.mailto+'?subject='+encodeURIComponent('Ready to make noise: '+(d.get('company')||d.get('name')))+'&body='+encodeURIComponent(body);f.querySelector('.msg').textContent='Opening your email app with the brief…'}));
 $$('[data-replay]').forEach(b=>b.addEventListener('click',()=>{if(window.wcReplay){scrollTo(0,0);wcReplay()}}));
