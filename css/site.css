@@ -202,3 +202,12 @@ h2{font-size:clamp(32px,min(6.5vw,11dvh),88px)}                   /* rules 10,13
 .mq{display:flex;align-items:center}.mq__t{flex:1}.mq__pause{flex:none;min-width:44px;min-height:44px;margin-inline:8px;background:var(--y);color:var(--i);border:2px solid var(--i);font:700 14px var(--bd);cursor:pointer}.mq.is-paused .mq__t,.mq:hover .mq__t,.mq:focus-within .mq__t{animation-play-state:paused}
 summary{min-height:44px;display:flex;align-items:center}
 .mnav summary{display:inline-flex}
+/* hero fit v2: centred columns, Niki sized by viewport height, never cropped */
+img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup){max-height:80vh;max-height:80dvh}
+.hero{align-items:center;padding-block:clamp(16px,3dvh,40px)}
+.hero .wrap{align-items:center}
+.hero .me{height:min(72dvh,640px);width:auto;max-width:100%;max-height:none;align-self:center}
+@media(max-width:899px){.hero .me{height:min(52dvh,480px)}}
+.hero h1{font-size:clamp(28px,min(5.2vw,7.2dvh),92px)}
+.hero .sub{margin:1rem 0}
+@media(max-width:899px){.hero h1{font-size:clamp(28px,7.4vw,60px)}}
