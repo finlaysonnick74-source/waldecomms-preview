@@ -82,13 +82,13 @@ def page(path,title,desc,body,cur='',home=False):
 def card(c):
   return f'''<a class="card" href="/work/{c['slug']}/" data-tags="{c['tags']}"><div class="card__in"><div class="card__f"><img src="/img/deck-{c['img']}{'-sm' if c['img'] not in ('lasting-tale','noasis') else ''}.webp" alt="{E(c['title'])} coverage collage" loading="lazy" width="733" height="413"><span class="tag">{c['tag']}</span><span class="tape tape--y">{E(c['title'])}</span></div>
 <div class="card__b"><span class="kick">{c['tag']}</span><b>{E(c['stat'])}</b><span>{E(c['statl'])} →</span></div></div></a>'''
-def volume(quotes, key):
+def volume(quotes, key, heading=True):
   slides=[]
   for i,(q,w,pend) in enumerate(quotes):
     name,_,role=w.partition(', ')
     slides.append((f'<!-- PENDING PERMISSION: {E(w)} quote, confirm before launch -->' if pend else '')+f'<figure class="volume__quote"{ " hidden" if i else ""}><blockquote>“{E(q)}”</blockquote><figcaption>{E(name)}<span>{E(role)}</span></figcaption></figure>')
   return f'''<section class="sec volume" data-volume aria-labelledby="{key}-title"><div class="wrap">
-<h2 id="{key}-title">Turn up the volume</h2><p class="kick">Real words. Real results.</p>
+{f'<h2 id="{key}-title">Turn up the volume</h2><p class="kick">Real words. Real results.</p>' if heading else f'<h2 id="{key}-title" class="sr">Testimonials</h2>'}
 <div class="volume__layout"><img class="volume__art" src="/img/niki-megaphone.webp" alt="Niki turning up the volume with a megaphone" width="900" height="1200" loading="lazy">
 <div class="volume__deck"><div class="volume__stage" tabindex="0" role="group" aria-label="Testimonials. Click or use arrow keys for the next quote" aria-live="polite" aria-atomic="true">{''.join(slides)}</div>
 <div class="volume__controls"><button class="btn btn--p" type="button" data-volume-next>Next quote →</button><button class="btn" type="button" data-volume-pause aria-pressed="false">Pause</button><span class="volume__count">1 / {len(quotes)}</span></div>
@@ -126,7 +126,7 @@ for i,c in enumerate(CASES):
     try:return _dt.date.fromisoformat(x).strftime('%-d %b %Y')
     except Exception:return ''
   items=COV.get(c['slug'],[])
-  clips=''.join(f'''<article class="clip" style="--r:{[-1.5,1,-.8,1.4][k%4]}deg">{(f'<figure class="clip__img"><img src="{x["img"]}" alt="" loading="lazy" width="720" height="405"><figcaption>Image: {E(x["site"] or "")}</figcaption></figure>') if x.get("img") else ''}<div class="clip__b"><p class="clip__o">{E(x["site"] or "")}</p><h3 class="clip__h">{E(x["title"])}</h3>{(f'<p class="clip__d"><time datetime="{x["date"]}">{_d(x["date"])}</time></p>') if x.get("date") else ''}<a class="clip__a" href="{E(x["url"])}" target="_blank" rel="noopener">Read the story ↗<span class="sr"> (opens {E(x["site"] or "")} in a new tab)</span></a></div></article>''' for k,x in enumerate(items))
+  clips=''.join(f'''<article class="clip" data-outlet="{E(x['site'] or '')}" style="--r:{[-1.5,1,-.8,1.4][k%4]}deg">{(f'<figure class="clip__img"><img src="{x["img"]}" alt="" loading="lazy" width="720" height="405"><figcaption>Image: {E(x["site"] or "")}</figcaption></figure>') if x.get("img") else ''}<div class="clip__b"><p class="clip__o">{E(x["site"] or "")}</p><h3 class="clip__h">{E(x["title"])}</h3>{(f'<p class="clip__d"><time datetime="{x["date"]}">{_d(x["date"])}</time></p>') if x.get("date") else ''}<a class="clip__a" href="{E(x["url"])}" target="_blank" rel="noopener">Read the story ↗<span class="sr"> (opens {E(x["site"] or "")} in a new tab)</span></a></div></article>''' for k,x in enumerate(items))
   deck=f'''<button type="button" class="wall__deck" data-full="/img/deck-{c['img']}.webp"><img src="/img/deck-{c['img']}.webp" alt="{E(c["title"])} coverage page from the WaldeComms deck" loading="lazy" width="1467" height="826"></button>'''
   wall=deck+(f'<div class="clips">{clips}</div>' if items else '')
   ctr=''.join(f'<div class="rv"><div class="stb__n" {"data-to="+chr(34)+str(v)+chr(34) if isinstance(v,int) else ""} data-suffix="{s}">{v if isinstance(v,str) else (f"{v:,}" if isinstance(v,int) else v)}{s}</div><div class="stb__l">{l}</div></div>' for v,s,l in c['counters']) or f'<div class="rv"><div class="stb__n">{E(c["stat"])}</div><div class="stb__l">{E(c["statl"])}</div></div>'
@@ -134,13 +134,12 @@ for i,c in enumerate(CASES):
   body=f'''<section class="cs-hero"><div class="wrap"><p class="kick">{c['tag']}</p><h1 class="tape-stack" data-noise><span class="tape tape-in">{E(c['title'])}</span><span class="tape tape--p tape-in">{E(c['tape'])}</span></h1></div></section>
 <!-- Challenge copy not in the deck: needs WaldeComms input before launch -->
 <section class="sec"><div class="wrap cs-steps"><div class="rv"><h2 style="font-size:clamp(28px,4vw,48px)"><span class="tape tape--m">The noise we made</span></h2><p class="lead">{E(c['line'])}</p></div>
-<div class="rv"><h3>Where it landed</h3><ul>{''.join('<li>'+E(x)+'</li>' for x in c['coverage'])}</ul>{qh}</div></div></section>
+<div class="rv cs-side"><div class="stb stb--side">{ctr}</div>{qh}</div></div></section>
 <section class="sec bg-m"><div class="wrap"><h2 style="font-size:clamp(28px,4vw,48px)"><span class="tape">Coverage wall</span></h2><p>{"Real stories, linked to the original. Tap the deck page to enlarge." if COV.get(c["slug"]) else "From the WaldeComms deck. Tap to enlarge."}</p><div class="wall">{wall}</div></div></section>
-<section class="bg-y"><div class="wrap stb">{ctr}</div></section>
 <section class="sec"><div class="wrap next"><div><p class="kick">Next case</p><h2 style="font-size:clamp(28px,5vw,64px)"><a href="/work/{nx['slug']}/">{E(nx['title'])} →</a></h2></div><a class="btn" href="/work/">All work</a></div></section>{CTA}'''
   page(f"work/{c['slug']}/index.html",f"{c['title']} | WaldeComms",c['line'],body,'/work/')
 # SERVICES
-svc=f'''<section class="cs-hero"><div class="wrap"><h1 class="tape-stack" data-noise><span class="tape tape-in">Dominate the headlines</span><span class="tape tape--p tape-in">Shape the news</span></h1><p class="lead">Communications &amp; content for businesses that want to be the story, not just in it.</p></div></section>
+svc=f'''<section class="cs-hero"><div class="wrap"><p class="kick">Services</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What we do</span><span class="tape tape--p tape-in">to make noise</span></h1><p class="lead">Communications &amp; content for businesses that want to be the story, not just in it.</p></div></section>
 <!-- Deliverables per the approved site plan; WaldeComms to confirm wording -->
 <section class="sec"><div class="wrap svc"><div class="panel bg-y rv"><h2 style="font-size:clamp(32px,4.5vw,60px)">Shape the news</h2><p class="lead">Sharp news sense and premium contacts, so the story is told your way.</p>
 <details open><summary>Media relations</summary><p>Pitching, placing and managing stories across national TV, radio, print and online.</p></details>
@@ -155,8 +154,8 @@ page('services/index.html','Services | WaldeComms','Shape the news. Dominate the
 team=f'''<section class="cs-hero bg-m" style="background:var(--m)"><div class="wrap" style="display:grid;gap:2rem;align-items:end;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div><h1 class="tape-stack" data-noise><span class="tape tape-in">The</span><span class="tape tape--p tape-in">noise-makers</span></h1><p class="lead">Five people, decades of newsroom and agency experience, one job: make your story impossible to ignore.</p></div><img src="/img/niki-peace.webp" alt="Illustration of Niki Waldegrave making a peace sign" width="600" height="800" style="width:min(60vw,320px);justify-self:center" loading="lazy"></div></section>
 <section class="sec"><div class="wrap team">{''.join(f'<article class="tm rv" tabindex="0"><img src="/img/team-{k}.webp" alt="Photo of {n}" loading="lazy" width="220" height="230"><h3>{n}</h3><p class="role">{r}</p><p class="line">{l}</p><p>{E(b)}</p><span class="tape tape--y flag">{f}</span></article>' for k,n,r,l,b,f in TEAM)}</div></section>{CTA}'''
 page('noise-makers/index.html','Noise-makers | WaldeComms','Meet the WaldeComms team: Niki Waldegrave, Lee Robson, Eloise Brain, Risham Zaigham, Helen Brunton.',team,'/noise-makers/')
-tst=f'''<section class="cs-hero"><div class="wrap"><p class="kick">Real words. Real results.</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What</span><span class="tape tape--p tape-in">people</span><span class="tape tape--m tape-in">say</span></h1><p class="lead">The voices behind the results. Turn it up.</p></div></section>
-{volume(QUOTES, 'all-volume')}{CTA}'''
+tst=f'''<section class="cs-hero"><div class="wrap"><p class="kick">Real words. Real results.</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What people say</span><span class="tape tape--p tape-in">Turn up the volume</span></h1><p class="lead">The voices behind the results, one at a time.</p></div></section>
+{volume(QUOTES, 'all-volume', heading=False)}{CTA}'''
 page('what-people-say/index.html','What people say | WaldeComms','Testimonials from AUSactive, Nova, Sunrise, the Today Show, Urban List and more.',tst,'/what-people-say/')
 con=f'''<section class="cs-hero bg-p" style="background:var(--p)"><div class="wrap"><h1 class="tape-stack" data-noise><span class="tape tape-in">Ready to</span><span class="tape tape--y tape-in">make noise?</span></h1>
 <!-- PLACEHOLDER CONTACT: deck has no email/phone. Confirm before launch; add tel: link via PHONE in build.py -->
@@ -166,5 +165,6 @@ con=f'''<section class="cs-hero bg-p" style="background:var(--p)"><div class="wr
 <label>What do you need?<select name="need"><option>Media relations</option><option>Content</option><option>Social</option><option>AI strategy</option><option>Events</option><option>Not sure yet</option></select></label><label>The story<textarea name="story" rows="5" required></textarea></label><button class="btn" type="submit" data-magnetic>Send the brief →</button><p class="msg" aria-live="polite"></p></form></div>
 <div><img src="/img/niki-megaphone.webp" alt="Illustration of Niki Waldegrave with a megaphone" width="900" height="1200" loading="lazy" style="width:min(80%,380px);margin:auto;filter:drop-shadow(10px 10px 0 var(--i))"></div></div></section>'''
 page('contact/index.html','Contact | WaldeComms','Ready to make noise? Brief WaldeComms.',con,'/contact/')
-open('404.html','w').write(open('index.html').read().replace('<title>WaldeComms | PR that makes noise, Sydney','<title>Not found | WaldeComms'))
+nf=f'''<section class="cs-hero" style="min-height:calc(100dvh - 64px);display:grid;align-items:center"><div class="wrap"><p class="kick">Error 404</p><h1 class="tape-stack" data-noise><span class="tape tape-in">This page</span><span class="tape tape--p tape-in">made no noise</span></h1><p class="lead">It's moved or never existed. Try the work, or tell us your story.</p><p class="ctas" style="display:flex;gap:1rem;flex-wrap:wrap"><a class="btn" href="/">Home →</a><a class="btn btn--p" href="/work/">See the work</a></p></div></section>'''
+page('404.html','Not found | WaldeComms','Page not found.',nf,'')
 print('built')

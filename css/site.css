@@ -234,3 +234,26 @@ img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup):not(.vol
 @media(max-width:700px){.volume__quote blockquote{font-size:clamp(19px,5.2vw,24px)}.volume__quote{max-height:none}.volume__art{max-height:30dvh}}
 img.volume__art[src]{max-height:min(60dvh,460px);width:auto;max-width:100%}
 @media(max-width:700px){img.volume__art[src]{max-height:30dvh}}
+
+/* senior review fixes */
+.mq{position:relative;display:block;padding-right:64px}.mq__t{flex:none;width:max-content}.mq__t span{white-space:nowrap}
+.mq__pause{position:absolute;right:8px;top:50%;transform:translateY(-50%);margin:0}
+.stb__n{font-size:clamp(36px,min(4.6vw,8dvh),68px);overflow-wrap:normal;word-break:keep-all;white-space:nowrap}
+.stb>div{min-width:0}
+.cs-steps{display:grid;gap:clamp(24px,4vw,56px);grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));align-items:start}
+.stb--side{border-top:3px solid var(--i);grid-template-columns:1fr}.stb--side>div{border-right:0!important;padding:1.2rem 0}
+.cs-side .case-quote{margin-top:1.5rem}
+.cs-hero{padding:clamp(40px,7dvh,88px) 0}
+.tape-stack .tape{max-width:100%}
+.noise-h,.tape-stack{max-width:100%}
+@media(max-width:600px){.cs-hero h1{font-size:clamp(30px,9vw,44px)}}
+/* team: no orphan card */
+@media(min-width:1000px){.team{grid-template-columns:repeat(5,minmax(0,1fr));gap:1.2rem}}
+/* work grid: 7 cards fill complete rows */
+@media(min-width:1060px){#cases{grid-template-columns:repeat(3,minmax(0,1fr))}#cases>.card:first-child{grid-column:span 2}}
+/* clip cards without image: outlet panel instead of blank space */
+.clip:not(:has(.clip__img))::before{content:attr(data-outlet);display:flex;align-items:flex-end;aspect-ratio:16/9;padding:16px;background:var(--i);color:var(--y);font:400 clamp(20px,2vw,28px)/1 var(--hd);text-transform:uppercase;border-bottom:3px solid var(--i)}
+/* services accordion: readable summaries */
+.panel summary{font:400 18px var(--hd);text-transform:uppercase}
+.stb__n{white-space:normal;font-size:clamp(30px,min(3.2vw,7dvh),60px)}
+.stb--side .stb__n{font-size:clamp(36px,4vw,60px)}
