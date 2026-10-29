@@ -3,7 +3,11 @@
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 /* reveal + tape strips slide in */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.15});
-$$('.rv,.tape-in').forEach(el=>RM?el.classList.add('is-in'):io.observe(el));
+// Observe the heading, not the clipped tape (a fully clipped element never reports as intersecting in Chromium).
+const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.tape-in').forEach(t=>t.classList.add('is-in'));io2.unobserve(e.target)}}),{threshold:.01});
+$$('.rv').forEach(el=>RM?el.classList.add('is-in'):io.observe(el));
+const hs=new Set();$$('.tape-in').forEach(el=>{if(RM){el.classList.add('is-in');return}hs.add(el.parentElement)});hs.forEach(h=>io2.observe(h));
+setTimeout(()=>$$('.tape-in:not(.is-in)').forEach(t=>{const r=t.parentElement.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)t.classList.add('is-in')}),2000);
 /* hero tape-by-tape build */
 $$('.hero h1 .tape-in').forEach((t,i)=>setTimeout(()=>t.classList.add('is-in'),RM?0:250+i*260));
 /* counters (stats-band) */

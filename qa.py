@@ -29,6 +29,8 @@ const seen={};document.querySelectorAll('.wall img, .clips img').forEach(i=>{con
 const hd=document.querySelector('.hdr'),cs=getComputedStyle(hd),af=getComputedStyle(hd,'::after');o.hdr=[cs.backgroundImage.replace(/^.*\/|["')]|\?.*$/g,''),af.backgroundImage.replace(/^.*\/|["')]|\?.*$/g,''),hd.offsetHeight];
 const T={h1:'h1',h2:'section h2',h3:'section h3',lead:'p.lead, .hero .sub',small:'p.kick, .role',pad:'section.sec',btn:'a.btn, button.btn',niki:'.hero img[src*="niki-"], .cs-hero img[src*="niki-"]',card:'.hs .card, .grid .card, #cases .card',logo:'header .logo img'};o.sz={};
 for(const[k,sel] of Object.entries(T)){const v=new Set();document.querySelectorAll(sel).forEach(e=>{if(!e.getClientRects().length)return;const c=getComputedStyle(e);v.add(k==='pad'?c.paddingTop:k==='btn'?c.fontSize+'/'+e.offsetHeight:k==='niki'?e.offsetHeight+'px tall':['card','logo'].includes(k)?e.offsetWidth+'x'+e.offsetHeight:c.fontSize)});if(v.size)o.sz[k]=[...v]}
+const tp=[...document.querySelectorAll('h1 .tape')].map(t=>t.textContent.trim().toLowerCase());o.duph1=tp.length!==new Set(tp).size;o.hidden=[...document.querySelectorAll('h1 .tape-in')].filter(t=>getComputedStyle(t).clipPath.includes('100%')).length;
+o.flip=[...document.querySelectorAll('.card__b,.tm__back')].filter(b=>{const r=b.getBoundingClientRect();if(!r.width)return false;const x=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return x&&b.contains(x)&&!b.closest('.is-flipped')&&!b.closest(':hover')}).length;
 o.meta=[!!document.querySelector('meta[http-equiv="Cache-Control"]'),document.querySelector('meta[name=wc-ver]')?.content];
 o.unver=[...document.querySelectorAll('link[href],script[src],img[src],a[href]')].map(e=>e.getAttribute('href')||e.getAttribute('src')).filter(u=>u&&!/^(#|mailto:|tel:|https?:|data:)/.test(u)&&!/\.woff2$/.test(u)&&!/[?&]v=/.test(u));
 return o}"""
@@ -44,7 +46,7 @@ with sync_playwright() as p:
    pg=ctx.new_page();errs=[];pg.on('pageerror',lambda e:errs.append(str(e)));pg.on('console',lambda m:m.type=='error' and errs.append(m.text))
    for path in PAGES:
     errs.clear();tag=f'{br} {vw}x{vh} {path}'
-    pg.goto(BASE+path+'?nointro',wait_until='load');pg.wait_for_timeout(700);pg.evaluate("document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'))");pg.wait_for_timeout(150)
+    pg.goto(BASE+path+'?nointro',wait_until='load');pg.mouse.move(1,1);pg.wait_for_timeout(2600);pg.evaluate("document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'))");pg.wait_for_timeout(150)
     o=pg.evaluate(PAGEJS)
     check(not errs,f'{tag}: console/page errors {errs[:2]}')
     check(not o['tall'],f'{tag}: section taller than screen {o["tall"]}')
@@ -52,6 +54,7 @@ with sync_playwright() as p:
     check(not o['niki'],f'{tag}: Niki taller than screen {o["niki"]}')
     check(not o['mq'],f'{tag}: marquee name wraps {o["mq"]}')
     check(not o['dupimg'],f'{tag}: coverage image repeated {o["dupimg"]}')
+    check(not o['duph1'],f'{tag}: headline repeats itself');check(o['hidden']==0,f'{tag}: headline still hidden after load ({o["hidden"]} tapes)');check(o['flip']==0,f'{tag}: card back face showing through ({o["flip"]})')
     check(o['meta'][0],f'{tag}: no-cache meta missing');vers.add(o['meta'][1])
     check(not o['unver'],f'{tag}: unversioned refs {o["unver"][:3]}')
     hdrs.setdefault(vw,set()).add(json.dumps(o['hdr']));check('hdr-splat.svg' in o['hdr'][0],f'{tag}: splash header missing {o["hdr"]}')

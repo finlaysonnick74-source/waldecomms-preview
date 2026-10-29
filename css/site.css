@@ -374,3 +374,8 @@ a.btn,button.btn{min-height:var(--btn-h);height:var(--btn-h);font-size:var(--btn
 .hdr .btn--sm{box-shadow:3px 3px 0 var(--m)}
 .mnav-open{box-shadow:3px 3px 0 var(--p)}
 .hdr .logo img{object-fit:contain;box-sizing:border-box}
+
+.card__f,.card__b{-webkit-backface-visibility:hidden}
+.card__in,.tm__in{-webkit-transform-style:preserve-3d}
+.big-link{font-size:clamp(20px,6.4vw,64px);overflow-wrap:anywhere;word-break:normal}
+@media(max-width:599px){.big-link{font-size:clamp(18px,5.6vw,26px)}}
