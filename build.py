@@ -99,7 +99,7 @@ home=f'''<section class="hero"><div class="wrap"><div><p class="kick">WaldeComms
 <div class="ctas"><a class="btn" href="/contact/" data-cta data-magnetic>Make noise with us →</a><a class="link" href="/work/">See the work</a></div></div>
 <img class="me" src="/img/niki-megaphone.webp" alt="Illustration of Niki Waldegrave shouting through a megaphone" width="900" height="1200" fetchpriority="high"></div></section>
 <!-- PENDING PERMISSION: masthead/network names below stand in for masthead logos until usage rights are confirmed -->
-<div class="mq" aria-label="Where our stories land"><div class="mq__t" aria-hidden="true">{''.join('<span>'+m+'</span>' for m in ['Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List','Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List'])}</div></div>
+<div class="mq" aria-label="Where our stories land"><div class="mq__t" aria-hidden="true">{''.join('<span>'+m+'</span>' for m in ['Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List','Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List'])}</div><button class="mq__pause" type="button" aria-pressed="false" aria-label="Pause scrolling list">❚❚</button></div>
 <section class="sec"><div class="wrap"><p class="kick">Recent work that made noise</p><p class="scrub">Coverage is good. Impact is better.</p></div></section>
 <section class="bg-y"><div class="wrap stb">
 <div class="rv"><div class="stb__n" data-to="500" data-suffix="+">500+</div><div class="stb__l">stories for a national expansion</div></div>

@@ -48,3 +48,5 @@ $$('[data-volume]').forEach(w=>{
 $$('form[data-mailto]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();if(!f.reportValidity())return;const d=new FormData(f),body=[...d].map(([k,v])=>k+': '+v).join('\n');location.href='mailto:'+f.dataset.mailto+'?subject='+encodeURIComponent('Ready to make noise: '+(d.get('company')||d.get('name')))+'&body='+encodeURIComponent(body);f.querySelector('.msg').textContent='Opening your email app with the brief…'}));
 $$('[data-replay]').forEach(b=>b.addEventListener('click',()=>{if(window.wcReplay){scrollTo(0,0);wcReplay()}}));
 })();
+
+document.querySelectorAll('.mq__pause').forEach(b=>b.addEventListener('click',()=>{const m=b.closest('.mq'),on=m.classList.toggle('is-paused');b.setAttribute('aria-pressed',on);b.textContent=on?'▶':'❚❚';b.setAttribute('aria-label',on?'Play scrolling list':'Pause scrolling list');}));
