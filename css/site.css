@@ -379,3 +379,13 @@ a.btn,button.btn{min-height:var(--btn-h);height:var(--btn-h);font-size:var(--btn
 .card__in,.tm__in{-webkit-transform-style:preserve-3d}
 .big-link{font-size:clamp(20px,6.4vw,64px);overflow-wrap:anywhere;word-break:normal}
 @media(max-width:599px){.big-link{font-size:clamp(18px,5.6vw,26px)}}
+/* WebKit ignores backface-visibility in some stacks: hide the back face outright until the card is turned (swap at the half-way point) */
+.card__b,.tm__back{visibility:hidden;transition:visibility 0s .3s}
+.card__f,.tm__front{transition:visibility 0s .3s}
+.card:hover .card__b,.card:focus-visible .card__b,.tm.is-flipped .tm__back{visibility:visible}
+.card:hover .card__f,.card:focus-visible .card__f,.tm.is-flipped .tm__front{visibility:hidden}
+@media(hover:hover) and (pointer:fine){.tm:not(.is-pinned):hover .tm__back{visibility:visible}.tm:not(.is-pinned):hover .tm__front{visibility:hidden}}
+@media(hover:none){.card:hover .card__b{visibility:hidden}.card:hover .card__f{visibility:visible}}
+@media(prefers-reduced-motion:reduce){.card__b,.tm__back,.card__f,.tm__front{transition:none}}
+.big-link{font-size:clamp(18px,3.4vw,44px);overflow-wrap:normal;word-break:normal;white-space:nowrap}
+@media(max-width:599px){.big-link{font-size:clamp(16px,5.2vw,24px)}}
