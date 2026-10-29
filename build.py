@@ -132,7 +132,7 @@ home=f'''<section class="hero"><div class="wrap"><div><p class="kick">WaldeComms
 <div class="rv"><div class="stb__n" data-to="27" data-suffix="M">27M</div><div class="stb__l">reach = $80k new business (A Lasting Tale)</div></div>
 <div class="rv"><div class="stb__n">#1</div><div class="stb__l">Google-searched destination in Australia, 2025 (Hamilton Island)</div></div>
 <div class="rv"><div class="stb__n">World-first</div><div class="stb__l">legislation change (36 Months)</div></div></div></section>
-<section class="sec" style="padding-bottom:2rem"><div class="wrap"><h2 class="tape-stack"><span class="tape tape-in">Recent work</span><span class="tape tape--m tape-in">that made noise</span></h2><p>Swipe, scroll or use the arrows. Hover a card (tap on mobile) for the headline result.</p></div>
+<section class="sec"><div class="wrap"><h2 class="tape-stack"><span class="tape tape-in">Recent work</span><span class="tape tape--m tape-in">that made noise</span></h2><p>Swipe, scroll or use the arrows. Hover a card (tap on mobile) for the headline result.</p></div>
 <div class="strip"><div class="hs" tabindex="0" aria-label="Featured work">{''.join(card(c) for c in CASES)}</div>{STRIPNAV}</div><div class="wrap"><a class="btn" href="/work/">Explore all the work →</a></div></section>
 {volume([QUOTES[0],QUOTES[1],QUOTES[6]], 'home-volume')}
 <section class="bg-i"><div class="wrap" style="padding-bottom:3rem"><a class="btn btn--p" href="/what-people-say/">Hear every voice →</a></div></section>
@@ -140,7 +140,7 @@ home=f'''<section class="hero"><div class="wrap"><div><p class="kick">WaldeComms
 page('index.html',"WaldeComms | PR that makes noise, Sydney","WaldeComms is a Sydney PR agency that turns businesses into brands people can't ignore.",home,home=True)
 # WORK
 work=f'''<section class="cs-hero"><div class="wrap"><h1 class="tape-stack" data-noise><span class="tape tape-in">Recent work</span><span class="tape tape--p tape-in">that made noise</span></h1><p class="lead">Coverage is good. Impact is better. Filter by the kind of noise.</p></div></section>
-<section class="sec" data-fit-exempt="all" data-fit-reason="filterable list of every case study" style="padding-top:2rem"><div class="wrap"><div class="chips" data-filter="#cases" role="group" aria-label="Filter case studies">{''.join(f'<button class="chip" type="button" data-k="{k}" aria-pressed="{str(k=="all").lower()}">{t}</button>' for k,t in FILTERS)}</div><p class="sr" id="fcount" aria-live="polite"></p>
+<section class="sec" data-fit-exempt="all" data-fit-reason="filterable list of every case study"><div class="wrap"><div class="chips" data-filter="#cases" role="group" aria-label="Filter case studies">{''.join(f'<button class="chip" type="button" data-k="{k}" aria-pressed="{str(k=="all").lower()}">{t}</button>' for k,t in FILTERS)}</div><p class="sr" id="fcount" aria-live="polite"></p>
 <div class="grid" id="cases">{''.join(card(c) for c in CASES)}</div></div></section>{CTA}'''
 page('work/index.html','Work | WaldeComms','Case studies: Hamilton Island, Million Moves, Neon Dynamo, A Lasting Tale, Noasis, 36 Months, National Expansion.',work,'/work/')
 for i,c in enumerate(CASES):
@@ -157,19 +157,19 @@ for i,c in enumerate(CASES):
   q=c.get('quote');qh=f'<figure class="case-quote" style="max-width:640px"><blockquote>“{E(q[0])}”</blockquote><figcaption>{E(q[1])}</figcaption></figure>' if q else ''
   body=f'''<section class="cs-hero"><div class="wrap"><p class="kick">{c['tag']}</p><h1 class="tape-stack" data-noise><span class="tape tape-in">{E(c['title'])}</span><span class="tape tape--p tape-in">{E(c['tape'])}</span></h1></div></section>
 <!-- Challenge copy not in the deck: needs WaldeComms input before launch -->
-<section class="sec" data-fit-exempt="all" data-fit-reason="long-form case story"><div class="wrap cs-steps"><div class="rv"><h2 style="font-size:clamp(28px,4vw,48px)"><span class="tape tape--m">The noise we made</span></h2><p class="lead">{E(c['line'])}</p></div>
+<section class="sec" data-fit-exempt="all" data-fit-reason="long-form case story"><div class="wrap cs-steps"><div class="rv"><h2><span class="tape tape--m">The noise we made</span></h2><p class="lead">{E(c['line'])}</p></div>
 <div class="rv cs-side"><div class="stb stb--side">{ctr}</div>{qh}</div></div></section>
-<section class="sec bg-m"><div class="wrap"><h2 style="font-size:clamp(28px,4vw,48px)"><span class="tape">Coverage wall</span></h2><p>{"Real stories, linked to the original. Tap the deck page to enlarge." if COV.get(c["slug"]) else "From the WaldeComms deck. Tap to enlarge."}</p><div class="wall">{wall}</div></div></section>
-<section class="sec"><div class="wrap next"><div><p class="kick">Next case</p><h2 style="font-size:clamp(28px,5vw,64px)"><a href="/work/{nx['slug']}/">{E(nx['title'])} →</a></h2></div><a class="btn" href="/work/">All work</a></div></section>{CTA}'''
+<section class="sec bg-m"><div class="wrap"><h2><span class="tape">Coverage wall</span></h2><p>{"Real stories, linked to the original. Tap the deck page to enlarge." if COV.get(c["slug"]) else "From the WaldeComms deck. Tap to enlarge."}</p><div class="wall">{wall}</div></div></section>
+<section class="sec"><div class="wrap next"><div><p class="kick">Next case</p><h2><a href="/work/{nx['slug']}/">{E(nx['title'])} →</a></h2></div><a class="btn" href="/work/">All work</a></div></section>{CTA}'''
   page(f"work/{c['slug']}/index.html",f"{c['title']} | WaldeComms",c['line'],body,'/work/')
 # SERVICES
 svc=f'''<section class="cs-hero"><div class="wrap"><p class="kick">Services</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What we do</span><span class="tape tape--p tape-in">to make noise</span></h1><p class="lead">Communications &amp; content for businesses that want to be the story, not just in it.</p></div></section>
 <!-- Deliverables per the approved site plan; WaldeComms to confirm wording -->
-<section class="sec" data-fit-exempt="m" data-fit-reason="two service panels stack on mobile"><div class="wrap svc"><div class="panel bg-y rv"><h2 style="font-size:clamp(32px,4.5vw,60px)">Shape the news</h2><p class="lead">Sharp news sense and premium contacts, so the story is told your way.</p>
+<section class="sec" data-fit-exempt="m" data-fit-reason="two service panels stack on mobile"><div class="wrap svc"><div class="panel bg-y rv"><h2>Shape the news</h2><p class="lead">Sharp news sense and premium contacts, so the story is told your way.</p>
 <details open><summary>Media relations</summary><p>Pitching, placing and managing stories across national TV, radio, print and online.</p></details>
 <details><summary>Content</summary><p>Stories, angles and assets built for newsrooms and feeds.</p></details>
 <details><summary>AI strategy</summary><p>Data-led strategy and content marketing, led by Lee Robson.</p></details></div>
-<div class="panel bg-m rv"><h2 style="font-size:clamp(32px,4.5vw,60px)">Dominate the headlines</h2><p class="lead">Precision execution that turns coverage into impact.</p>
+<div class="panel bg-m rv"><h2>Dominate the headlines</h2><p class="lead">Precision execution that turns coverage into impact.</p>
 <details open><summary>Social</summary><p>Social strategy that carries the story beyond the news cycle.</p></details>
 <details><summary>Events</summary><p>Events and live sites, from TV segments to stunts (yes, including record-holding sheep).</p></details>
 <details><summary>Campaigns</summary><p>Campaigns like 36 Months and Million Moves that move people, and policy.</p></details></div></div></section>
@@ -184,7 +184,7 @@ page('what-people-say/index.html','What people say | WaldeComms','Testimonials f
 con=f'''<section class="cs-hero bg-p" style="background:var(--p)"><div class="wrap"><h1 class="tape-stack" data-noise><span class="tape tape-in">Ready to</span><span class="tape tape--y tape-in">make noise?</span></h1>
 <!-- PLACEHOLDER CONTACT: deck has no email/phone. Confirm before launch; add tel: link via PHONE in build.py -->
 <p class="lead">Email Niki and the team directly:</p><p>{contact_links('big-link')}</p></div></section>
-<section class="sec" data-fit-exempt="all" data-fit-reason="contact form"><div class="wrap" style="display:grid;gap:3rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))"><div><h2 style="font-size:clamp(30px,4vw,54px)">Brief us</h2><p>Fill this in and it opens as an email to us, ready to send.</p>
+<section class="sec" data-fit-exempt="all" data-fit-reason="contact form"><div class="wrap" style="display:grid;gap:3rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))"><div><h2>Brief us</h2><p>Fill this in and it opens as an email to us, ready to send.</p>
 <form class="form" data-mailto="{EMAIL}" name="brief"><label>Your name<input name="name" required autocomplete="name"></label><label>Company<input name="company" autocomplete="organization"></label><label>Email<input name="email" type="email" required autocomplete="email"></label>
 <label>What do you need?<select name="need"><option>Media relations</option><option>Content</option><option>Social</option><option>AI strategy</option><option>Events</option><option>Not sure yet</option></select></label><label>The story<textarea name="story" rows="5" required></textarea></label><button class="btn" type="submit" data-magnetic>Send the brief →</button><p class="msg" aria-live="polite"></p></form></div>
 <div><img src="/img/niki-megaphone.webp" alt="Illustration of Niki Waldegrave with a megaphone" width="900" height="1200" loading="lazy" style="width:min(80%,380px);margin:auto;filter:drop-shadow(10px 10px 0 var(--i))"></div></div></section>'''

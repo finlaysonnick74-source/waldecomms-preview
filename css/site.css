@@ -338,3 +338,33 @@ html.menu-open body{position:fixed;left:0;right:0;width:100%}
 .team{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))!important;gap:28px}
 @media(min-width:1000px){.team{grid-template-columns:repeat(6,1fr)!important}.team .tm{grid-column:span 2}.team .tm:nth-child(4){grid-column:2/span 2}}
 .tm img{aspect-ratio:4/3;object-position:50% 25%}
+
+/* ===== SIZE TOKENS: one scale for every page (DESIGN-RULES.md "Size tokens") ===== */
+:root{
+ --fs-h1:clamp(30px,min(5.2vw,7.2dvh),72px);
+ --fs-h2:clamp(28px,min(4vw,6.4dvh),56px);
+ --fs-h3:clamp(18px,1.6vw,22px);
+ --fs-lead:clamp(18px,1.6vw,21px);
+ --fs-body:17px;--lh-body:1.55;
+ --fs-small:13px;
+ --sec-pad:clamp(56px,min(7vw,9dvh),96px);
+ --btn-h:48px;--btn-fs:15px;
+ --card-w:min(84vw,360px);
+ --niki-hero:min(60dvh,560px);
+ --hdr-h:67px;--logo-h:44px;
+}
+@media(max-width:899px){:root{--niki-hero:min(30dvh,280px)}}
+h1,.hero h1,.cs-hero h1{font-size:var(--fs-h1)!important}
+section h2,.volume h2,.sec:has(> .strip) h2.tape-stack{font-size:var(--fs-h2)!important}
+section h3,.tm h3,.clip__h{font-size:var(--fs-h3)!important}
+p.lead,.hero .sub{font-size:var(--fs-lead)!important}
+p.kick,.role,.tm .role{font-size:var(--fs-small)!important}
+body{font-size:var(--fs-body);line-height:var(--lh-body)}
+section.sec,.volume.sec{padding-top:var(--sec-pad)!important;padding-bottom:var(--sec-pad)!important}
+a.btn,button.btn{min-height:var(--btn-h);height:var(--btn-h);font-size:var(--btn-fs)!important;display:inline-flex;align-items:center}
+.hero img.me[src],.cs-hero img[src*="niki-"][src]{height:var(--niki-hero)!important;max-height:none!important;width:auto!important}
+.hs .card,.grid .card,#cases .card{flex:0 0 var(--card-w)!important;width:var(--card-w);grid-column:auto!important}
+.grid,#cases{grid-template-columns:repeat(auto-fill,var(--card-w))!important;justify-content:center}
+.hdr{height:var(--hdr-h)}.logo img{height:var(--logo-h)}
+.clips.hs .wall__deck{flex-basis:min(84vw,440px,calc((100dvh - 420px)*1.6))}.clip__img img{max-height:min(16dvh,140px)}
+.clip__h{-webkit-line-clamp:3!important}.clip__b{padding:12px 14px}
