@@ -25,7 +25,7 @@
   else for(let i=0;i<6;i++){const p=out((t-3650-i*35)/450);strips[i].style.transform=`translate3d(0,${-101+101*p}%,0)`;}
   if(t>=4800){finish();return;}raf=requestAnimationFrame(n=>frame(n,start));
  }catch(e){console.warn('Intro recovered',e);finish();}}
- async function play(force=false){finish();
+ async function play(force=false){finish();if(/[?&]intro=1(?:&|$)/.test(location.search)){force=true;try{history.replaceState(null,'',location.pathname+location.hash);}catch(e){}}
   if(matchMedia('(prefers-reduced-motion: reduce)').matches||(!force&&/[?&]nointro(?:[=&]|$)/.test(location.search)))return;
   try{if(!force&&sessionStorage.getItem('wcIntroV2'))return;sessionStorage.setItem('wcIntroV2','1');}catch(e){}
   // Reattach only for playback; finished overlays (including wipe strips) leave the DOM.

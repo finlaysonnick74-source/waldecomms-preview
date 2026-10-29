@@ -58,3 +58,13 @@ function close(e,keep){if(e)e.preventDefault();m.classList.remove('is-open');o.s
 function key(e){if(e.key==='Escape'){close(e);return;}if(e.key==='Tab'){const l=f(),a=l[0],z=l[l.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}}}
 o.addEventListener('click',open);c.addEventListener('click',close);m.querySelectorAll('nav a,.mmenu__cta').forEach(a=>a.addEventListener('click',()=>close(null,true)));addEventListener('resize',()=>{if(m.classList.contains('is-open')&&innerWidth>=960)close();});if(location.hash==='#mmenu')history.replaceState(null,'',location.pathname);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
+
+document.querySelectorAll('.tm').forEach(t=>{const fr=t.querySelector('.tm__front .tm__flip'),bk=t.querySelector('.tm__back .tm__flip'),back=t.querySelector('.tm__back');back.inert=true;
+const set=on=>{t.classList.toggle('is-flipped',on);fr.setAttribute('aria-expanded',on);back.inert=!on;t.querySelector('.tm__front').inert=on;(on?bk:fr).focus({preventScroll:true});};
+fr.addEventListener('click',()=>set(true));bk.addEventListener('click',()=>{t.classList.add('is-pinned');set(false);});t.addEventListener('mouseleave',()=>t.classList.remove('is-pinned'));
+t.addEventListener('mouseenter',()=>{if(matchMedia('(hover:hover) and (pointer:fine)').matches){back.inert=false;}});});
+
+document.querySelectorAll('.strip').forEach(st=>{const t=st.querySelector('.hs'),[pv,nx]=st.querySelectorAll('.strip__btn');if(!t||!pv)return;
+const upd=()=>{pv.disabled=t.scrollLeft<4;nx.disabled=t.scrollLeft+t.clientWidth>=t.scrollWidth-4;st.querySelector('.strip__nav').hidden=t.scrollWidth<=t.clientWidth+4;};
+[pv,nx].forEach(b=>b.addEventListener('click',()=>{const c=t.firstElementChild;t.scrollBy({left:+b.dataset.dir*((c?c.getBoundingClientRect().width:300)+22),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});}));
+t.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();});
