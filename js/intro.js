@@ -26,8 +26,9 @@
   if(t>=4800){finish();return;}raf=requestAnimationFrame(n=>frame(n,start));
  }catch(e){console.warn('Intro recovered',e);finish();}}
  async function play(force=false){finish();if(/[?&]intro=1(?:&|$)/.test(location.search)){force=true;try{history.replaceState(null,'',location.pathname+location.hash);}catch(e){}}
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches||(!force&&/[?&]nointro(?:[=&]|$)/.test(location.search)))return;
-  try{if(!force&&sessionStorage.getItem('wcIntroV2'))return;sessionStorage.setItem('wcIntroV2','1');}catch(e){}
+  if((!force&&matchMedia('(prefers-reduced-motion: reduce)').matches)||(!force&&/[?&]nointro(?:[=&]|$)/.test(location.search)))return;
+  // Play on every launch or reload of the home page; skip only when the visitor clicks through from another page of this site (logo uses ?intro=1 to force it).
+  try{const nav=(performance.getEntriesByType('navigation')[0]||{}).type,ref=document.referrer&&new URL(document.referrer).origin===location.origin;if(!force&&ref&&nav==='navigate')return;}catch(e){}
   // Reattach only for playback; finished overlays (including wipe strips) leave the DOM.
   overlay=template.cloneNode(true);document.body.prepend(overlay);
   words.splice(0,2,$('.make'),$('.noise'));flashes.splice(0,3,...overlay.querySelectorAll('.i-flash'));strips.splice(0,6,...overlay.querySelectorAll('.i-wipe i'));
