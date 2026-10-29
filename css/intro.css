@@ -34,3 +34,4 @@
 
 #intro,.i-strips{display:none}.intro-on #intro{display:block}.intro-on .i-strips{display:flex}.intro-on body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){#intro{display:none!important}}
+#intro{z-index:150!important}.i-strips{z-index:160!important}

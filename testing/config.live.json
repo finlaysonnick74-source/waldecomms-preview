@@ -1,0 +1,40 @@
+{
+ "base_url": "https://finlaysonnick74-source.github.io/waldecomms-preview",
+ "pages": [
+  "/",
+  "/work/",
+  "/work/hamilton-island/",
+  "/work/million-moves-ausactive/",
+  "/work/neon-dynamo-sonar-music/",
+  "/work/a-lasting-tale/",
+  "/work/noasis/",
+  "/work/36-months/",
+  "/work/national-expansion/",
+  "/services/",
+  "/noise-makers/",
+  "/what-people-say/",
+  "/contact/"
+ ],
+ "viewports": [
+  [
+   1440,
+   900
+  ],
+  [
+   390,
+   844
+  ]
+ ],
+ "cta_selector": "a.btn, button.btn, [data-cta]",
+ "require_tel_mailto": false,
+ "check_external_links": false,
+ "ignore_console": [
+  "favicon",
+  "fonts.googleapis",
+  "fonts.gstatic"
+ ],
+ "min_contrast": 4.5,
+ "diff_threshold": 1,
+ "settle_ms": 1200,
+ "out_dir": "testing/results-live"
+}
