@@ -1,0 +1,13 @@
+{
+  "base_url": "http://127.0.0.1:8099",
+  "pages": ["/index.html"],
+  "viewports": [[1366,768],[1280,800],[390,844]],
+  "cta_selector": "a.btn, button.btn, .cta a, [data-cta]",
+  "require_tel_mailto": false,
+  "check_external_links": false,
+  "ignore_console": ["favicon", "fonts.googleapis", "fonts.gstatic"],
+  "min_contrast": 4.5,
+  "diff_threshold": 0.02,
+  "settle_ms": 1200,
+  "out_dir": "testing/results"
+}

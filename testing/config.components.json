@@ -1,0 +1,54 @@
+{
+ "base_url": "http://127.0.0.1:8099",
+ "pages": [
+  "/components/site-header/index.html",
+  "/components/hero-navy-lines/index.html",
+  "/components/hero-split-proof/index.html",
+  "/components/stats-band/index.html",
+  "/components/logos/index.html",
+  "/components/testimonials/index.html",
+  "/components/faq-accordion/index.html",
+  "/components/pricing/index.html",
+  "/components/team/index.html",
+  "/components/booking-panel/index.html",
+  "/components/case-study/index.html",
+  "/components/insights-list/index.html",
+  "/components/insights-article/index.html",
+  "/components/sim-card/index.html",
+  "/components/cta-band/index.html",
+  "/components/site-footer/index.html",
+  "/components/services-grid/index.html",
+  "/components/photo-hero/index.html",
+  "/components/ticket-pricing/index.html",
+  "/components/service-area-check/index.html",
+  "/components/booking-steps/index.html",
+  "/components/sticky-book-call/index.html",
+  "/components/link-in-bio/index.html",
+  "/components/look-finder/index.html",
+  "/components/palettes/index.html"
+ ],
+ "viewports": [
+  [
+   1366,
+   768
+  ],
+  [
+   1280,
+   800
+  ],
+  [
+   390,
+   844
+  ]
+ ],
+ "cta_selector": "a.btn, button.btn, [data-cta]",
+ "require_tel_mailto": false,
+ "check_external_links": false,
+ "ignore_console": [
+  "favicon"
+ ],
+ "min_contrast": 4.5,
+ "diff_threshold": 0.02,
+ "settle_ms": 900,
+ "out_dir": "testing/runs/components"
+}
