@@ -1,6 +1,7 @@
 # Generates the static pages. Content is ONLY from WaldeComms-MediaKit-full.pdf.
 import subprocess as _sp,time as _t
-VER=str(int(_t.time()))
+import hashlib as _h,os as _o
+VER=_h.md5(b''.join(open(_o.path.join(_o.path.dirname(_o.path.abspath(__file__)),f),'rb').read() for f in ['css/site.css','css/intro.css','js/site.js','js/intro.js'])).hexdigest()[:10]
 import os,json,html
 from pathlib import Path
 os.chdir(Path(__file__).resolve().parent)
