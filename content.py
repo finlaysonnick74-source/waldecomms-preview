@@ -2,7 +2,7 @@
 import html
 E=html.escape
 # CONTACT: PLACEHOLDER. The deck has no email/phone. Confirm Niki's real address + number, then set PHONE.
-EMAIL='hello@waldecomms.com.au'
+EMAIL='hello@waldecomms.com'  # UNCONFIRMED: Niki isn't sure this mailbox exists
 PHONE=None  # e.g. ('+614xxxxxxxx','04xx xxx xxx') once confirmed
 NAV=[('/work/','Work'),('/services/','Services'),('/noise-makers/','Noise-makers'),('/what-people-say/','What people say'),('/contact/','Contact')]
 import json as _json, os as _os
@@ -35,9 +35,9 @@ CASES=[
 FILTERS=[('all','All'),('travel','Travel'),('health','Health / Fitness'),('music','Music / Events'),('impact','Social impact'),('expansion','Expansion')]
 # QUOTES: Albanese (PM), Sunrise, Today Show quotes are PENDING PERMISSION to publish (see site-plan.md). Shown for v1 review only.
 QUOTES=[
- ("WaldeComms are absolute PR guns of the highest calibre. Creative, persistent and lateral thinkers, they were the driving force behind the success of our Million Moves and Fit for Office campaigns.","Barrie Elvish, CEO, AUSactive",False),
  ("WaldeComms are weapons. Gritty hustlers who know the media landscape inside out and pitch like machines. They were mission critical in the success of 36 Months driving Australia’s landmark world-first legislation change.","Michael “Wippa” Wipfli, Nova host & 36 Months co-founder",False),
  ("Thank you again for all the commitment, determination and energy you have poured into 36 Months. You are making a difference, one that will change so many lives for the better.","Anthony Albanese, Prime Minister",True),
+ ("WaldeComms are absolute PR guns of the highest calibre. Creative, persistent and lateral thinkers, they were the driving force behind the success of our Million Moves and Fit for Office campaigns.","Barrie Elvish, CEO, AUSactive",False),
  ("I wanted to say a big thank you for Saturday, was such a pleasure! Only YOU could find Guinness World Record-holding sheep, miniature ponies and a llama with just 24 hours’ notice! We really appreciate you bringing all the animals down from the Hunter Valley. It made our year – looking forward to the next one!","Ashleigh McCurtayne, Producer, Sunrise",True),
  ("Thank you so much for your help in coordinating today’s segment! Sarah and Jayne loved talking to Kathryn. It was such a great segment and an important chat.","Ruby Busutti, Producer, Today Show",True),
  ("Oh my goodness, what a weekend! I will treasure these memories for life! There are so many places this news can go. Thank you so much for going the extra mile to make it so special, and the fun times throughout!","Susannah George, Founder, Urban List",False),
@@ -67,3 +67,12 @@ TEAM=[('niki','Niki Waldegrave','Director','Makes noise with impact',"Comms stra
  ('eloise','Eloise Brain','PR Executive','Engine behind the outreach','A fast-paced PR go-getter bringing heart and hustle to every campaign, with persistence, energy and a keen eye for trends and conversations.','Heart + hustle'),
  ('risham','Risham Zaigham','PR Executive','Storyteller + brand specialist','Blends creativity with strategy, connecting customers with brands for more than a decade; special interest in NFPs, health, advocacy and higher education.','10+ yrs brand'),
  ('helen','Helen Brunton','Accounts','Bean counter + events','Media and events expert of 30+ years, running events and live sites across Asia Pacific and Europe.','30+ yrs events')]
+
+# Services blocks (copy from Niki, 30 Oct 2026)
+SERVICES=[
+ ('Shape the news','Sharp news sense and premium contacts, so the story is told your way.'),
+ ('Dominate the headlines','Precision execution that turns coverage into impact.'),
+ ('Social','Smart social strategy that keeps the conversation going long after the headlines fade.'),
+ ('Events','We love a party, a conference and the occasional hair-brained stunt that gets everyone talking.'),
+ ('Content','Words that work. From punchy copy and compelling profiles to thought leadership and stories worth sharing.'),
+]

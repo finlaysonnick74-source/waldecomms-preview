@@ -1,7 +1,7 @@
 /* WaldeComms v1. Tokens from site-starter-kit components/tokens, palette swapped to the deck. */
 @font-face{font-family:'Archivo Black';src:url(../fonts/archivo-black.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Archivo';src:url(../fonts/archivo.woff2) format('woff2');font-weight:100 900;font-display:swap}
-:root{--i2:#2a2b30;--white:#fff;--y:#F6E83B;--p:#FF2E88;--m:#A9F1DF;--i:#101114;--c:#F5F0E6;--cy:#3EC6F0;--hd:'Archivo Black','Arial Black',Impact,sans-serif;--bd:'Archivo',Inter,system-ui,sans-serif;--sr:Georgia,'DejaVu Serif',serif;--w:min(1240px,92vw)}
+:root{--t:#11D5CA;--i2:#2a2b30;--white:#fff;--y:#F6E83B;--p:#FF2E88;--m:#A9F1DF;--i:#101114;--c:#F5F0E6;--cy:#3EC6F0;--hd:'Archivo Black','Arial Black',Impact,sans-serif;--bd:'Archivo',Inter,system-ui,sans-serif;--sr:Georgia,'DejaVu Serif',serif;--w:min(1240px,92vw)}
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--c);color:var(--i);font:400 17px/1.55 var(--bd);overflow-x:clip}
@@ -389,3 +389,40 @@ a.btn,button.btn{min-height:var(--btn-h);height:var(--btn-h);font-size:var(--btn
 @media(prefers-reduced-motion:reduce){.card__b,.tm__back,.card__f,.tm__front{transition:none}}
 .big-link{font-size:clamp(18px,3.4vw,44px);overflow-wrap:normal;word-break:normal;white-space:nowrap}
 @media(max-width:599px){.big-link{font-size:clamp(16px,5.2vw,24px)}}
+/* ===== Niki feedback, 30 Oct 2026 ===== */
+/* 1 header: calmer. Plain ink + drip edge only; nav in the body font, not bold */
+.hdr{background:var(--i)!important}
+.nav a{font:500 15px/1 var(--bd)!important;text-transform:none!important;letter-spacing:0;background:none;padding:.3em .1em!important}
+.nav a:hover,.nav a[aria-current]{color:var(--t);border-color:var(--t)}
+.hdr .logo img{width:56px!important;height:56px!important;background:none!important;padding:0!important;box-shadow:none!important;border:0!important;object-fit:contain}
+.mmenu__top img{width:48px;height:48px;background:none!important;padding:0}
+.ftr img[src*="logo-teal"]{width:80px;height:80px}
+.hdr .btn--sm{box-shadow:none}
+.mnav-open{box-shadow:none}
+/* 4 hero: Niki noticeably smaller */
+:root{--niki-hero:min(44dvh,400px)}
+@media(max-width:899px){:root{--niki-hero:min(24dvh,220px)}}
+/* 6 CTA band: thinner, teal not pink, keep the flash tapes */
+.cta-band{background:var(--t);color:var(--i)}
+section.sec.cta-band{padding-top:clamp(32px,5dvh,56px)!important;padding-bottom:clamp(32px,5dvh,56px)!important}
+.cta-band .lead{margin:.6rem 0 1rem}
+.volume__layout{grid-template-columns:minmax(0,760px)!important;justify-content:center}
+/* 7 contact: calmer */
+.contact-hero{background:var(--c)}
+.contact-hero h1{font-family:var(--bd);font-weight:800;text-transform:none;letter-spacing:-.01em}
+.contact-hero .big-link{font:600 clamp(18px,2.4vw,30px)/1.2 var(--bd);text-transform:none;border-bottom:3px solid var(--t)}
+/* 9 services: smaller blocks, five of them */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px}
+.svc-card{border:3px solid var(--i);box-shadow:6px 6px 0 var(--i);padding:20px 22px;background:var(--y)}
+.svc-card:nth-child(5n+2){background:var(--m)}.svc-card:nth-child(5n+3){background:var(--t)}.svc-card:nth-child(5n+4){background:var(--c)}.svc-card:nth-child(5n){background:var(--white)}
+.svc-card h3{font-size:var(--fs-h3)!important;margin:0 0 .5rem}
+.svc-card p{margin:0;font-size:16px;line-height:1.5}
+/* 10 recent work: names unbolded + smaller, stat boxes smaller */
+.card__f .tape{font:500 clamp(14px,1.3vw,17px)/1.2 var(--bd)!important;text-transform:none;letter-spacing:0;padding:.35em .6em}
+.stb__n{font-size:clamp(22px,min(2.2vw,5dvh),34px)!important}
+.stb__l{font-size:14px;line-height:1.4}
+.stb>div{padding:14px 16px!important}
+.card__b b{font-size:clamp(20px,2vw,28px)}
+/* 11 media impact slot */
+.media-impact video,.video-slot{width:min(100%,960px);aspect-ratio:16/9;display:block;border:3px solid var(--i);box-shadow:8px 8px 0 var(--t);background:var(--i)}
+.video-slot{display:grid;place-items:center;color:var(--c);font:600 18px var(--bd)}

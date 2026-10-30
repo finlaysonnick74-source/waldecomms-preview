@@ -27,10 +27,11 @@ document.querySelectorAll('img[src*="niki-"]:not([src*="logo-niki"])').forEach(i
 document.querySelectorAll('.mq__t span').forEach(s=>{if(s.getClientRects().length>1||s.scrollWidth>s.clientWidth+1)o.mq.push(s.textContent)});
 const seen={};document.querySelectorAll('.wall img, .clips img').forEach(i=>{const k=i.getAttribute('src').split('?')[0];seen[k]=(seen[k]||0)+1});o.dupimg=Object.entries(seen).filter(([k,n])=>n>1).map(([k])=>k);
 const hd=document.querySelector('.hdr'),cs=getComputedStyle(hd),af=getComputedStyle(hd,'::after');o.hdr=[cs.backgroundImage.replace(/^.*\/|["')]|\?.*$/g,''),af.backgroundImage.replace(/^.*\/|["')]|\?.*$/g,''),hd.offsetHeight];
-const T={h1:'h1',h2:'section h2',h3:'section h3',lead:'p.lead, .hero .sub',small:'p.kick, .role',pad:'section.sec',btn:'a.btn, button.btn',niki:'.hero img[src*="niki-"], .cs-hero img[src*="niki-"]',card:'.hs .card, .grid .card, #cases .card',logo:'header .logo img'};o.sz={};
+const T={h1:'h1',h2:'section h2',h3:'section h3',lead:'p.lead, .hero .sub',small:'p.kick, .role',pad:'section.sec:not(.cta-band)',btn:'a.btn, button.btn',niki:'.hero img[src*="niki-"], .cs-hero img[src*="niki-"]',card:'.hs .card, .grid .card, #cases .card',logo:'header .logo img'};o.sz={};
 for(const[k,sel] of Object.entries(T)){const v=new Set();document.querySelectorAll(sel).forEach(e=>{if(!e.getClientRects().length)return;const c=getComputedStyle(e);v.add(k==='pad'?c.paddingTop:k==='btn'?c.fontSize+'/'+e.offsetHeight:k==='niki'?e.offsetHeight+'px tall':['card','logo'].includes(k)?e.offsetWidth+'x'+e.offsetHeight:c.fontSize)});if(v.size)o.sz[k]=[...v]}
 const tp=[...document.querySelectorAll('h1 .tape')].map(t=>t.textContent.trim().toLowerCase());o.duph1=tp.length!==new Set(tp).size;o.hidden=[...document.querySelectorAll('h1 .tape-in')].filter(t=>getComputedStyle(t).clipPath.includes('100%')).length;
 o.flip=[...document.querySelectorAll('.card__b,.tm__back')].filter(b=>b.getClientRects().length&&!b.closest('.is-flipped,:hover,:focus-visible')&&getComputedStyle(b).visibility!=='hidden').length;
+const T2=document.body.innerText;o.fb={nav:Math.max(...[...document.querySelectorAll('.nav a')].map(a=>+getComputedStyle(a).fontWeight)),logo:[...document.querySelectorAll('header .logo img')].map(i=>i.getAttribute('src')),logohref:document.querySelector('header a.logo').getAttribute('href'),logobg:getComputedStyle(document.querySelector('header .logo img')).backgroundColor,fav:!!document.querySelector('link[rel=icon][href*="favicon"]'),au:/waldecomms\.com\.au/i.test(document.documentElement.innerHTML),hint:/A new voice every five seconds/.test(T2),tag:/Ex-Fleet Street PR that makes noise|Communications & content · Sydney/i.test(T2),mq:!!document.querySelector('.mq'),volart:!!document.querySelector('.volume__art'),q:[...document.querySelectorAll('.volume__quote figcaption')].slice(0,3).map(f=>f.textContent),cta:(()=>{const c=document.querySelector('.cta-band');return c?[getComputedStyle(c).backgroundColor,c.offsetHeight]:null})(),pinkcta:!!document.querySelector('section.bg-p'),niki:[...document.querySelectorAll('main img[src*="niki-"], section img[src*="niki-"]')].filter(i=>!i.closest('.tm')).map(i=>Math.round(i.getBoundingClientRect().height)),svc:[...document.querySelectorAll('.svc-card')].map(a=>a.textContent.replace(/\s+/g,' ').trim()),how:/How we make noise/i.test(T2),cardw:Math.max(0,...[...document.querySelectorAll('.card__f .tape')].map(t=>+getComputedStyle(t).fontWeight)),mi:!!document.querySelector('[data-media-impact]'),video:!!document.querySelector('.hero video,[data-video-slot]')};
 o.meta=[!!document.querySelector('meta[http-equiv="Cache-Control"]'),document.querySelector('meta[name=wc-ver]')?.content];
 o.unver=[...document.querySelectorAll('link[href],script[src],img[src],a[href]')].map(e=>e.getAttribute('href')||e.getAttribute('src')).filter(u=>u&&!/^(#|mailto:|tel:|https?:|data:)/.test(u)&&!/\.woff2$/.test(u)&&!/[?&]v=/.test(u));
 return o}"""
@@ -55,9 +56,26 @@ with sync_playwright() as p:
     check(not o['mq'],f'{tag}: marquee name wraps {o["mq"]}')
     check(not o['dupimg'],f'{tag}: coverage image repeated {o["dupimg"]}')
     check(not o['duph1'],f'{tag}: headline repeats itself');check(o['hidden']==0,f'{tag}: headline still hidden after load ({o["hidden"]} tapes)');check(o['flip']==0,f'{tag}: card back face showing through ({o["flip"]})')
+    f=o['fb'];V=vh
+    check(f['nav']<600,f'{tag}: nav tabs still bold ({f["nav"]})');check(all('logo-teal' in x for x in f['logo']) and f['logo'],f'{tag}: header logo is not the teal logo {f["logo"]}')
+    check('intro=1' in f['logohref'],f'{tag}: logo does not link to ?intro=1');check(f['logobg'] in('rgba(0, 0, 0, 0)','transparent'),f'{tag}: logo has a background {f["logobg"]}');check(f['fav'],f'{tag}: favicon not the teal logo')
+    check(not f['au'],f'{tag}: waldecomms.com.au still present');check(not f['hint'],f'{tag}: volume hint text still present');check(not f['volart'],f'{tag}: Niki still in the volume section')
+    check(not f['pinkcta'],f'{tag}: pink CTA band still present')
+    if f['cta']:check(f['cta'][0]=='rgb(17, 213, 202)' and f['cta'][1]<0.62*V,f'{tag}: CTA band not thin teal {f["cta"]}')
+    if f['q']:check('Wippa' in f['q'][0] and 'Albanese' in (f['q'][1:2] or [''])[0] and 'Barrie' in (f['q'][2:3] or [''])[0],f'{tag}: quote order not Wippa, Albanese, Barrie {f["q"]}')
+    check(f['cardw']<600,f'{tag}: business names on cards still bold')
+    if path=='/':
+      check(not f['tag'],f'{tag}: deleted tagline still on home');check(not f['mq'],f'{tag}: marquee still on home');check(not f['video'],f'{tag}: home has a video slot')
+      check(f['niki'] and max(f['niki'])<=0.5*V,f'{tag}: home Niki not reduced {f["niki"]}')
+    if path=='/work/':check(f['mq'],f'{tag}: marquee missing from Work')
+    if path=='/contact/':check(not f['niki'],f'{tag}: Niki still on contact page')
+    if path=='/services/':
+      want=['Social Smart social strategy that keeps the conversation going long after the headlines fade.','Events We love a party, a conference and the occasional hair-brained stunt that gets everyone talking.','Content Words that work. From punchy copy and compelling profiles to thought leadership and stories worth sharing.']
+      check(all(w.split(' ',1)[1] in ' '.join(f['svc']) and w.split(' ',1)[0] in ' '.join(f['svc']) for w in want),f'{tag}: new service blocks missing/wrong {f["svc"]}');check(not f['how'],f'{tag}: How we make noise section still present')
+    if path=='/work/36-months/':check(f['mi'],f'{tag}: Media Impact slot missing')
     check(o['meta'][0],f'{tag}: no-cache meta missing');vers.add(o['meta'][1])
     check(not o['unver'],f'{tag}: unversioned refs {o["unver"][:3]}')
-    hdrs.setdefault(vw,set()).add(json.dumps(o['hdr']));check('hdr-splat.svg' in o['hdr'][0],f'{tag}: splash header missing {o["hdr"]}')
+    hdrs.setdefault(vw,set()).add(json.dumps(o['hdr']));check('hdr-drip.svg' in o['hdr'][1],f'{tag}: header drip edge missing {o["hdr"]}')
     for k,v in o['sz'].items():sizes.setdefault((vw,k),{}).setdefault(tuple(v),[]).append(path)
     pg.screenshot(path=os.path.join(SHOTS,f'{br}-{vw}-{path.strip("/").replace("/","_") or "home"}.png'))
    # mobile menu
