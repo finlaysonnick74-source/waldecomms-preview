@@ -23,7 +23,7 @@ def check(ok,msg):
 PAGEJS=r"""()=>{const H=innerHeight,W=document.documentElement.clientWidth,o={tall:[],wide:[],niki:[],mq:[],dupimg:[]};
 document.querySelectorAll('main section, body > section, footer').forEach((s,i)=>{const ex=s.dataset.fitExempt;if(ex==='all'||(ex==='m'&&W<700))return;const h=s.getBoundingClientRect().height;if(h>H+2)o.tall.push((s.className||'section')+'#'+i+' '+Math.round(h)+'px')});
 document.querySelectorAll('body *').forEach(e=>{const r=e.getBoundingClientRect();if(!r.width)return;let p=e;while((p=p.parentElement)&&p!==document.body){if(getComputedStyle(p).overflowX!=='visible')return}if((r.right>W+1||r.left<-1)&&getComputedStyle(e).position!=='fixed'&&!e.closest('#intro,.mmenu')&&!e.classList.contains('skiplink'))o.wide.push(e.tagName+'.'+(e.className.baseVal??e.className))});
-document.querySelectorAll('img[src*="niki-"]:not([src*="logo-niki"])').forEach(i=>{if(i.closest('#intro'))return;if(i.getBoundingClientRect().height>H+1)o.niki.push(i.getAttribute('src'))});
+document.querySelectorAll('img[src*="niki-"]').forEach(i=>{if(i.closest('#intro'))return;if(i.getBoundingClientRect().height>H+1)o.niki.push(i.getAttribute('src'))});
 document.querySelectorAll('.mq__t span').forEach(s=>{if(s.getClientRects().length>1||s.scrollWidth>s.clientWidth+1)o.mq.push(s.textContent)});
 const seen={};document.querySelectorAll('.wall img, .clips img').forEach(i=>{const k=i.getAttribute('src').split('?')[0];seen[k]=(seen[k]||0)+1});o.dupimg=Object.entries(seen).filter(([k,n])=>n>1).map(([k])=>k);
 const hd=document.querySelector('.hdr'),cs=getComputedStyle(hd),af=getComputedStyle(hd,'::after');o.hdr=[cs.backgroundImage.replace(/^.*\/|["')]|\?.*$/g,''),af.backgroundImage.replace(/^.*\/|["')]|\?.*$/g,''),hd.offsetHeight];
@@ -37,6 +37,15 @@ o.unver=[...document.querySelectorAll('link[href],script[src],img[src],a[href]')
 return o}"""
 def tap(pg,sel):
   b=pg.locator(sel).first.bounding_box();pg.touchscreen.tap(b['x']+b['width']/2,b['y']+b['height']/2)
+_OLD=re.compile(r'logo-teal|logo-niki|img/logo\.svg')
+_here=os.path.dirname(os.path.abspath(__file__))
+for _r,_d,_fs in os.walk(_here):
+  _d[:]=[x for x in _d if x not in('.git','testing','__pycache__','shots','1204','brand')]
+  for _f in _fs:
+    if _f in('qa.py',) or _f.endswith(('.png','.webp','.jpg','.woff2','.json','.zip','.md')):continue
+    check(not _OLD.search(open(os.path.join(_r,_f),errors='ignore').read()),f'repo file {os.path.relpath(os.path.join(_r,_f),_here)} references an old logo')
+check(not [x for x in os.listdir(os.path.join(_here,'img')) if _OLD.search('img/'+x)],'old logo files still in img/')
+check(os.path.exists(os.path.join(_here,'img/waldecomms-logo.svg')) and os.path.exists(os.path.join(_here,'img/favicon.svg')),'new logo/favicon files missing')
 with sync_playwright() as p:
  for br in BROWSERS:
   try:b=getattr(p,br).launch(**({'executable_path':'/usr/bin/google-chrome'} if br=='chromium' and os.path.exists('/usr/bin/google-chrome') and not os.path.exists(os.path.expanduser('~/.cache/ms-playwright/chromium-1243')) else {}))
@@ -58,8 +67,13 @@ with sync_playwright() as p:
     check(not o['duph1'],f'{tag}: headline repeats itself');check(o['hidden']==0,f'{tag}: headline still hidden after load ({o["hidden"]} tapes)');check(o['flip']==0,f'{tag}: card back face showing through ({o["flip"]})')
     f=o['fb'];V=vh
     check(not f['li'],f'{tag}: LinkedIn link present (Niki asked to remove them)')
-    check(f['nav']<600,f'{tag}: nav tabs still bold ({f["nav"]})');check(all('logo-teal' in x for x in f['logo']) and f['logo'],f'{tag}: header logo is not the teal logo {f["logo"]}')
-    check('intro=1' in f['logohref'],f'{tag}: logo does not link to ?intro=1');check(f['logobg'] in('rgba(0, 0, 0, 0)','transparent'),f'{tag}: logo has a background {f["logobg"]}');check(f['fav'],f'{tag}: favicon not the teal logo')
+    OLDLOGO=re.compile(r'logo-teal|logo-niki|img/logo\.svg|logo-compact|logo-full')
+    check(not OLDLOGO.search(pg.content()),f'{tag}: page references an old logo file')
+    ly=pg.evaluate("(()=>{const l=document.querySelector('header .logo img').getBoundingClientRect(),n=[...document.querySelectorAll('.nav, .mnav-open')].filter(e=>e.getClientRects().length).map(e=>e.getBoundingClientRect().left).sort((a,b)=>a-b)[0];return {l:l.left,r:l.right,w:l.width,h:l.height,n:n,ok:document.querySelector('header .logo img').naturalWidth>0}})()")
+    check(ly['ok'] and ly['l']>=0 and ly['r']<=ly['n']-8 and ly['r']<=vw,f'{tag}: header logo cramped/overflowing {ly}')
+    check(abs(ly['w']/ly['h']-6.425)<.1,f'{tag}: header logo squashed {ly}')
+    check(f['nav']<600,f'{tag}: nav tabs still bold ({f["nav"]})');check(all('/img/waldecomms-logo.svg?v=' in x for x in f['logo']) and f['logo'],f'{tag}: header logo is not the ransom-note logo {f["logo"]}')
+    check('intro=1' in f['logohref'],f'{tag}: logo does not link to ?intro=1');check(f['logobg'] in('rgba(0, 0, 0, 0)','transparent'),f'{tag}: logo has a background {f["logobg"]}');check(f['fav'],f'{tag}: favicon missing')
     check(not f['au'],f'{tag}: waldecomms.com.au still present');check(not f['hint'],f'{tag}: volume hint text still present');check(not f['volart'],f'{tag}: Niki still in the volume section')
     check(not f['pinkcta'],f'{tag}: pink CTA band still present')
     if f['cta']:check(f['cta'][0]=='rgb(17, 213, 202)' and f['cta'][1]<0.62*V,f'{tag}: CTA band not thin teal {f["cta"]}')

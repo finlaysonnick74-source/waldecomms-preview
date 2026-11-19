@@ -168,7 +168,7 @@ h2{font-size:clamp(36px,6.5vw,88px)}h3{font-size:clamp(22px,2.6vw,32px)}
 /* Clip horizontal artwork without creating an intermediate vertical scroll container. */
 html{overflow-x:clip}
 /* viewport-fit: Niki never taller than the screen; hero fits short/tall viewports */
-img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup):not(.volume__art){max-height:min(80vh,100%);max-height:min(80dvh,100%);object-fit:contain;height:auto}
+img[src*="niki-"]:not(.i-figure):not(.i-lockup):not(.volume__art){max-height:min(80vh,100%);max-height:min(80dvh,100%);object-fit:contain;height:auto}
 .hero{min-height:calc(100dvh - 64px)}
 .hero h1{font-size:clamp(28px,min(6.2vw,9.5dvh),100px)}
 .hero .tape{max-width:100%}
@@ -186,7 +186,7 @@ h2{font-size:clamp(32px,min(6.5vw,11dvh),88px)}                   /* rules 10,13
 .mq{display:flex;align-items:center}.mq__t{flex:1}.mq__pause{flex:none;min-width:44px;min-height:44px;margin-inline:8px;background:var(--y);color:var(--i);border:2px solid var(--i);font:700 14px var(--bd);cursor:pointer}.mq.is-paused .mq__t,.mq:hover .mq__t,.mq:focus-within .mq__t{animation-play-state:paused}
 summary{min-height:44px;display:flex;align-items:center}
 /* hero fit v2: centred columns, Niki sized by viewport height, never cropped */
-img[src*="niki-"]:not([src*="logo-niki"]):not(.i-figure):not(.i-lockup):not(.volume__art){max-height:80vh;max-height:80dvh}
+img[src*="niki-"]:not(.i-figure):not(.i-lockup):not(.volume__art){max-height:80vh;max-height:80dvh}
 .hero{align-items:center;padding-block:clamp(16px,3dvh,40px)}
 .hero .wrap{align-items:center}
 .hero .me{height:min(72dvh,640px);width:auto;max-width:100%;max-height:none;align-self:center}
@@ -366,9 +366,10 @@ a.btn,button.btn{min-height:var(--btn-h);height:var(--btn-h);font-size:var(--btn
 .hdr{background:var(--i)!important}
 .nav a{font:500 15px/1 var(--bd)!important;text-transform:none!important;letter-spacing:0;background:none;padding:.3em .1em!important}
 .nav a:hover,.nav a[aria-current]{color:var(--t);border-color:var(--t)}
-.hdr .logo img{width:56px!important;height:56px!important;background:none!important;padding:0!important;box-shadow:none!important;border:0!important;object-fit:contain}
-.mmenu__top img{width:48px;height:48px;background:none!important;padding:0}
-.ftr img[src*="logo-teal"]{width:80px;height:80px}
+.hdr .logo img{width:auto!important;height:44px!important;background:none!important;padding:0!important;box-shadow:none!important;border:0!important;object-fit:contain}
+.mmenu__top img{width:auto;height:30px;background:none!important;padding:0}
+.ftr img[src*="waldecomms-logo"]{width:260px;max-width:100%;height:auto}
+@media(max-width:599px){.hdr .logo img{height:28px!important}.mmenu__top img{height:24px}}
 .hdr .btn--sm{box-shadow:none}
 .mnav-open{box-shadow:none}
 /* 4 hero: Niki noticeably smaller */

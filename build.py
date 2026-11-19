@@ -13,6 +13,7 @@ for _cf in ['css/site.css','css/intro.css']:
   if _c2!=_c:open(_p,'w').write(_c2)
 VER=_h.md5(b''.join(open(f,'rb').read() for f in sorted(_g.glob(_o.path.join(_base,'css/*.css'))+_g.glob(_o.path.join(_base,'js/*.js'))+_g.glob(_o.path.join(_base,'img/*.svg'))+[_o.path.join(_base,'content.py'),_o.path.abspath(__file__)]))).hexdigest()[:10]
 import os,json,html
+LOGOV=_h.md5(open(_o.path.join(_base,'img/waldecomms-logo.svg'),'rb').read()).hexdigest()[:8]
 from pathlib import Path
 os.chdir(Path(__file__).resolve().parent)
 E=html.escape
@@ -26,19 +27,19 @@ def contact_links(cls=''):
   return s
 def page(path,title,desc,body,cur='',home=False):
   nav=''.join(f'<a href="{h}"{" aria-current=page" if h==cur else ""}>{t}</a>' for h,t in NAV)
-  intro=open('intro.html').read() if home else ''
+  intro=open('intro.html').read().replace('{LOGOV}',LOGOV) if home else ''
   d=f'''<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><meta name="theme-color" content="#F6E83B">
-<link rel="icon" type="image/png" href="/img/favicon-64.png"><link rel="apple-touch-icon" href="/img/apple-touch-icon.png"><link rel="preload" href="/fonts/archivo-black.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/site.css?v={VER}">{'<link rel="stylesheet" href="/css/intro.css?v='+VER+'"><link rel="preload" href="/img/logo-teal-800.webp" as="image"><link rel="preload" href="/img/niki-brand.webp" as="image">' if home else ''}
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg?v={LOGOV}"><link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png?v={LOGOV}"><link rel="icon" type="image/png" sizes="64x64" href="/img/favicon-64.png?v={LOGOV}"><link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v={LOGOV}"><link rel="preload" href="/fonts/archivo-black.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css?v={VER}">{'<link rel="stylesheet" href="/css/intro.css?v='+VER+'"><link rel="preload" href="/img/waldecomms-logo.svg?v='+LOGOV+'" as="image"><link rel="preload" href="/img/niki-brand.webp" as="image">' if home else ''}
 <script>document.documentElement.classList.add('js')</script></head><body>
 <a class="skiplink" href="#main">Skip to content</a>{intro}
-<header class="hdr"><div class="wrap"><a class="logo" href="/?intro=1" aria-label="WaldeComms home (replays the intro)"><img src="/img/logo-teal-160.webp" alt="WaldeComms" width="56" height="56"></a>
+<header class="hdr"><div class="wrap"><a class="logo" href="/?intro=1" aria-label="WaldeComms home (replays the intro)"><img src="/img/waldecomms-logo.svg?v={LOGOV}" alt="WaldeComms" width="283" height="44"></a>
 <nav class="nav" aria-label="Main">{nav}</nav><div class="hdr-cta"><a class="btn btn--sm" href="/contact/" data-cta>Make noise</a>
 <a class="mnav-open" href="#mmenu" role="button" aria-expanded="false" aria-controls="mmenu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>Menu</a></div></div></header>
-<div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Site menu"><div class="mmenu__top"><img src="/img/logo-teal-160.webp" alt="" width="48" height="48"><a class="mmenu__close" href="#" role="button" aria-label="Close menu">Close ✕</a></div><nav aria-label="Mobile"><a href="/"{' aria-current="page"' if cur=='/' else ''}>Home</a>{''.join(f'<a href="{h}"{chr(32)+chr(97)+"ria-current="+chr(34)+"page"+chr(34) if h==cur else ""}>{t}</a>' for h,t in NAV)}</nav><a class="btn btn--p mmenu__cta" href="/contact/">Make noise →</a></div>
+<div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Site menu"><div class="mmenu__top"><img src="/img/waldecomms-logo.svg?v={LOGOV}" alt="" width="193" height="30"><a class="mmenu__close" href="#" role="button" aria-label="Close menu">Close ✕</a></div><nav aria-label="Mobile"><a href="/"{' aria-current="page"' if cur=='/' else ''}>Home</a>{''.join(f'<a href="{h}"{chr(32)+chr(97)+"ria-current="+chr(34)+"page"+chr(34) if h==cur else ""}>{t}</a>' for h,t in NAV)}</nav><a class="btn btn--p mmenu__cta" href="/contact/">Make noise →</a></div>
 <main id="main">{body}</main>
-<footer class="ftr"><div class="wrap"><div><img src="/img/logo-teal-160.webp" alt="WaldeComms" width="80" height="80"><p>Communications &amp; content, Sydney.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p></div>
+<footer class="ftr"><div class="wrap"><div><img src="/img/waldecomms-logo.svg?v={LOGOV}" alt="WaldeComms" width="260" height="40"><p>Communications &amp; content, Sydney.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p></div>
 <nav aria-label="Footer"><a href="/">Home</a>{''.join(f'<a href="{h}">{t}</a>' for h,t in NAV)}</nav>
 <div><p><b>Ready to make noise?</b></p><a class="btn btn--p" href="/contact/">Brief us</a>{'<p><button class="btn btn--sm" type="button" data-replay>↻ Replay intro</button></p>' if home else ''}<p><small>© 2026 WaldeComms</small></p></div></div></footer>
 {'' if cur=='/contact/' else '<a class="btn btn--p sticky-cta" href="/contact/">Make noise</a>'}
