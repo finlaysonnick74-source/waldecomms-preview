@@ -4,7 +4,7 @@
 |---|---|---|
 | Colours | `css/site.css`, the `:root` block on line 4 (`--y` yellow, `--p` pink, `--m` mint, `--i` ink, `--c` cream) | Yes (`python3 build.py`, so files get a new version) |
 | Sizes (type, spacing, cards, Niki, header) | the size tokens `:root` block in `css/site.css` (`--fs-h1`, `--sec-pad`, `--card-w`, `--niki-hero` ...) | Yes |
-| Words: case studies, quotes, team, bios, nav, email | `content.py` | Yes |
+| Words: Work page campaigns (`WORK`), case studies, quotes, team (`TEAM`, `BIOS`), nav, email | `content.py` | Yes |
 | Coverage clippings | `../coverage/coverage.json` | Yes |
 | Page layout, headlines inside page templates | `build.py` | Yes |
 

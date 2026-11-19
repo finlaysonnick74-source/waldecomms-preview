@@ -68,12 +68,16 @@ def volume(quotes, key, heading=True):
 <div class="volume__controls"><button class="btn btn--p" type="button" data-volume-next>Next quote →</button><button class="btn" type="button" data-volume-pause aria-pressed="false">Pause</button><span class="volume__count">1 / {len(quotes)}</span></div>
 <div class="volume__meter" aria-hidden="true"><div class="volume__fill"></div></div></div></div></div></section>'''
 CTA=f'''<section class="sec cta-band"><div class="wrap"><h2 class="tape-stack" data-noise><span class="tape tape-in">Ready to</span><span class="tape tape--y tape-in">make noise?</span></h2><p class="lead">Tell us the story. We’ll make it the one people can’t ignore.</p><a class="btn" href="/contact/" data-magnetic>Start the conversation →</a></div></section>'''
+TICKS=['World-first legislation','Global conversations','Ideas into impact','Campaigns into action','Front-page headlines']
+CTA_HOME=f'''<section class="sec cta-band"><div class="wrap"><h2 class="tape-stack" data-noise><span class="tape tape-in">Ready to</span><span class="tape tape--y tape-in">make noise?</span></h2><ul class="ticks">{''.join('<li>'+t+'</li>' for t in TICKS)}</ul><a class="btn" href="/contact/" data-magnetic>Make noise with us →</a></div></section>'''
 # HOME
 home=f'''<section class="hero"><div class="wrap"><div>
-<h1 class="tape-stack" data-noise><span class="tape tape-in">We turn businesses</span><span class="tape tape--p tape-in">into brands people</span><span class="tape tape--c tape-in">can't ignore</span></h1>
+<h1 class="tape-stack" data-noise><span class="tape tape-in">We make noise.</span><span class="tape tape--t tape-in">That matters.</span></h1>
 <p class="sub">Some stories get coverage. Some change everything.</p>
-<div class="ctas"><a class="btn" href="/contact/" data-cta data-magnetic>Make noise with us →</a><a class="link" href="/work/">See the work</a></div></div>
+<div class="ctas"><a class="btn" href="/work/" data-cta data-magnetic>See the work →</a></div></div>
+<!-- TODO(Niki's VIDEO): Niki wants a video to replace this Ginger Spice illustration. The video has NOT arrived yet. Keep the image until it does. (No video on the home page until then; qa.py guards it.) -->
 <img class="me" src="/img/niki-megaphone.webp" alt="Illustration of Niki Waldegrave shouting through a megaphone" width="900" height="1200" fetchpriority="high"></div></section>
+<section class="mini-stats" aria-label="WaldeComms in numbers"><div class="wrap"><p><b>2.3B</b> media impressions for one campaign alone</p><p><b>14+</b> international awards</p></div></section>
 <section class="sec" data-fit-exempt="all" data-fit-reason="scroll-scrubbed statement"><div class="wrap"><p class="kick">Recent work that made noise</p><p class="scrub">Coverage is good. Impact is better.</p></div></section>
 <section class="bg-y"><div class="wrap stb">
 <div class="rv"><div class="stb__n" data-to="500" data-suffix="+">500+</div><div class="stb__l">stories for a national expansion</div></div>
@@ -84,15 +88,21 @@ home=f'''<section class="hero"><div class="wrap"><div>
 <div class="strip"><div class="hs" tabindex="0" aria-label="Featured work">{''.join(card(c) for c in CASES)}</div>{STRIPNAV}</div><div class="wrap"><a class="btn" href="/work/">Explore all the work →</a></div></section>
 {volume(QUOTES[:3], 'home-volume')}
 <section class="bg-i"><div class="wrap" style="padding-bottom:3rem"><a class="btn btn--p" href="/what-people-say/">Hear every voice →</a></div></section>
-{CTA}'''
+{CTA_HOME}'''
 page('index.html',"WaldeComms | PR that makes noise, Sydney","WaldeComms is a Sydney PR agency that turns businesses into brands people can't ignore.",home,home=True)
 # WORK
-work=f'''<section class="cs-hero"><div class="wrap"><h1 class="tape-stack" data-noise><span class="tape tape-in">Recent work</span><span class="tape tape--p tape-in">that made noise</span></h1><p class="lead">Coverage is good. Impact is better. Filter by the kind of noise.</p></div></section>
+def camp(c):
+  sp=''.join(f'<li class="splat splat--{k%3+1}"><b>{E(n)}</b><span>{E(l)}</span></li>' for k,(n,l) in enumerate(c['splats']))
+  qs=''.join(f'<blockquote class="camp__q">{E(q)}</blockquote>' for q in c.get('quotes',[]))
+  bl=''.join(f'<li>{x}</li>' for x in c['bullets'])
+  media=(f'<img src="/img/deck-{c["img"]}.webp" alt="{E(c["title"])} coverage collage" loading="lazy" width="{733 if c['img'] in ('lasting-tale','noasis') else 1467}" height="826">' if c['img'] else '<div class="camp__block" aria-hidden="true"></div>')
+  lk=(f'<a class="camp__a" href="/work/{c["link"]}/">See the coverage<span class="sr"> for {E(c["title"])}</span> →</a>' if c['link'] else '')
+  return f'''<article class="camp"><div class="camp__t"><h2><span class="tape tape--t">{E(c['title'])}</span></h2><p class="camp__d">{E(c['desc'])}</p>{f'<p class="camp__l">{c["line"]}</p>' if c['line'] else ''}{f'<ul class="splats">{sp}</ul>' if sp else ''}{qs}{f'<ul class="camp__b">{bl}</ul>' if bl else ''}{lk}</div><div class="camp__m{' camp__m--tall' if c['img'] in ('lasting-tale','noasis') else ''}{' camp__m--crop' if c.get('crop') else ''}">{media}</div></article>'''
+work=f'''<section class="cs-hero"><div class="wrap"><h1 class="tape-stack" data-noise><span class="tape tape-in">Recent work</span><span class="tape tape--t tape-in">that made noise</span></h1><p class="lead">Coverage is good. Impact is better.</p></div></section>
 <!-- PENDING PERMISSION: masthead/network names below stand in for masthead logos until usage rights are confirmed -->
 <div class="mq" aria-label="Where our stories land"><div class="mq__t" aria-hidden="true">{''.join('<span>'+m+'</span>' for m in ['Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List','Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List'])}</div><button class="mq__pause" type="button" aria-pressed="false" aria-label="Pause scrolling list">❚❚</button></div>
-<section class="sec" data-fit-exempt="all" data-fit-reason="filterable list of every case study"><div class="wrap"><div class="chips" data-filter="#cases" role="group" aria-label="Filter case studies">{''.join(f'<button class="chip" type="button" data-k="{k}" aria-pressed="{str(k=="all").lower()}">{t}</button>' for k,t in FILTERS)}</div><p class="sr" id="fcount" aria-live="polite"></p>
-<div class="grid" id="cases">{''.join(card(c) for c in CASES)}</div></div></section>{CTA}'''
-page('work/index.html','Work | WaldeComms','Case studies: Hamilton Island, Million Moves, Neon Dynamo, A Lasting Tale, Noasis, 36 Months, National Expansion.',work,'/work/')
+<section class="sec" data-fit-exempt="all" data-fit-reason="nine campaign write-ups"><div class="wrap camps">{''.join(camp(c) for c in WORK)}</div></section>{CTA}'''
+page('work/index.html','Work | WaldeComms','Campaigns by WaldeComms: 36 Months, AUSactive, The Sundays Hamilton Island, NeonDynamo, Sonar Music, MMAD Futures Radio, NOASIS, Monique van Tulder and A Lasting Tale.',work,'/work/')
 for i,c in enumerate(CASES):
   nx=CASES[(i+1)%len(CASES)]
   import datetime as _dt
@@ -118,9 +128,9 @@ svc=f'''<section class="cs-hero"><div class="wrap" style="display:grid;gap:2rem;
 <!-- Deliverables per the approved site plan; WaldeComms to confirm wording -->
 <section class="sec" data-fit-exempt="m" data-fit-reason="five service blocks stack on mobile"><div class="wrap svc-grid">{''.join(f'<article class="svc-card rv"><h3>{E(t)}</h3><p>{E(d)}</p></article>' for t,d in SERVICES)}</div></section>{CTA}'''
 page('services/index.html','Services | WaldeComms','Shape the news. Dominate the headlines. Media relations, content, social, AI strategy and events.',svc,'/services/')
-team=f'''<section class="cs-hero bg-m" style="background:var(--m)"><div class="wrap" style="display:grid;gap:2rem;align-items:end;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div><h1 class="tape-stack" data-noise><span class="tape tape-in">The</span><span class="tape tape--p tape-in">noise-makers</span></h1><p class="lead">Five people, decades of newsroom and agency experience, one job: make your story impossible to ignore.</p></div><img src="/img/niki-peace.webp" alt="Illustration of Niki Waldegrave making a peace sign" width="600" height="800" style="width:min(60vw,320px);justify-self:center" loading="lazy"></div></section>
-<section class="sec" data-fit-exempt="all" data-fit-reason="team card grid"><div class="wrap team">{''.join(f'<article class="tm rv"><div class="tm__in"><div class="tm__f tm__front"><img src="/img/team-{k}.webp" alt="Photo of {n}" loading="lazy" width="220" height="230"><h3>{n}</h3><p class="role">{r}</p><p class="line">{l}</p><span class="tape tape--y flag">{f}</span><button class="tm__flip" type="button" aria-expanded="false">Read bio <span aria-hidden="true">↻</span><span class="sr"> about {n}</span></button></div><div class="tm__f tm__back"><h3>{n}</h3><p class="role">{r}</p><p class="tm__bio">{E(BIOS[k][0])}</p><div class="tm__acts"><a href="{BIOS[k][1]}" target="_blank" rel="noopener">LinkedIn →<span class="sr"> {n} (opens in a new tab)</span></a><button class="tm__flip" type="button">Back <span aria-hidden="true">↺</span></button></div></div></div></article>' for k,n,r,l,b,f in TEAM)}</div></section>{CTA}'''
-page('noise-makers/index.html','Noise-makers | WaldeComms','Meet the WaldeComms team: Niki Waldegrave, Lee Robson, Eloise Brain, Risham Zaigham, Helen Brunton.',team,'/noise-makers/')
+team=f'''<section class="cs-hero bg-m" style="background:var(--m)"><div class="wrap" style="display:grid;gap:2rem;align-items:end;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div><h1 class="tape-stack" data-noise><span class="tape tape-in">The</span><span class="tape tape--t tape-in">noise-makers</span></h1><p class="lead">Four people, decades of newsroom and agency experience, one job: make your story impossible to ignore.</p></div><img src="/img/niki-peace.webp" alt="Illustration of Niki Waldegrave making a peace sign" width="600" height="800" style="width:min(60vw,320px);justify-self:center" loading="lazy"></div></section>
+<section class="sec" data-fit-exempt="all" data-fit-reason="team card grid"><div class="wrap team">{''.join(f'<article class="tm rv"><img src="/img/team-{k}.webp" alt="Photo of {n}" loading="lazy" width="220" height="230"><h3>{f}</h3><p class="tm__t">{E(BIOS[k][0])}</p><p class="tm__bio">{E(BIOS[k][1])}</p><a class="tm__a" href="{BIOS[k][2]}" target="_blank" rel="noopener">LinkedIn →<span class="sr"> {n} (opens in a new tab)</span></a></article>' for k,n,f in TEAM)}</div></section>{CTA}'''
+page('noise-makers/index.html','Noise-Makers | WaldeComms','Meet the WaldeComms team: Niki Waldegrave, Lee Robson, Eloise Brain and Risham Zaigham.',team,'/noise-makers/')
 tst=f'''<section class="cs-hero"><div class="wrap"><p class="kick">Real words. Real results.</p><h1 class="tape-stack" data-noise><span class="tape tape-in">What people say</span><span class="tape tape--p tape-in">Turn up the volume</span></h1><p class="lead">The voices behind the results, one at a time.</p></div></section>
 {volume(QUOTES, 'all-volume', heading=False)}{CTA}'''
 page('what-people-say/index.html','What people say | WaldeComms','Testimonials from AUSactive, Nova, Sunrise, the Today Show, Urban List and more.',tst,'/what-people-say/')

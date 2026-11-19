@@ -4,7 +4,7 @@ E=html.escape
 # CONTACT: PLACEHOLDER. The deck has no email/phone. Confirm Niki's real address + number, then set PHONE.
 EMAIL='hello@waldecomms.com'  # UNCONFIRMED: Niki isn't sure this mailbox exists
 PHONE=None  # e.g. ('+614xxxxxxxx','04xx xxx xxx') once confirmed
-NAV=[('/work/','Work'),('/services/','Services'),('/noise-makers/','Noise-makers'),('/what-people-say/','What people say'),('/contact/','Contact')]
+NAV=[('/work/','Work'),('/services/','Services'),('/noise-makers/','Noise-Makers'),('/what-people-say/','What People Say'),('/contact/','Contact')]
 import json as _json, os as _os
 COV=_json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','coverage','coverage.json'))) if _os.path.exists(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','coverage','coverage.json')) else _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'coverage.json')))
 CASES=[
@@ -27,7 +27,7 @@ CASES=[
  dict(slug='36-months',title='36 Months',tape='World-first legislation',tags='impact',tag='Social impact',img='36-months',stat='World-first',statl='Legislation change for Australia',
   line="36 Months: the campaign that drove Australia's landmark world-first legislation change.",
   quote=("WaldeComms are weapons. Gritty hustlers who know the media landscape inside out and pitch like machines. They were mission critical in the success of 36 Months driving Australia’s landmark world-first legislation change.","Michael “Wippa” Wipfli, Nova host & 36 Months co-founder"),
-  coverage=['13x international awards','7,000 stories','2.3 billion impressions'],counters=[(13,'x','international awards'),(7000,'','stories'),(2.3,' billion','impressions')]),
+  coverage=['14 international awards','7,000 stories','2.3 billion impressions'],counters=[(14,'','international awards'),(7000,'','stories'),(2.3,' billion','impressions')]),
  dict(slug='national-expansion',title='National Expansion',tape='500+ stories',tags='expansion',tag='Expansion',img='national-expansion',stat='500+',statl='stories',
   line='A national expansion pushed into 500+ stories.',
   coverage=['Futures','“Music saved me”','Mouse Man'],counters=[(500,'+','stories')]),
@@ -43,30 +43,58 @@ QUOTES=[
  ("Oh my goodness, what a weekend! I will treasure these memories for life! There are so many places this news can go. Thank you so much for going the extra mile to make it so special, and the fun times throughout!","Susannah George, Founder, Urban List",False),
  ("Thank you for putting my name to Channel 9. I’m now flooded with enquiries wanting to join my classes. This has made my 21-year effort serving the community worthwhile.","Dominic Yam, 88, Tai Chi Teacher",False),
 ]
-# Team bios: facts only, each from the sources listed.
+# Team: Niki's own titles + bios (brief, 19 Nov 2026). Only who each person is and what they do. Four people, Helen removed.
+# Each BIOS entry: (title after the dash, bio, LinkedIn url)
 BIOS={
-# https://www.theguardian.com/media/2002/oct/31/pressandpublishing (Daily Star Bitches 2001, Sunday Mirror, The People, Mirror 3am 2002)
-# https://muckrack.com/niki-waldegrave (Daily Mail, Mirror, Sun; News of the World)
-# https://www.bandt.com.au/author/niki-waldegrave/ (award-winning journalist; trained teams of 5 to 37; outdoor media sales AU/UK)
-# https://linkedin.com/in/niki-waldegrave-bb125a7 (In The Media PR campaign manager 2018; WaldeComms Jan 2021; NCTJ Darlington College)
-'niki':("Fleet Street trained, tabloid tested. Niki was an original on the Daily Star's Bitches column in 2001, worked the Sunday Mirror and The People, then got poached by Piers Morgan for the Mirror's 3am showbiz column in 2002. Since then: News of the World, magazine editing, B&T in Sydney, award-winning reporting and teams of up to 37 trained. Campaign manager at In The Media PR from 2018, WaldeComms since 2021. NCTJ-qualified. Little black book: bursting.","https://linkedin.com/in/niki-waldegrave-bb125a7"),
-# https://campaignbrief.com/former-303-mullenlowe-mp-lee-robson-launches-communications-content-consultancy-istories/
-# https://istories.io/about ; https://linkedin.com/in/lee-robson-pr
-'lee':("25 years making content companies famous. Lee was managing partner at 303 MullenLowe Sydney and head of publicity at Fox Sports, after five years as a senior publicist at Sky Television in the UK. He founded LRPR, named Best New Agency at the 2015 Prolific North awards, then iStories in 2019. Accounts directed: Harley-Davidson, Peugeot, Discovery Channel, TK Maxx, ESPN. Qualified in data analytics and a Claude Certified Associate, he runs the AI side of the noise.","https://linkedin.com/in/lee-robson-pr"),
-# https://www.linkedin.com/posts/eloise-brain-a0b735378_always-chasing-those-extra-quotes-and-what-activity-7468258623182454784-HBHk (NeonDynamo coverage post, June 2026)
-# WaldeComms credentials deck (role, heart + hustle) — owned source
-'eloise':("The engine behind the outreach. Eloise is the one still chasing the extra quote after everyone else has gone home. On NeonDynamo she helped land a run of media coverage and, in her words, \u201ca standout result\u201d. Fast-paced, persistent and switched on to what people are talking about, she brings heart and hustle to every pitch, every follow-up and every campaign that leaves the WaldeComms office. Phone always warm, follow-up always sent.","https://linkedin.com/in/eloise-brain-a0b735378"),
-# https://linkedin.com/in/risham-zaigham-7a1a3232
-'risham':("Ten-plus years connecting brands with the people who buy into them. Risham has worked at Ogilvy & Mather, in higher education and medical research at Griffith University and Eskitis, and in local government at Brisbane and Logan City Councils. She spent five years running communications for the Hornsby Rainbow Club, a social club for kids with disability. Her toolkit: brand and comms strategy, stakeholder engagement, copywriting, websites and healthcare advocacy. Health, NFP and education stories are her home turf.","https://linkedin.com/in/risham-zaigham-7a1a3232"),
-# https://linkedin.com/in/helen-brunton-25804a11a
-'helen':("Big screens, bigger crowds. Helen has run giant LED live sites at some of the loudest events going: football and rugby world cups, the Tour de France, the British Lions, NRL, AFL, the Melbourne Cup, Moomba and New Year's Eve. Director of Exclusive Media since 2014 and general manager at Nvisage Media for five years before that, she has worked with councils from Melbourne to Auckland to York. At WaldeComms she keeps the books straight and the events on budget.","https://linkedin.com/in/helen-brunton-25804a11a"),
+'niki':("NOISE WITH IMPACT","Big-picture thinker. International award-winner. Sharp news instincts, strategic thinking and serious impact. A straight-talking northern monkey. Former life on Fleet Street.","https://linkedin.com/in/niki-waldegrave-bb125a7"),
+'lee':("DATA KING + AI WIZARD","Former partner of MullenLowe Sydney. Campaigns span government, South Park, TK Maxx, Harley-Davidson and BAFTA-winning documentaries. Didn\u2019t kill Kenny.","https://linkedin.com/in/lee-robson-pr"),
+'eloise':("ENGINE BEHIND THE OUTREACH","Fast-moving, trend-spotting and brings heart and hustle. Knows what makes young Australians tick. Special interests in youth culture, entertainment, health, lifestyle and social change.","https://linkedin.com/in/eloise-brain-a0b735378"),
+'risham':("STORYTELLER + BRAND SPECIALIST","Journalist-turned-marketer. Connects brands with audiences. Creative flair and strategic smarts. Health, advocacy, NFPs and higher education specialist. Alliteration ninja.","https://linkedin.com/in/risham-zaigham-7a1a3232"),
 }
+TEAM=[('niki','Niki Waldegrave','NIKI'),('lee','Lee Robson','LEE'),('eloise','Eloise Brain','ELOISE'),('risham','Risham Zaigham','RISHAM')]
 
-TEAM=[('niki','Niki Waldegrave','Director','Makes noise with impact',"Comms strategist, ex-Fleet Street journalist and straight-talking northern monkey. 30 years' media experience, sharp news sense, premium contacts and precision execution.",'Ex-Fleet Street, 30 yrs'),
- ('lee','Lee Robson','AI / Strategy / Social','Data king + content marketer','Former MullenLowe Sydney managing partner and media veteran of 20+ years. Clients include South Park, The Simpsons, TK Maxx, Harley-Davidson, governments and BAFTA docos.','20+ yrs media'),
- ('eloise','Eloise Brain','PR Executive','Engine behind the outreach','A fast-paced PR go-getter bringing heart and hustle to every campaign, with persistence, energy and a keen eye for trends and conversations.','Heart + hustle'),
- ('risham','Risham Zaigham','PR Executive','Storyteller + brand specialist','Blends creativity with strategy, connecting customers with brands for more than a decade; special interest in NFPs, health, advocacy and higher education.','10+ yrs brand'),
- ('helen','Helen Brunton','Accounts','Bean counter + events','Media and events expert of 30+ years, running events and live sites across Asia Pacific and Europe.','30+ yrs events')]
+# WORK page: one entry per campaign, in Niki's order. Text is hers (typos fixed). Nothing invented.
+# splats = key stats shown in a teal paint splat: (big, label). bullets = proof points (<b> = bold result). quotes = pull quotes.
+# img = existing deck image (None = teal block, no placeholder text). link = existing case-study page (None = no page yet).
+WORK=[
+ dict(title='36 Months',desc='World-first law. Global impact.',
+  line='From an idea by two worried dads to world-first legislation in just 6 months. Advocacy-led grassroots campaigns moved faster and further than almost any other in Australian political history.',
+  splats=[('2.3B','impressions'),('7,000+','stories in Australia alone')],
+  bullets=['<b>14 international awards</b> including <b>Cannes Lion Silver</b> for PR Effectiveness','UN General Assembly High-Level Week recognition','Sparked global movement'],
+  img='36-months',link='36-months',crop=True),  # crop=True hides the deck image's footer box, which still says "13x international awards" (Niki: use 14)  # TODO(Niki): photo of the Cannes Lion, plus any extra impact stats and a clear photo or video
+ dict(title='AUSactive',desc='Making movement national news',
+  line="Put Australia\u2019s peak body for active health at the heart of national conversation.",
+  splats=[('500+','stories'),('25M','reach'),('15,000+','sign-ups for Million Moves')],bullets=[],
+  img='million-moves',link='million-moves-ausactive'),
+ dict(title='The Sundays, Hamilton Island',desc='When paradise becomes the No.1 searched destination',
+  line='',splats=[('#1','Google searched destination in 2025')],bullets=[],
+  img='hamilton-island',link='hamilton-island'),  # TODO(Niki): Sundays has only one proof point ("More to come" x2 dropped)
+ dict(title='NeonDynamo',desc='Where Vivid meets Glastonbury',
+  line="When Vivid Sydney\u2019s Time: Warped turned Argyle Cut into a rave, we turned it into mainstream front-page news.",
+  splats=[],bullets=[],img='neon-dynamo',link='neon-dynamo-sonar-music'),
+ dict(title='Sonar Music',desc='From global fireworks to copyright firestorms',
+  line="Making serious noise for Australia\u2019s most celebrated screen composers.",
+  splats=[('241M','media reach')],
+  bullets=["Amplified Jono Ma\u2019s euphoric Sydney NYE 9 x tonnes firework anthem, Higher Together",'<b>425 million</b> globally tuned in \u2013 we reached 241 million more',"Antony Partos\u2019 Artful Dodger score won a <b>2026 Screen Music Award</b>",'Backed his challenge taking on AI copyright dodgers with <b>3 million impressions</b>'],
+  img=None,link=None),
+ dict(title='MMAD \u2013 Futures Radio',desc='World-first \u201cradio rehab\u201d for young Australians in detention centres',
+  line='Adult crime = adult time? No. Futures replaces the silence of the cell with positive programming \u2013 and it works.',
+  splats=[],
+  quotes=['\u201cIt only takes one person to believe in you \u2013 I never had that until Futures\u201d','\u201cIf it wasn\u2019t for Music Making a Difference, I wouldn\u2019t be here\u201d'],
+  bullets=['Launched Futures \u201cStraight Outta Cobham\u201d with blanket Tier 1 coverage','Secured NSW Youth Justice Minister Jihad Dib and Tupac\u2019s friend, \u2018Mouseman\u2019','<b>500+ stories</b> helped national expansion; their voices changed perceptions #proud'],
+  img='national-expansion',link='national-expansion'),
+ dict(title='NOASIS',desc='Australia\u2019s supersonic rock n roll family half the world away',
+  line='A baker by day, when he takes the stage, he turns into his father\u2019s older brother as Noel Gallagher \u2013 IYKYK',
+  splats=[],bullets=[],img='noasis',link='noasis'),  # FLAG: Niki's NOASIS bullets are garbled, so only the descriptor and baker line are shown
+ dict(title='Monique van Tulder',desc='From family breakdown to bestseller',
+  line='When life got too much, Monique emailed her family from the airport \u2014 and took off.',
+  splats=[],
+  bullets=['Launched A Grown-Up\u2019s Gap Year, her unapologetic tale of midlife reinvention.','Secured national Tier 1 coverage and helped propel it to <b>#1 bestseller</b>.','Established Monique as a media go-to on relationships, family, work and running away from it all.'],
+  img=None,link=None),
+ dict(title='A Lasting Tale',desc='Making every life story count',
+  line='Reached more than <b>27 million</b> Australians through launch publicity.',
+  splats=[],bullets=[],img='lasting-tale',link='a-lasting-tale'),
+]
 
 # Services blocks (copy from Niki, 30 Oct 2026)
 SERVICES=[

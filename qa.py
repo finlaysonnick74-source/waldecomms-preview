@@ -39,7 +39,7 @@ def tap(pg,sel):
   b=pg.locator(sel).first.bounding_box();pg.touchscreen.tap(b['x']+b['width']/2,b['y']+b['height']/2)
 with sync_playwright() as p:
  for br in BROWSERS:
-  try:b=getattr(p,br).launch()
+  try:b=getattr(p,br).launch(**({'executable_path':'/usr/bin/google-chrome'} if br=='chromium' and os.path.exists('/usr/bin/google-chrome') and not os.path.exists(os.path.expanduser('~/.cache/ms-playwright/chromium-1243')) else {}))
   except Exception as e:NOTVER.append(f'{br}: could not launch here ({str(e).splitlines()[0][:80]})');continue
   sizes={};hdrs={};vers=set()
   for vw,vh in VPS:
@@ -73,6 +73,21 @@ with sync_playwright() as p:
       want=['Social Smart social strategy that keeps the conversation going long after the headlines fade.','Events We love a party, a conference and the occasional hair-brained stunt that gets everyone talking.','Content Words that work. From punchy copy and compelling profiles to thought leadership and stories worth sharing.']
       check(all(w.split(' ',1)[1] in ' '.join(f['svc']) and w.split(' ',1)[0] in ' '.join(f['svc']) for w in want),f'{tag}: new service blocks missing/wrong {f["svc"]}');check(not f['how'],f'{tag}: How we make noise section still present')
     if path=='/work/36-months/':check(f['mi'],f'{tag}: Media Impact slot missing')
+    T3=pg.evaluate("document.body.innerText");NAVS=pg.evaluate("[...document.querySelectorAll('.nav a')].map(a=>a.textContent.trim())")
+    check(NAVS==['Work','Services','Noise-Makers','What People Say','Contact'],f'{tag}: nav is not Work|Services|Noise-Makers|What People Say|Contact {NAVS}')
+    check('Helen' not in T3,f'{tag}: Helen still on the site');check('More to come' not in T3,f'{tag}: "More to come" placeholder shown');check('13x' not in T3 and '13 international' not in T3,f'{tag}: 13 awards still shown (Niki: 14)')
+    if path=='/':
+      check(pg.evaluate("[...document.querySelectorAll('h1 .tape')].map(t=>t.textContent.trim()).join('|')").upper()=='WE MAKE NOISE.|THAT MATTERS.',f'{tag}: hero headline wrong')
+      check('2.3B' in T3 and '14+' in T3 and 'international awards' in T3,f'{tag}: hero stats missing')
+      check(pg.evaluate("[...document.querySelectorAll('.ticks li')].map(l=>l.textContent).join('|')")=='World-first legislation|Global conversations|Ideas into impact|Campaigns into action|Front-page headlines',f'{tag}: ticked lines wrong')
+      check(not pg.evaluate("!!document.querySelector('.hero a[href*=\"contact\"]')"),f'{tag}: Make noise with us CTA still in the hero (should be lower)')
+    if path=='/noise-makers/':
+      check(pg.evaluate("[...document.querySelectorAll('.tm h3')].map(h=>h.textContent).join('|')")=='NIKI|LEE|ELOISE|RISHAM',f'{tag}: team is not Niki|Lee|Eloise|Risham')
+      check(pg.evaluate("[...document.querySelectorAll('.tm__t')].map(h=>h.textContent).join('|')")=='NOISE WITH IMPACT|DATA KING + AI WIZARD|ENGINE BEHIND THE OUTREACH|STORYTELLER + BRAND SPECIALIST',f'{tag}: team titles wrong')
+    if path=='/work/':
+      check(pg.evaluate("[...document.querySelectorAll('.camp h2')].map(h=>h.textContent).join('|')")=='36 Months|AUSactive|The Sundays, Hamilton Island|NeonDynamo|Sonar Music|MMAD \u2013 Futures Radio|NOASIS|Monique van Tulder|A Lasting Tale',f'{tag}: campaigns not in Niki\'s order')
+      check(not pg.evaluate("[...document.querySelectorAll('.camp')].some(c=>{const r=c.querySelector('.camp__m').getBoundingClientRect(),t=c.querySelector('.camp__t').getBoundingClientRect();return r.height>innerHeight})"),f'{tag}: a campaign image is taller than the screen')
+      check(not pg.evaluate("[...document.querySelectorAll('.splat')].some(s=>[...s.children].some(c=>c.scrollWidth>s.clientWidth+1))"),f'{tag}: paint-splat text overflows')
     check(o['meta'][0],f'{tag}: no-cache meta missing');vers.add(o['meta'][1])
     check(not o['unver'],f'{tag}: unversioned refs {o["unver"][:3]}')
     hdrs.setdefault(vw,set()).add(json.dumps(o['hdr']));check('hdr-drip.svg' in o['hdr'][1],f'{tag}: header drip edge missing {o["hdr"]}')
