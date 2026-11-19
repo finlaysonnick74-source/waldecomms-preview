@@ -89,7 +89,7 @@ def volume(quotes, key, heading=True, more=False):
 <div class="volume__controls"><button class="btn btn--sm" type="button" data-volume-next>Next quote →</button><button class="btn btn--sm btn--ghost" type="button" data-volume-pause aria-pressed="false">Pause</button><span class="volume__count">1 / {len(quotes)}</span></div>
 <div class="volume__meter" aria-hidden="true"><div class="volume__fill"></div></div></div>{'<p style="text-align:center;margin-top:36px"><a class="btn btn--ghost" href="/what-people-say/">Hear every voice →</a></p>' if more else ''}</div></section>'''
 def qclips(quotes):
-  cards=''.join(f'''<figure class="qclip" style="--r:{[-1.2,.8,-.5][i%3]}deg"><span class="tape {['tape--p','tape--tt','tape--g'][i%3]}" aria-hidden="true">{pin('left:-10px;top:4px',-62) if i==1 else ''}</span><blockquote>“{E(q)}”</blockquote><figcaption>{E(w.partition(', ')[0])}<span>{E(w.partition(', ')[2])}</span></figcaption></figure>''' for i,(q,w,pend) in enumerate(quotes))
+  cards=''.join(f'''<figure class="qclip" style="--r:{[-1.2,.8,-.5][i%3]}deg"><span class="tape {['tape--p','tape--tt','tape--g'][i%3]}" aria-hidden="true">{pin("left:-14px;top:-12px",-82) if i==1 else ''}</span><blockquote>“{E(q)}”</blockquote><figcaption>{E(w.partition(', ')[0])}<span>{E(w.partition(', ')[2])}</span></figcaption></figure>''' for i,(q,w,pend) in enumerate(quotes))
   return f'''<section class="sec qclips" data-fit-exempt="m" data-fit-reason="three stacked quote cards on mobile" aria-labelledby="qc-h"><div class="wrap"><div class="sec__hd"><div>{kick('','Real words. Real results.','kick--ink')}<h2 id="qc-h">Turn up the volume</h2></div><a class="btn btn--ghost" href="/what-people-say/">Hear every voice →</a></div><div class="qclips__g">{cards}</div></div></section>'''
 TICKS=['World-first legislation','Global conversations','Ideas into impact','Campaigns into action','Front-page headlines']
 def cta_band(home=False,label=None):
@@ -109,7 +109,7 @@ HOME_CASES=list(CASES)  # all 7, as on live
 home=hero('We make noise.','That matters.','Some stories get coverage. <span class="hl hl--p">Some change everything.</span>',HOME_KICK,'instigator',
   extra=f'<div class="ctas"><a class="btn" href="/work/" data-cta>See the work →</a></div><p class="pinnote"><span class="pin-ico" aria-hidden="true"></span>{E(PIN_NOTE)}</p>',video=True)+f'''
 <section class="band" aria-label="WaldeComms in numbers"><div class="wrap band__in"><p><b>2.3B</b><span>media impressions for one campaign alone</span></p><p><b>14+</b><span>international awards</span></p></div></section>
-<div class="tt" aria-hidden="true">{pin("left:16px",72)}</div>
+<div class="tt" aria-hidden="true">{pin("left:26px",72)}</div>
 {reel()}
 <div class="tt tt--thin" aria-hidden="true"></div>
 {now_showing()}
