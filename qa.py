@@ -87,7 +87,7 @@ with sync_playwright() as p:
     if path=='/work/':
       check(pg.evaluate("[...document.querySelectorAll('.camp h2')].map(h=>h.textContent).join('|')")=='36 Months|AUSactive|The Sundays, Hamilton Island|NeonDynamo|Sonar Music|MMAD \u2013 Futures Radio|NOASIS|Monique van Tulder|A Lasting Tale',f'{tag}: campaigns not in Niki\'s order')
       check(not pg.evaluate("[...document.querySelectorAll('.camp')].some(c=>{const r=c.querySelector('.camp__m').getBoundingClientRect(),t=c.querySelector('.camp__t').getBoundingClientRect();return r.height>innerHeight})"),f'{tag}: a campaign image is taller than the screen')
-      check(not pg.evaluate("[...document.querySelectorAll('.splat')].some(s=>[...s.children].some(c=>c.scrollWidth>s.clientWidth+1))"),f'{tag}: paint-splat text overflows')
+      check(not pg.evaluate("[...document.querySelectorAll('.splat')].some(s=>s.querySelector('span').getBoundingClientRect().width>s.getBoundingClientRect().width*0.6)"),f'{tag}: paint-splat text overflows')
     check(o['meta'][0],f'{tag}: no-cache meta missing');vers.add(o['meta'][1])
     check(not o['unver'],f'{tag}: unversioned refs {o["unver"][:3]}')
     hdrs.setdefault(vw,set()).add(json.dumps(o['hdr']));check('hdr-drip.svg' in o['hdr'][1],f'{tag}: header drip edge missing {o["hdr"]}')

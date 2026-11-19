@@ -443,5 +443,5 @@ section.sec.cta-band{padding-top:clamp(32px,5dvh,56px)!important;padding-bottom:
 .splat{display:grid;grid-template-columns:minmax(0,1fr);align-content:center;text-align:center;width:clamp(200px,20vw,248px);aspect-ratio:292/214;padding:20px 28px 22px;background:var(--splat) center/100% 100% no-repeat;color:var(--i);transform:rotate(var(--sr,-3deg))}
 .splat--1{--splat:url("../img/splat-1.svg?v=d2705b5b")}.splat--2{--splat:url("../img/splat-2.svg?v=3318694f");--sr:2deg}.splat--3{--splat:url("../img/splat-3.svg?v=c613ffbb");--sr:-1deg}
 .splat b{font:400 var(--fs-stat)/1 var(--hd);display:block}
-.splat span{font:700 var(--fs-stat-l)/1.15 var(--bd);display:block;margin-top:.2em}
+.splat span{font:700 var(--fs-stat-l)/1.15 var(--bd);display:block;margin:.2em auto 0;max-width:8.6em;text-wrap:balance}
 
