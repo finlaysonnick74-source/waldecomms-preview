@@ -29,7 +29,7 @@ const seen={};document.querySelectorAll('.wall img, .clips img').forEach(i=>{con
 const hd=document.querySelector('.hdr'),cs=getComputedStyle(hd),af=getComputedStyle(hd,'::after');o.hdr=[cs.backgroundImage.replace(/^.*\/|["')]|\?.*$/g,''),af.backgroundImage.replace(/^.*\/|["')]|\?.*$/g,''),hd.offsetHeight];
 const T={h1:'h1',h2:'section h2',h3:'section h3',lead:'p.lead, .hero .sub',small:'p.kick, .role',pad:'section.sec:not(.cta-band)',btn:'a.btn:not(.btn--sm), button.btn:not(.btn--sm)',btnsm:'main .btn--sm',niki:'.hero [data-pose]',card:'.hs .card, .grid .card, #cases .card',logo:'header .logo img'};o.sz={};
 for(const[k,sel] of Object.entries(T)){const v=new Set();document.querySelectorAll(sel).forEach(e=>{if(!e.getClientRects().length)return;const c=getComputedStyle(e);v.add(k==='pad'?c.paddingTop:(k==='btn'||k==='btnsm')?c.fontSize+'/'+e.offsetHeight:k==='niki'?e.offsetHeight+'px tall':['card','logo'].includes(k)?e.offsetWidth+'x'+e.offsetHeight:c.fontSize)});if(v.size)o.sz[k]=[...v]}
-const T2=document.body.innerText;o.fb={nav:Math.max(...[...document.querySelectorAll('.nav a')].map(a=>+getComputedStyle(a).fontWeight)),logo:[...document.querySelectorAll('header .logo img')].map(i=>i.getAttribute('src')),logohref:document.querySelector('header a.logo').getAttribute('href'),logobg:getComputedStyle(document.querySelector('header .logo img')).backgroundColor,fav:!!document.querySelector('link[rel=icon][href*="favicon"]'),au:/waldecomms\.com\.au/i.test(document.documentElement.innerHTML),hint:/A new voice every five seconds/.test(T2),tag:/Ex-Fleet Street PR that makes noise|Communications & content · Sydney/i.test(T2),mq:!!document.querySelector('.mq'),volart:!!document.querySelector('.volume__art'),q:[...document.querySelectorAll('.volume__quote figcaption')].slice(0,3).map(f=>f.textContent),cta:(()=>{const c=document.querySelector('.cta-band');return c?[getComputedStyle(c).backgroundColor,c.offsetHeight]:null})(),niki:[...document.querySelectorAll('main img[src*="niki-"], section img[src*="niki-"]')].filter(i=>!i.closest('.tm')).map(i=>Math.round(i.getBoundingClientRect().height)),svc:[...document.querySelectorAll('.svc-card')].map(a=>a.textContent.replace(/\s+/g,' ').trim()),how:/How we make noise/i.test(T2),ns:(()=>{const n=document.querySelector('[data-now-showing] [data-yt]');return n?n.dataset.yt:null})(),mast:!!document.querySelector('.mast'),theme:document.querySelector('meta[name=theme-color]')?.content,poses:[...document.querySelectorAll('[data-pose]')].filter(e=>e.getClientRects().length).map(e=>(e.closest('.hero')?'hero':e.closest('.cta-band')?'cta':'other')+':'+e.dataset.pose),oldart:/niki-(brand|main|megaphone|peace)|hdr-drip|hdr-splat|splat-\d/.test(document.documentElement.innerHTML),drip:!!document.querySelector('.drip,.splat'),li:!!document.querySelector('a[href*="linkedin.com"]')};
+const T2=document.body.innerText;o.fb={nav:Math.max(...[...document.querySelectorAll('.nav a')].map(a=>+getComputedStyle(a).fontWeight)),logo:[...document.querySelectorAll('header .logo img')].map(i=>i.getAttribute('src')),logohref:document.querySelector('header a.logo').getAttribute('href'),logobg:getComputedStyle(document.querySelector('header .logo img')).backgroundColor,fav:!!document.querySelector('link[rel=icon][href*="favicon"]'),au:/waldecomms\.com\.au/i.test(document.documentElement.innerHTML),hint:/A new voice every five seconds/.test(T2),tag:/Ex-Fleet Street PR that makes noise|Communications & content · Sydney/i.test(T2),mq:!!document.querySelector('.mq'),volart:!!document.querySelector('.volume__art'),q:[...document.querySelectorAll('.qclip figcaption, .volume__quote figcaption')].slice(0,3).map(f=>f.textContent),cta:(()=>{const c=document.querySelector('.cta-band');return c?[getComputedStyle(c).backgroundColor,c.offsetHeight]:null})(),niki:[...document.querySelectorAll('main img[src*="niki-"], section img[src*="niki-"]')].filter(i=>!i.closest('.tm')).map(i=>Math.round(i.getBoundingClientRect().height)),svc:[...document.querySelectorAll('.svc-card')].map(a=>a.textContent.replace(/\s+/g,' ').trim()),how:/How we make noise/i.test(T2),ns:(()=>{const n=document.querySelector('[data-now-showing] [data-yt]');return n?n.dataset.yt:null})(),mast:!!document.querySelector('.mast'),theme:document.querySelector('meta[name=theme-color]')?.content,poses:[...document.querySelectorAll('[data-pose]')].filter(e=>e.getClientRects().length).map(e=>(e.closest('.hero')?'hero':e.closest('.cta-band')?'cta':'other')+':'+e.dataset.pose),oldart:/niki-(brand|main|megaphone|peace)|hdr-drip|hdr-splat|splat-\d/.test(document.documentElement.innerHTML),drip:!!document.querySelector('.drip,.splat'),li:!!document.querySelector('a[href*="linkedin.com"]')};
 o.meta=[!!document.querySelector('meta[http-equiv="Cache-Control"]'),document.querySelector('meta[name=wc-ver]')?.content];
 o.unver=[...document.querySelectorAll('link[href],script[src],img[src],a[href]')].map(e=>e.getAttribute('href')||e.getAttribute('src')).filter(u=>u&&!/^(#|mailto:|tel:|https?:|data:)/.test(u)&&!/\.woff2$/.test(u)&&!/[?&]v=/.test(u));
 return o}"""
@@ -66,6 +66,31 @@ else:NOTVER.append('original character files not found; skipped byte-identical c
 _css=open(os.path.join(_here,'css/site.css')).read()
 for _c,_nm in [('#FF1F8E','hot pink'),('#C2185B','deep pink'),('#FFE600','punk yellow'),('#B6FF00','lime')]:check(_c.lower() in _css.lower(),f'{_nm} {_c} missing from palette')
 check('drip' not in _css,'drip styles still in site.css')
+check(os.path.exists(os.path.join(_here,'video','niki-hero-loop-alpha.webm')),'transparent Kling hero loop missing from video/')
+for _x in ['niki-hero-loop.webm','niki-hero-loop.mp4']:check(not os.path.exists(os.path.join(_here,'video',_x)),f'old boxed hero loop still in video/: {_x}')
+check(os.path.exists(os.path.join(_here,'img','tartan-red.svg')),'red tartan pattern file missing')
+check(os.path.exists(os.path.join(_here,'img/neon-poster.webp')),'Now showing poster missing')
+def _parity():
+  import html as _h,urllib.request as _u
+  T=lambda x:' '.join(_h.unescape(re.sub(r'<[^>]+>',' ',x)).split())
+  N=lambda t:re.sub(r'[^a-z0-9$+#%.]+',' ',t.lower().replace('\u2019',"'")).strip()
+  for pth in PAGES:
+    try:L=_u.urlopen(_u.Request('https://waldecomms.com'+pth+'?nc=qa',headers={'User-Agent':'Mozilla/5.0'}),timeout=20).read().decode()
+    except Exception as e:NOTVER.append(f'parity: could not fetch live {pth} ({e})');continue
+    L=re.sub(r'<script.*?</script>|<style.*?</style>|<header.*?</header>|<footer.*?</footer>|<nav.*?</nav>','',L,flags=re.S|re.I)
+    want=[]
+    for m in re.finditer(r'<(h1|h2|h3|h4|figcaption|cite|b|strong|li|dt|dd)\b[^>]*>(.*?)</\1>',L,re.S|re.I):
+      t=T(m.group(2))
+      if 2<len(t)<160 and not re.search(r'skip|intro|menu|\u2190|\u2192',t,re.I):want.append(t)
+    P=open(os.path.join(_here,pth.strip('/'),'index.html')).read()
+    pt=' '+N(T(re.sub(r'<script.*?</script>|<style.*?</style>','',P,flags=re.S)))+' '
+    miss=[w for w in dict.fromkeys(want) if N(w) and N(w) not in pt]
+    check(not miss,f'parity {pth}: live headings/stats/quote names missing from preview {miss[:5]}')
+    check(len(want)>=(1 if 'contact' in pth else 4),f'parity {pth}: could not read live content ({len(want)} items)')
+  for _w in ['7,000+','Cannes Lion','UN General Assembly','241M','425 million','Screen Music Award','3 million','MMAD','Futures Radio','Monique van Tulder']:check(_w in open(os.path.join(_here,'work','index.html')).read(),f'parity /work/: {_w} missing')
+  _hm=open(os.path.join(_here,'index.html')).read()
+  for _w in ['500+','27M reach','$80k new business','#1','World-first','Oasis reunion','Vivid + NYE','Million Moves','Fit for Office','Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List','Wipfli','Albanese','Barrie']:check(_w in _hm.replace('&amp;','&'),f'parity /: {_w} missing from Home')
+if '--no-parity' not in A:_parity()
 with sync_playwright() as p:
  for br in BROWSERS:
   try:b=getattr(p,br).launch(**({'executable_path':'/usr/bin/google-chrome'} if br=='chromium' and os.path.exists('/usr/bin/google-chrome') and not os.path.exists(os.path.expanduser('~/.cache/ms-playwright/chromium-1243')) else {}))
@@ -94,6 +119,10 @@ with sync_playwright() as p:
     check(f['nav']<600,f'{tag}: nav tabs still bold ({f["nav"]})');check(all('/img/waldecomms-logo.svg?v=' in x for x in f['logo']) and f['logo'],f'{tag}: header logo is not the ransom-note logo {f["logo"]}')
     check('intro=1' in f['logohref'],f'{tag}: logo does not link to ?intro=1');check(f['logobg'] in('rgba(0, 0, 0, 0)','transparent'),f'{tag}: logo has a background {f["logobg"]}');check(f['fav'],f'{tag}: favicon missing')
     check(not f['au'],f'{tag}: waldecomms.com.au still present');check(not f['hint'],f'{tag}: volume hint text still present');check(not f['volart'],f'{tag}: Niki still in the volume section')
+    _tt=pg.evaluate("(()=>{const h=[...document.querySelectorAll('.hdr .tartan, .tt')].filter(e=>e.getClientRects().length&&getComputedStyle(e).backgroundImage.includes('tartan-red.svg'));const ok=h.every(e=>{const r=e.getBoundingClientRect();return r.height>=6&&r.height<=18&&!e.textContent.trim()});const n=document.querySelector('.nav a[aria-current]');return {n:h.length,ok,nav:n?getComputedStyle(n,'::after').backgroundImage.includes('tartan-red.svg'):null}})()")
+    check(_tt['n']>=2 and _tt['ok'] and _tt['nav'] is not False,f'{tag}: red tartan trim missing or too thick {_tt}')
+    _pins=pg.evaluate("(()=>{const P=[...document.querySelectorAll('.pin')].filter(p=>p.getClientRects().length&&getComputedStyle(p).display!=='none');const T=[...document.querySelectorAll('a,button,h1,h2,h3,p,blockquote,figcaption,li,label,input,textarea,select,[data-pose],.hero__vid,.cta__me')].filter(e=>e.getClientRects().length&&!e.closest('#intro,.mmenu,.lb,[aria-hidden=true]'));const bad=[];for(const p of P){const r=p.getBoundingClientRect(),x1=r.left+3,x2=r.right-3,y1=r.top+3,y2=r.bottom-3;for(const e of T){const q=e.getBoundingClientRect();if(q.width&&q.height&&x1<q.right&&x2>q.left&&y1<q.bottom&&y2>q.top){bad.push(e.tagName+'.'+e.className+' '+(e.textContent||'').trim().slice(0,20));}}}return {n:P.length,aria:P.every(p=>p.closest('[aria-hidden=true]')),bad:[...new Set(bad)].slice(0,4)}})()")
+    check(_pins['n']>=1 and _pins['aria'] and not _pins['bad'],f'{tag}: safety pins missing, not aria-hidden, or overlapping content {_pins}')
     check(f['theme']=='#101114',f'{tag}: theme-color is {f["theme"]} (old yellow #F6E83B must be gone)')
     check(not f['oldart'] and not f['drip'],f'{tag}: page still references old silhouette/drip/splat art')
     if f['cta']:check(f['cta'][0]=='rgb(194, 24, 91)' and f['cta'][1]<=V,f'{tag}: CTA band not deep pink / taller than screen {f["cta"]}')
@@ -113,7 +142,7 @@ with sync_playwright() as p:
       check(not f['tag'],f'{tag}: deleted tagline still on home');check(not f['mq'],f'{tag}: marquee still on home')
       check(f['ns']=='TSCt61_0Z-E',f'{tag}: NeonDynamo Now showing missing {f["ns"]}')
       hv=pg.evaluate("(()=>{const v=document.querySelector('.hero video.hero__vid'),s=document.querySelector('.hero .hero__still');if(!v)return null;return {m:v.muted,l:v.loop,a:v.autoplay,pi:v.playsInline,po:v.getAttribute('poster'),src:[...v.querySelectorAll('source')].map(x=>x.getAttribute('src').split('?')[0]),still:s&&getComputedStyle(s).display,h:v.getBoundingClientRect().height,bg:getComputedStyle(v.closest('.hero')).backgroundColor,ok:v.readyState>=2}})()")
-      check(hv and hv['m'] and hv['l'] and hv['a'] and hv['pi'] and 'niki-instigator.png' in hv['po'] and hv['src']==['/img/../video/niki-hero-loop.webm','/video/niki-hero-loop.mp4'] or (hv and [x.split('/')[-1] for x in hv['src']]==['niki-hero-loop.webm','niki-hero-loop.mp4']),f'{tag}: hero loop video wrong {hv}')
+      check(hv and hv['m'] and hv['l'] and hv['a'] and hv['pi'] and 'niki-instigator.png' in hv['po'] and [x.split('/')[-1] for x in hv['src']]==['niki-hero-loop-alpha.webm'],f'{tag}: hero loop video wrong {hv}')
       check(hv and hv['still']=='none' and hv['ok'] and 0<hv['h']<=V,f'{tag}: hero video not playing / still showing / too tall {hv}')
       _bb=pg.locator('.hero video.hero__vid').bounding_box()
       if _bb:
@@ -121,8 +150,41 @@ with sync_playwright() as p:
         _im=Image.open(io.BytesIO(pg.screenshot())).convert('RGB');_px=[]
         for _x0,_x1 in [(_bb['x']+3,_bb['x']-4),(_bb['x']+_bb['width']-4,_bb['x']+_bb['width']+3)]:
           for _yy in [_bb['y']+_bb['height']*.05,_bb['y']+_bb['height']*.12]:
-            if 0<=_x1<vw and 0<=_yy<V:a=_im.getpixel((int(_x0),int(_yy)));c=_im.getpixel((int(_x1),int(_yy)));_px.append(max(abs(a[i]-c[i]) for i in range(3)))
+            if 3<=_x1<vw-3 and 3<=_yy<V-3:_pa=lambda x,y:[sum(_im.getpixel((x+dx,int(y)+dy))[i] for dx in range(-2,3) for dy in range(-2,3))/25 for i in range(3)];a=_pa(int(_x0),_yy);c=_pa(int(_x1),_yy);_px.append(round(max(abs(a[i]-c[i]) for i in range(3)),1))
         check(_px and max(_px)<=6,f'{tag}: visible box edge around hero video (pixel diff {_px})')
+      CLIPJS="(()=>{const v=document.querySelector('.hero video.hero__vid'),r=v.getBoundingClientRect(),bad=[];let p=v.parentElement;while(p&&p!==document.documentElement){const c=getComputedStyle(p),q=p.getBoundingClientRect();if((c.overflowX!=='visible'&&(r.left<q.left-.5||r.right>q.right+.5))||(c.overflowY!=='visible'&&(r.top<q.top-.5||r.bottom>q.bottom+.5))||(c.clipPath&&c.clipPath!=='none'))bad.push(p.tagName+'.'+p.className);p=p.parentElement}const cs=getComputedStyle(v);if(cs.objectFit!=='contain')bad.push('object-fit '+cs.objectFit);if(r.left<0||r.right>innerWidth)bad.push('off-screen');return bad})()"
+      cl=pg.evaluate(CLIPJS);check(not cl,f'{tag}: hero video clipped by {cl}')
+      _bad=[]
+      for _t in [x/4 for x in range(16)]:
+        pg.evaluate(f"(()=>{{const v=document.querySelector('.hero video.hero__vid');v.pause();v.currentTime={_t}}})()");pg.wait_for_timeout(120)
+        fo=pg.evaluate(FIGJS);cl=pg.evaluate(CLIPJS)
+        if fo or cl:_bad.append((_t,fo[:1],cl))
+      check(not _bad,f'{tag}: hero figure covered/clipped at some loop times {_bad[:3]}')
+      pg.evaluate("document.querySelector('.hero video.hero__vid').play()")
+      _gc=pg.evaluate("[document.querySelectorAll('.grid .card:not(.card--more)').length,[...document.querySelectorAll('.qclip')].filter(q=>q.getClientRects().length).length]")
+      check(_gc==[7,3],f'{tag}: Home should show all 7 cases and 3 quote clippings {_gc}')
+      # showreel
+      rs=pg.evaluate("(()=>{const s=document.querySelector('[data-reel]');if(!s)return null;const v=s.querySelector('video'),b=s.querySelector('[data-reel-sound]');return {h2:s.querySelector('h2').innerText.replace(/\\s+/g,' '),btn:b&&b.textContent.trim(),pre:v.getAttribute('preload'),loop:v.loop,muted:v.muted,auto:v.autoplay,poster:v.getAttribute('poster'),sm:v.dataset.srcSm,lg:v.dataset.srcLg,src:v.getAttribute('src'),playing:!v.paused,ar:v.offsetWidth/v.offsetHeight}})()")
+      check(rs and rs['h2'].upper().startswith('WATCH THE') and 'Sound on' in (rs['btn'] or ''),f'{tag}: Watch the reel section missing {rs}')
+      if rs:
+        _raw=re.search(r'<video class="reelsec__v"[^>]*>',pg.request.get(BASE+'/?nointro').text());check(_raw and 'preload="none"' in _raw.group(0) and ' src=' not in _raw.group(0) and 'autoplay' not in _raw.group(0) and ' muted' in _raw.group(0),f'{tag}: reel markup not lazy/muted (preload none, no src, no autoplay) {_raw and _raw.group(0)[:200]}')
+        check(rs['muted'] and not rs['playing'],f'{tag}: reel playing before it is in view {rs}')
+        check(abs(rs['ar']-16/9)<.02,f'{tag}: reel player not 16:9 ({rs["ar"]:.3f})')
+        for _u,_t in [(rs['poster'],'image/jpeg'),(rs['sm'],'video/mp4'),(rs['lg'],'video/mp4')]:
+          _r=pg.request.get(pg.evaluate(f"new URL({json.dumps(_u)},location.href).href"),headers={'Range':'bytes=0-2047'});check(_r.status in(200,206) and _t in _r.headers.get('content-type',''),f'{tag}: reel file not reachable {_u} {_r.status} {_r.headers.get("content-type")}')
+        pg.evaluate("document.querySelector('[data-reel]').scrollIntoView({block:'center'})");pg.wait_for_timeout(2500)
+        rv=pg.evaluate("(()=>{const v=document.querySelector('[data-reel] video'),p=new Image();return {src:v.currentSrc.split('?')[0].split('/').pop(),playing:!v.paused,muted:v.muted,controls:v.controls,ready:v.readyState,posterOk:(()=>{const i=[...document.images].find(x=>0);return true})()}})()")
+        check(rv['src']==('reel-1080.mp4' if vw>820 else 'reel-720.mp4'),f'{tag}: wrong reel size for this screen {rv}')
+        check(rv['playing'] and rv['muted'] and rv['ready']>=2,f'{tag}: reel not autoplaying muted when in view {rv}')
+        check(not (rv['playing'] and not rv['muted']),f'{tag}: reel autoplays with sound')
+        _pw=pg.evaluate("new Promise(r=>{const i=new Image();i.onload=()=>r(i.naturalWidth);i.onerror=()=>r(0);i.src=document.querySelector('[data-reel] video').getAttribute('poster')})")
+        check(_pw>=1280,f'{tag}: reel poster does not load ({_pw})')
+        pg.evaluate("scrollTo(0,document.body.scrollHeight)");pg.wait_for_timeout(900);check(pg.evaluate("document.querySelector('[data-reel] video').paused"),f'{tag}: reel keeps playing out of view')
+        pg.evaluate("document.querySelector('[data-reel]').scrollIntoView({block:'center'})");pg.wait_for_timeout(1200)
+        (tap(pg,'[data-reel-sound]') if vw<500 else pg.click('[data-reel-sound]'));pg.wait_for_timeout(1200)
+        rc=pg.evaluate("(()=>{const v=document.querySelector('[data-reel] video');return {muted:v.muted,controls:v.controls,t:v.currentTime,playing:!v.paused}})()")
+        check(not rc['muted'] and rc['controls'] and rc['t']<3 and rc['playing'],f'{tag}: Sound on did not unmute and restart with controls {rc}')
+        pg.evaluate("document.querySelector('[data-reel] video').pause();scrollTo(0,0)")
     if path=='/work/':check(f['mast'],f'{tag}: masthead row missing from Work')
     if path=='/contact/':check(not f['niki'],f'{tag}: Niki still on contact page')
     if path=='/services/':
@@ -156,6 +218,12 @@ with sync_playwright() as p:
     check(m[3],f'{br}: body not scroll-locked with menu open');check(m[4]>=44 and 24<=m[5]<=32,f'{br}: menu links too small {m[4:]}')
     pg.screenshot(path=os.path.join(SHOTS,f'{br}-{vw}-menu-open.png'))
     pg.keyboard.press('Escape');pg.wait_for_timeout(300);check(not pg.evaluate("document.getElementById('mmenu').classList.contains('is-open')"),f'{br}: Escape did not close menu')
+   ctx.close()
+  # showreel must not autoplay under reduced motion
+  for vw,vh in VPS:
+   ctx=b.new_context(viewport={'width':vw,'height':vh},reduced_motion='reduce');pg=ctx.new_page();pg.goto(BASE+'/?nointro');pg.wait_for_timeout(800)
+   pg.evaluate("document.querySelector('[data-reel]').scrollIntoView({block:'center'})");pg.wait_for_timeout(2000)
+   check(pg.evaluate("document.querySelector('[data-reel] video').paused"),f'{br} {vw}: reel autoplays under prefers-reduced-motion')
    ctx.close()
   # intro: plays on fresh launch, page scrolls after, logo replays from another page
   for vw,vh in VPS:

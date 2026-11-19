@@ -32,6 +32,9 @@ def ransom(text):
       t+=f'<span class="rt rt--{[0,1,2,3,0,4,2,5][k%8]}" style="--r:{rots[k%8]}deg">{E(ch)}</span>';k+=1
     words.append(f'<span class="rw">{t}</span>')
   return f'<span class="ransom"><span class="sr">{E(text)}</span><span class="ransom__v" aria-hidden="true">{"".join(words)}</span></span>'
+def pin(pos='left:10px',rot=78,d=False):
+  return f'<span class="pin{" pin--d" if d else ""}" aria-hidden="true" style="{pos};--rot:{rot}deg"></span>'
+TT=lambda p='':f'<div class="tt" aria-hidden="true">{p}</div>'
 def kick(tiles,label='',cls=''):
   return f'<p class="kick{(" "+cls) if cls else ""}">{ransom(tiles) if tiles else ""}{f" <span>{label}</span>" if label else ""}</p>'
 def figure(pose,cls='hero__me',patch=False,eager=True):
@@ -40,14 +43,14 @@ def figure(pose,cls='hero__me',patch=False,eager=True):
 def hero(h1a,h1b,sub='',k=('',''),pose=None,extra='',patch=False,video=False):
   if video:
     f,alt=POSES[pose]
-    fig=f'<figure class="hero__me hero__me--vid"><video class="hero__vid" autoplay muted loop playsinline preload="auto" poster="/img/{f}" width="720" height="1226" aria-label="{E(alt)}" data-pose="{pose}"><source src="/video/niki-hero-loop.webm" type="video/webm"><source src="/video/niki-hero-loop.mp4" type="video/mp4"></video><img class="hero__still" src="/img/{f}" alt="{E(alt)}" width="1024" height="1536" data-pose="{pose}"></figure>'
+    fig=f'<figure class="hero__me hero__me--vid"><video class="hero__vid" autoplay muted loop playsinline preload="auto" poster="/img/{f}" width="720" height="1226" aria-label="{E(alt)}" data-pose="{pose}"><source src="/video/niki-hero-loop-alpha.webm" type="video/webm; codecs=vp9"></video><img class="hero__still" src="/img/{f}" alt="{E(alt)}" width="1024" height="1536" data-pose="{pose}"></figure>'
   else: fig=figure(pose,patch=patch) if pose else ''
   return f'''<section class="hero{'' if pose else ' hero--plain'}{' hero--video' if video else ''}"><div class="wrap hero__in"><div class="hero__t">{kick(*k)}<h1 class="h1"><span class="h1__a">{h1a}</span> <span class="h1__b">{h1b}</span></h1>{f'<p class="sub">{sub}</p>' if sub else ''}{extra}</div>{fig}</div></section>'''
 def page(path,title,desc,body,cur='',home=False):
   nav=''.join(f'<a href="{h}"{" aria-current=page" if h==cur else ""}>{t}</a>' for h,t in NAV)
   intro=open('intro.html').read().replace('{LOGOV}',LOGOV) if home else ''
   cta='' if cur=='/contact/' else ''
-  d=f'''<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  d=f'''<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><script>(function(u){{if(/iP(hone|ad|od)/.test(u)||(/Safari[/]/.test(u)&&!/Chrome|Chromium|CriOS|FxiOS|Edg|Android/.test(u)))document.documentElement.classList.add("no-alpha")}})(navigator.userAgent)</script><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><meta name="theme-color" content="#101114">
 <link rel="icon" type="image/svg+xml" href="/img/favicon.svg?v={LOGOV}"><link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png?v={LOGOV}"><link rel="icon" type="image/png" sizes="64x64" href="/img/favicon-64.png?v={LOGOV}"><link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v={LOGOV}">
 <link rel="preload" href="/fonts/anton.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/courier-prime-bold.woff2" as="font" type="font/woff2" crossorigin>
@@ -56,10 +59,10 @@ def page(path,title,desc,body,cur='',home=False):
 <a class="skiplink" href="#main">Skip to content</a>{intro}
 <header class="hdr"><div class="wrap hdr__in"><a class="logo" href="/?intro=1" aria-label="WaldeComms home (replays the intro)"><img src="/img/waldecomms-logo.svg?v={LOGOV}" alt="WaldeComms" width="257" height="40"></a>
 <nav class="nav" aria-label="Main">{nav}</nav><div class="hdr-cta">{'' if cur=='/contact/' else '<a class="btn btn--sm" href="/contact/" data-cta>Make noise</a>'}
-<a class="mnav-open" href="#mmenu" role="button" aria-expanded="false" aria-controls="mmenu" aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="mnav-l">Menu</span></a></div></div><div class="tartan" aria-hidden="true"></div></header>
+<a class="mnav-open" href="#mmenu" role="button" aria-expanded="false" aria-controls="mmenu" aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="mnav-l">Menu</span></a></div></div><div class="tartan" aria-hidden="true">{pin("left:26px",84)}</div></header>
 <div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Site menu"><div class="mmenu__top"><img src="/img/waldecomms-logo.svg?v={LOGOV}" alt="" width="193" height="30"><a class="mmenu__close" href="#" role="button" aria-label="Close menu">Close ✕</a></div><nav aria-label="Mobile"><a href="/"{' aria-current="page"' if cur=='/' else ''}>Home</a>{''.join(f'<a href="{h}"{chr(32)+chr(97)+"ria-current="+chr(34)+"page"+chr(34) if h==cur else ""}>{t}</a>' for h,t in NAV)}</nav><a class="btn btn--teal mmenu__cta" href="/contact/">Make noise →</a></div>
 <main id="main">{body}</main>
-<footer class="ftr"><div class="wrap ftr__in"><div><img src="/img/waldecomms-strip-white.svg?v={LOGOV}" alt="WaldeComms" width="231" height="36"><p>Communications &amp; content, Sydney.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p></div>
+<div class="tt" aria-hidden="true">{pin("right:22px",-76,True)}</div><footer class="ftr"><div class="wrap ftr__in"><div><img src="/img/waldecomms-strip-white.svg?v={LOGOV}" alt="WaldeComms" width="231" height="36"><p>Communications &amp; content, Sydney.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p></div>
 <nav aria-label="Footer"><a href="/">Home</a>{''.join(f'<a href="{h}">{t}</a>' for h,t in NAV)}</nav>
 <div><p class="ftr__h">Ready to make noise?</p><a class="btn btn--teal" href="/contact/">Brief us →</a><p><small>© 2026 WaldeComms</small></p></div></div></footer>
 <div class="lb" role="dialog" aria-modal="true" aria-label="Viewer"><button class="btn btn--teal btn--sm" type="button">Close ✕</button></div>
@@ -67,10 +70,10 @@ def page(path,title,desc,body,cur='',home=False):
   import re
   depth=path.count('/');pre='../'*depth or './'
   d=d.replace('<meta charset="utf-8">','<meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="wc-ver" content="'+VER+'">'+STALEGUARD)
-  d=re.sub(r'((?:href|src|data-full|poster)="/[^"#?]*\.(?:css|js|svg|webp|png|jpg|webm|mp4))(")',lambda m:m.group(1)+'?v='+VER+m.group(2),d)
+  d=re.sub(r'((?:href|src|data-full|poster|data-src-sm|data-src-lg)="/[^"#?]*\.(?:css|js|svg|webp|png|jpg|webm|mp4))(")',lambda m:m.group(1)+'?v='+VER+m.group(2),d)
   d=re.sub(r'(href="/(?:[a-z0-9-]+/)*)(")',lambda m:m.group(1)+'?v='+VER+m.group(2),d)
   d=re.sub(r'(href="/(?:[a-z0-9-]+/)*)\?intro=1"',lambda m:m.group(1)+'?intro=1&amp;v='+VER+'"',d)
-  d=re.sub(r'(href|src|data-full|poster)="/(?!/)',lambda m:f'{m.group(1)}="{pre}',d)
+  d=re.sub(r'(href|src|data-full|poster|data-src-sm|data-src-lg)="/(?!/)',lambda m:f'{m.group(1)}="{pre}',d)
   os.makedirs(os.path.dirname(path) or '.',exist_ok=True);open(path,'w').write(d)
 ROT=[-1.2,.9,-.6,1.1,-.9,.7]
 def card(c,k):
@@ -85,26 +88,38 @@ def volume(quotes, key, heading=True, more=False):
 <div class="volume__stage" tabindex="0" role="group" aria-label="Testimonials. Click or use arrow keys for the next quote" aria-live="polite" aria-atomic="true">{''.join(slides)}</div>
 <div class="volume__controls"><button class="btn btn--sm" type="button" data-volume-next>Next quote →</button><button class="btn btn--sm btn--ghost" type="button" data-volume-pause aria-pressed="false">Pause</button><span class="volume__count">1 / {len(quotes)}</span></div>
 <div class="volume__meter" aria-hidden="true"><div class="volume__fill"></div></div></div>{'<p style="text-align:center;margin-top:36px"><a class="btn btn--ghost" href="/what-people-say/">Hear every voice →</a></p>' if more else ''}</div></section>'''
+def qclips(quotes):
+  cards=''.join(f'''<figure class="qclip" style="--r:{[-1.2,.8,-.5][i%3]}deg"><span class="tape {['tape--p','tape--tt','tape--g'][i%3]}" aria-hidden="true">{pin('left:-10px;top:4px',-62) if i==1 else ''}</span><blockquote>“{E(q)}”</blockquote><figcaption>{E(w.partition(', ')[0])}<span>{E(w.partition(', ')[2])}</span></figcaption></figure>''' for i,(q,w,pend) in enumerate(quotes))
+  return f'''<section class="sec qclips" data-fit-exempt="m" data-fit-reason="three stacked quote cards on mobile" aria-labelledby="qc-h"><div class="wrap"><div class="sec__hd"><div>{kick('','Real words. Real results.','kick--ink')}<h2 id="qc-h">Turn up the volume</h2></div><a class="btn btn--ghost" href="/what-people-say/">Hear every voice →</a></div><div class="qclips__g">{cards}</div></div></section>'''
 TICKS=['World-first legislation','Global conversations','Ideas into impact','Campaigns into action','Front-page headlines']
 def cta_band(home=False,label=None):
   body=(f'<ul class="ticks">{"".join("<li>"+t+"</li>" for t in TICKS)}</ul>' if home else '<p class="lead">Tell us the story. We’ll make it the one people can’t ignore.</p>')
   f,alt=POSES['rally']
   return f'''<section class="cta cta-band" aria-labelledby="cta-h"><div class="torn" aria-hidden="true"></div><div class="wrap cta__in"><div><h2 id="cta-h"><span>Ready to</span> {ransom("MAKE NOISE?")}</h2>{body}<a class="btn btn--paper" href="/contact/">{label or ("Make noise with us" if home else "Start the conversation")} →</a></div><img class="cta__me" src="/img/{f}" alt="{E(alt)}" width="1024" height="1536" loading="lazy" data-pose="rally"></div></section>'''
-def now_showing(cls='sec'):
-  n=NOW_SHOWING
+def now_showing(cls='sec',k=None):
+  n=dict(NOW_SHOWING,**({'kick':k} if k else {}))
   return f'''<section class="{cls}" data-now-showing aria-labelledby="ns-h"><div class="wrap reel"><div>{kick('',n['kick'],'kick--ink')}<h2 id="ns-h">{E(n['title'])}</h2><p>{E(n['text'])}</p></div>
 <button class="reel__f" type="button" data-yt="{n['youtube']}" aria-label="Play the NeonDynamo Time: Warped video"><span class="tape tape--l tape--p" aria-hidden="true"></span><img src="/img/neon-poster.webp" alt="NeonDynamo Time: Warped video still" width="1280" height="720" loading="lazy"><span class="reel__play" aria-hidden="true">▶</span><span class="reel__cap">▶ {E(n['cap'])}</span></button></div></section>'''
+def reel():
+  r=REEL
+  return f'''<section class="reelsec" data-reel aria-labelledby="reel-h"><div class="wrap"><div class="reelsec__hd"><div>{kick('',r['kick'],'kick--ink')}<h2 id="reel-h">{E(r['h2a'])} {ransom(r['h2b'])}</h2></div><button class="btn reelsec__snd" type="button" data-reel-sound aria-label="Play the showreel with sound from the start">▶ {E(r['btn'])}</button></div>
+<div class="reelsec__f"><span class="tape tape--l tape--g" aria-hidden="true"></span><span class="tape tape--r tape--y" aria-hidden="true"></span><video class="reelsec__v" muted loop playsinline preload="none" poster="{r['poster']}" data-src-sm="{r['sm']}" data-src-lg="{r['lg']}" width="1920" height="1080" aria-label="{E(r['aria'])}"></video><noscript><video controls preload="none" poster="{r['poster']}" src="{r['sm']}" width="1920" height="1080"></video></noscript></div></div></section>'''
 # HOME
-HOME_CASES=[c for c in CASES if c['slug']!='noasis'][:6]
+HOME_CASES=list(CASES)  # all 7, as on live
 home=hero('We make noise.','That matters.','Some stories get coverage. <span class="hl hl--p">Some change everything.</span>',HOME_KICK,'instigator',
   extra=f'<div class="ctas"><a class="btn" href="/work/" data-cta>See the work →</a></div><p class="pinnote"><span class="pin-ico" aria-hidden="true"></span>{E(PIN_NOTE)}</p>',video=True)+f'''
 <section class="band" aria-label="WaldeComms in numbers"><div class="wrap band__in"><p><b>2.3B</b><span>media impressions for one campaign alone</span></p><p><b>14+</b><span>international awards</span></p></div></section>
+<div class="tt" aria-hidden="true">{pin("left:16px",72)}</div>
+{reel()}
+<div class="tt tt--thin" aria-hidden="true"></div>
 {now_showing()}
 <section class="sec sec--yellow" aria-labelledby="ci-h"><div class="wrap">{kick('','Recent work that made noise','kick--ink')}<h2 id="ci-h" class="sr">Coverage is good. Impact is better.</h2><p class="headline" aria-hidden="true">Coverage is good.<br><em class="hl hl--p">Impact is better.</em></p>
 <div class="cols"><div><b>500+</b><span>stories for a national expansion</span></div><div><b>27M</b><span>reach = $80k new business (A Lasting Tale)</span></div><div><b>#1</b><span>Google-searched destination in Australia, 2025 (Hamilton Island)</span></div><div><b>World-first</b><span>legislation change (36 Months)</span></div></div></div></section>
 <section class="sec" data-fit-exempt="all" data-fit-reason="six-card grid"><div class="wrap"><div class="sec__hd"><h2>{E(CLIPPINGS_H)}</h2><a class="btn btn--ghost" href="/work/">Explore all the work →</a></div>
-<div class="grid">{''.join(card(c,k) for k,c in enumerate(HOME_CASES))}</div></div></section>
-{volume(QUOTES[:3], 'home-volume', more=True)}
+<div class="grid grid--4">{''.join(card(c,k) for k,c in enumerate(HOME_CASES))}<a class="card card--more" href="/work/"><span class="card--more__n">{len(CASES)}</span><span class="card--more__t">Explore all the work →</span></a></div></div></section>
+<div class="mast" aria-label="Where our stories land"><div class="wrap mast__in">{''.join('<span>'+m+'</span>' for m in MASTHEADS)}</div></div>
+<div class="tt" aria-hidden="true">{pin("right:40px",-82,True)}</div>
+{qclips(QUOTES[:3])}
 {cta_band(True)}'''
 page('index.html',"WaldeComms | PR that makes noise, Sydney","WaldeComms is a Sydney PR agency that turns businesses into brands people can't ignore.",home,home=True)
 # WORK
@@ -118,7 +133,7 @@ def camp(c,k):
   return f'''<article class="camp{' camp--flip' if k%2 else ''}"><div class="camp__t"><p class="camp__n">No. {k+1:02d}</p><h2>{E(c['title'])}</h2><p class="camp__d">{E(c['desc'])}</p>{f'<p class="camp__l">{c["line"]}</p>' if c['line'] else ''}{f'<ul class="stamps">{sp}</ul>' if sp else ''}{qs}{f'<ul class="camp__b">{bl}</ul>' if bl else ''}{lk}</div>{media}</article>'''
 work=hero('Recent work','that made noise','Coverage is good. Impact is better.',('WORK',''),'rebel')+f'''
 <!-- PENDING PERMISSION: masthead/network names below stand in for masthead logos until usage rights are confirmed -->
-<div class="mast" aria-label="Where our stories land"><div class="wrap mast__in">{''.join('<span>'+m+'</span>' for m in MASTHEADS)}</div></div>
+<div class="mast" aria-label="Where our stories land"><div class="wrap mast__in">{''.join('<span>'+m+'</span>' for m in MASTHEADS)}</div></div><div class="tt tt--thin" aria-hidden="true">{pin("right:30px",80)}</div>
 <section class="sec" data-fit-exempt="all" data-fit-reason="nine campaign write-ups"><div class="wrap camps">{''.join(camp(c,k) for k,c in enumerate(WORK))}</div></section>{cta_band()}'''
 page('work/index.html','Work | WaldeComms','Campaigns by WaldeComms: 36 Months, AUSactive, The Sundays Hamilton Island, NeonDynamo, Sonar Music, MMAD Futures Radio, NOASIS, Monique van Tulder and A Lasting Tale.',work,'/work/')
 # CASE STUDIES
@@ -129,14 +144,14 @@ def _d(x):
 for i,c in enumerate(CASES):
   nx=CASES[(i+1)%len(CASES)]
   items=COV.get(c['slug'],[])
-  clips=''.join(f'''<article class="clip" style="--r:{[-1,1.2,-.6][k%3]}deg">{f'<img src="{x["img"]}" alt="" loading="lazy" width="720" height="405">' if x.get("img") else f'<div class="clip__ph" aria-hidden="true">{E(x["site"] or "")}</div>'}<p class="clip__o">{E(x["site"] or "")}</p><p class="clip__h">{E(x["title"])}</p>{(f'<p class="clip__d"><time datetime="{x["date"]}">{_d(x["date"])}</time></p>') if x.get("date") else ''}<a class="lnk" href="{E(x["url"])}" target="_blank" rel="noopener">Read the story ↗<span class="sr"> (opens {E(x["site"] or "")} in a new tab)</span></a></article>''' for k,x in enumerate(items))
+  clips=''.join(f'''<article class="clip" style="--r:{[-1,1.2,-.6][k%3]}deg">{pin('left:calc(50% + 34px);top:-10px',70,True) if k==0 else ''}{f'<figure class="clip__img"><img src="{x["img"]}" alt="" loading="lazy" width="720" height="405"><figcaption>Image: {E(x["site"] or "")}</figcaption></figure>' if x.get("img") else f'<div class="clip__ph" aria-hidden="true">{E(x["site"] or "")}</div>'}<p class="clip__o">{E(x["site"] or "")}</p><p class="clip__h">{E(x["title"])}</p>{(f'<p class="clip__d"><time datetime="{x["date"]}">{_d(x["date"])}</time></p>') if x.get("date") else ''}<a class="lnk" href="{E(x["url"])}" target="_blank" rel="noopener">Read the story ↗<span class="sr"> (opens {E(x["site"] or "")} in a new tab)</span></a></article>''' for k,x in enumerate(items))
   crop=c['slug']=='36-months'  # hides the deck footer box that still says "13x" (Niki: 14)
   deck=f'''<button type="button" class="wall__deck{' wall__deck--crop' if crop else ''}" data-full="/img/deck-{c['img']}.webp"{' data-crop="1"' if crop else ''}><span class="tape" aria-hidden="true"></span><img src="/img/deck-{c['img']}.webp" alt="{E(c["title"])} coverage page from the WaldeComms deck" loading="lazy" width="1467" height="826"><span class="sr">Enlarge</span></button>'''
   ctr=''.join(f'<div><b>{(f"{v:,}" if isinstance(v,int) else v)}{s}</b><span>{l}</span></div>' for v,s,l in c['counters']) or f'<div><b>{E(c["stat"])}</b><span>{E(c["statl"])}</span></div>'
   ncols=max(1,min(3,len(c['counters']) or 1))
   q=c.get('quote');qh=f'<figure class="quote-sm"><blockquote>“{E(q[0])}”</blockquote><figcaption>{E(q[1])}</figcaption></figure>' if q else ''
   pose=CASE_POSE.get(c['slug'],'rally')
-  body=hero(E(c['title']),E(c['tape']),E(c['line']),('CASE',c['tag']),pose)+(now_showing() if c['slug'] in ('36-months',) else '')+f'''
+  body=hero(E(c['title']),E(c['tape']),E(c['line']),('CASE',c['tag']),pose).replace('<section class="hero"','<section class="hero hero--case"',1)+'<div class="tt" aria-hidden="true">'+pin('left:18px',-80)+'</div>'+(now_showing(k='Media Impact') if c['slug'] in ('36-months',) else '')+f'''
 <!-- Challenge copy not in the deck: needs WaldeComms input before launch -->
 <section class="sec sec--alt" data-fit-exempt="m" data-fit-reason="case story stacks on mobile"><div class="wrap split"><div>{kick('','The noise we made','kick--ink')}<h2>{E(c['title'])}</h2><p class="lead" style="margin-top:14px">{E(c['line'])}</p></div>
 <div><div class="cols cols--3" style="grid-template-columns:repeat({ncols},minmax(0,1fr))">{ctr}</div>{qh}</div></div></section>

@@ -108,7 +108,6 @@ SERVICES=[
 # ---- Westwood Zine redesign (19 Nov 2026): small UI copy, all in one place ----
 HOME_KICK=('PR','Sydney')   # ransom tiles + label (the old "Communications & content · Sydney" tagline stays deleted)
 PIN_NOTE='That\u2019s Niki Waldegrave \u00b7 Noise with impact'
-NOW_SHOWING=dict(kick='Now showing',title='NeonDynamo: Time: Warped',text='Where Vivid meets Glastonbury. When Vivid Sydney\u2019s Time: Warped turned Argyle Cut into a rave, we turned it into mainstream front-page news.',youtube='TSCt61_0Z-E',cap='Play the video')
 CLIPPINGS_H='The clippings'
 MASTHEADS=['Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List']  # PENDING PERMISSION: names stand in for masthead logos
 # Character poses (files are byte-identical copies of Nick's PNGs in /workspace/waldecomms/characters; never edit them)
@@ -116,3 +115,6 @@ POSES={'instigator':('niki-instigator.png','Illustration of Niki Waldegrave, meg
        'rebel':('niki-rebel.png','Illustration of Niki Waldegrave with her fist raised, megaphone at her side'),
        'rally':('niki-rally.png','Illustration of Niki Waldegrave calling through her megaphone')}
 CASE_POSE={'36-months':'rebel','a-lasting-tale':'rebel','national-expansion':'rebel'}  # other case studies use 'rally'
+NOW_SHOWING=dict(kick='Now showing',title='NeonDynamo: Time: Warped',text='Where Vivid meets Glastonbury. When Vivid Sydney\u2019s Time: Warped turned Argyle Cut into a rave, we turned it into mainstream front-page news.',youtube='TSCt61_0Z-E',cap='Play the video')
+# Showreel (Home). Files in /video, poster in /img.
+REEL=dict(kick='Showreel',h2a='Watch the',h2b='REEL',btn='Sound on',aria='WaldeComms showreel',sm='/video/reel-720.mp4',lg='/video/reel-1080.mp4',poster='/img/reel-poster.jpg')

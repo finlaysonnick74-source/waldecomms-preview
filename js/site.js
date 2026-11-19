@@ -4,7 +4,7 @@ const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 /* reveal (no hidden-by-default content: .rv only adds a class) */
 $$('.rv').forEach(el=>el.classList.add('is-in'));
 /* hero loop: still only under reduced motion */
-$$('.hero__vid').forEach(v=>{const mq=matchMedia('(prefers-reduced-motion: reduce)'),f=()=>{if(mq.matches){v.pause();v.removeAttribute('autoplay')}else v.play().catch(()=>{})};mq.addEventListener('change',f);if(mq.matches)f()});
+$$('.hero__vid').forEach(v=>{if(document.documentElement.classList.contains('no-alpha')){v.pause();v.removeAttribute('autoplay');v.preload='none';return}const mq=matchMedia('(prefers-reduced-motion: reduce)'),f=()=>{if(mq.matches){v.pause();v.removeAttribute('autoplay')}else v.play().catch(()=>{})};mq.addEventListener('change',f);if(mq.matches)f()});
 /* case-study filter explorer (new) */
 $$('[data-filter]').forEach(box=>{const chips=$$('.chip',box),cards=$$('.card',document.querySelector(box.dataset.filter)),live=document.getElementById('fcount');
  const apply=k=>{chips.forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.k===k)));let n=0;cards.forEach(c=>{const on=k==='all'||c.dataset.tags.split(' ').includes(k);c.hidden=!on;if(on){n++;if(!RM){c.classList.remove('fx');void c.offsetWidth;c.classList.add('fx')}}});if(live)live.textContent=n+' case stud'+(n===1?'y':'ies');const u=new URL(location);k==='all'?u.searchParams.delete('f'):u.searchParams.set('f',k);history.replaceState(null,'',u)};
@@ -48,3 +48,13 @@ o.addEventListener('click',open);c.addEventListener('click',close);m.querySelect
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
 
 
+/* Showreel: lazy source (720p small / 1080p large), muted loop only while in view, Sound on restarts with controls */
+(()=>{const s=document.querySelector('[data-reel]');if(!s)return;const v=s.querySelector('video'),b=s.querySelector('[data-reel-sound]'),rm=matchMedia('(prefers-reduced-motion: reduce)');let loaded=false,user=false,inView=false;
+const load=()=>{if(loaded)return;loaded=true;v.src=matchMedia('(min-width: 821px)').matches?v.dataset.srcLg:v.dataset.srcSm;v.preload='metadata'};
+const auto=()=>{if(user)return;if(inView&&!rm.matches){load();v.muted=true;v.play().catch(()=>{})}else v.pause()};
+if('IntersectionObserver' in window){new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)load()}),{rootMargin:'400px 0px'}).observe(s);
+new IntersectionObserver(es=>es.forEach(e=>{inView=e.intersectionRatio>=.5;auto()}),{threshold:[0,.5,1]}).observe(v)}
+rm.addEventListener&&rm.addEventListener('change',auto);
+b.addEventListener('click',()=>{user=true;load();v.muted=false;v.loop=false;v.controls=true;try{v.currentTime=0}catch(e){}v.play().catch(()=>{});b.hidden=true;v.focus&&v.focus()});
+v.addEventListener('ended',()=>{if(user)b.hidden=false});
+v.addEventListener('pause',()=>{if(user&&!v.ended)b.hidden=false});v.addEventListener('play',()=>{if(user)b.hidden=true})})();
