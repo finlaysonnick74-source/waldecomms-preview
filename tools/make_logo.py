@@ -6,7 +6,7 @@ from fontTools.ttLib import TTFont
 from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 FONT='/usr/share/fonts/truetype/sand-box/google/Anton/Anton-Regular.ttf'
-TEAL='#11D5CA'      # site --t
+TEAL='#086B65'      # logo tiles = site --deep (white letters 6.4:1). Bright site teal #11D5CA is an accent for ink text only.
 INK='#101114'       # site --i
 PAPER='#FCF9F2'
 TW,TH=100,118       # tile

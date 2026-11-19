@@ -60,14 +60,14 @@ with sync_playwright() as p:
     shoot(b,page(body,1584,396),f'{OUT}/banners/waldecomms-linkedin-personal-banner-1584x396.png',1584,396)
     # 5 email signature 600x100 (+2x)
     sw=380
-    body=f'<div style="position:absolute;inset:0;background:#fff"></div><div style="position:absolute;left:10px;top:{(100-sw/ar)/2:.1f}px">{img(strip,sw)}</div>'+tag.format(pos='left:420px;top:30px',fs=17,c=INK,t='WE MAKE NOISE.<br><span style="color:#0AA39A">THAT MATTERS.</span>')
+    body=f'<div style="position:absolute;inset:0;background:#fff"></div><div style="position:absolute;left:10px;top:{(100-sw/ar)/2:.1f}px">{img(strip,sw)}</div>'+tag.format(pos='left:420px;top:30px',fs=17,c=INK,t='WE MAKE NOISE.<br><span style="color:{TEAL}">THAT MATTERS.</span>')
     shoot(b,page(body,600,100),f'{OUT}/email/waldecomms-email-signature-600x100.png',600,100)
     shoot(b,page(body,600,100),f'{OUT}/email/waldecomms-email-signature-1200x200.png',600,100,scale=2)
     # 6 brand sheet 2400x1700
     W,H=2400,1560
     white=files['svg/waldecomms-strip-white.svg'];black=files['svg/waldecomms-strip-black.svg']
     sw=860;k=sw/sv[2];fx=(-9-sv[0])*k;fy=(-9-sv[1])*k;fw=1018*k;fh=136*k;cs=59*k
-    def sw_(name,hexv,fg,border=False):return f'<div style="width:230px"><div style="height:130px;background:{hexv};color:{fg};{"border:2px solid "+INK if border else ""}"></div><div class="ab" style="font-size:22px;margin-top:10px">{name}</div><div style="font-size:20px;opacity:.75">{hexv}</div></div>'
+    def sw_(name,hexv,fg,border=False):return f'<div style="width:180px"><div style="height:130px;background:{hexv};color:{fg};{"border:2px solid "+INK if border else ""}"></div><div class="ab" style="font-size:22px;margin-top:10px">{name}</div><div style="font-size:20px;opacity:.75">{hexv}</div></div>'
     def circ(s,n=150):return f'<div style="width:{n}px;height:{n}px;border-radius:50%;overflow:hidden;border:2px solid {INK}20">{img(s,n,n)}</div>'
     stc=files['svg/waldecomms-stacked-color.svg'];sv2=vb(stc)
     label=lambda t:f'<div class="ab" style="font-size:24px;letter-spacing:.08em;margin-bottom:18px;color:{INK}">{t}</div>'
@@ -87,8 +87,8 @@ with sync_playwright() as p:
 <div style="display:flex;gap:34px;align-items:flex-end">{circ(files['avatars/avatar-W-teal.svg'],230)}{circ(files['avatars/avatar-stacked-ink.svg'],230)}{circ(files['avatars/avatar-W-teal.svg'],64)}{circ(files['avatars/avatar-stacked-ink.svg'],64)}<div style="width:40px;height:40px;background:#fff;border:1px solid {INK}30">{img(files['svg/waldecomms-W-pinned-color.svg'],40,40)}</div></div>
 <div style="font-size:20px;opacity:.75;margin-top:14px;width:900px">Pinned W tile = favicon, social avatar, app icon. Avatars keep the logo inside the centre circle.</div></div>
 <div style="position:absolute;left:90px;top:1100px;width:1140px">{label('MINIMUM SIZE')}<div style="display:flex;gap:44px;align-items:flex-end"><div>{img(strip,240)}<div style="font-size:20px;margin-top:8px">Strip: 120 px wide / 30 mm</div></div><div>{img(strip,120)}<div style="font-size:20px;margin-top:8px">absolute min.</div></div><div>{img(stc,150)}<div style="font-size:20px;margin-top:8px">Stacked: 90 px</div></div><div>{img(files['svg/waldecomms-W-pinned-color.svg'],48,48)}<div style="font-size:20px;margin-top:8px">Icon: 24 px</div></div></div></div>
-<div style="position:absolute;left:1290px;top:1100px;width:1020px">{label('COLOUR')}<div style="display:flex;gap:26px;flex-wrap:wrap">{sw_('Teal',TEAL,INK)}{sw_('Ink',INK,'#fff')}{sw_('Paper',PAPER,INK,True)}{sw_('White','#FFFFFF',INK,True)}</div>
-<div style="font-size:20px;opacity:.75;margin-top:14px">Accents (website only): Yellow #F6E83B · Pink #FF2E88. Letters: Anton, outlined — no font needed.</div></div>
+<div style="position:absolute;left:1290px;top:1100px;width:1020px">{label('COLOUR')}<div style="display:flex;gap:26px;flex-wrap:wrap">{sw_('Deep teal',TEAL,'#fff')}{sw_('Ink',INK,'#fff')}{sw_('Paper',PAPER,INK,True)}{sw_('White','#FFFFFF',INK,True)}{sw_('Bright teal','#11D5CA',INK)}</div>
+<div style="font-size:20px;opacity:.75;margin-top:14px">Bright teal is an accent only: ink text on it, never white. Website paper #F1EADB. Letters: Anton, outlined — no font needed.</div></div>
 <div style="position:absolute;left:90px;top:1430px;font-size:20px;width:2200px;opacity:.8"><b>Do:</b> keep tiles in order (white, teal, white, teal …), keep the pin on the W, use the all-white version on dark. <b>Don’t:</b> recolour tiles, stretch, rotate the strip, add shadows, or put the full-colour strip on busy photos.</div>'''
     shoot(b,page(body,W,H),f'{OUT}/waldecomms-brand-sheet.png',W,H)
     b.close()
