@@ -55,7 +55,7 @@ TEAM=[('niki','Niki Waldegrave','NIKI'),('lee','Lee Robson','LEE'),('eloise','El
 
 # WORK page: one entry per campaign, in Niki's order. Text is hers (typos fixed). Nothing invented.
 # splats = key stats shown in a teal paint splat: (big, label). bullets = proof points (<b> = bold result). quotes = pull quotes.
-# img = existing deck image (None = teal block, no placeholder text). link = existing case-study page (None = no page yet).
+# img = deck image in /img (every Work card must have one). link = existing case-study page. ext = real outside coverage links (outlet, headline, url) for cards with no case-study page yet.
 WORK=[
  dict(title='36 Months',desc='World-first law. Global impact.',
   line='From an idea by two worried dads to world-first legislation in just 6 months. Advocacy-led grassroots campaigns moved faster and further than almost any other in Australian political history.',
@@ -76,7 +76,11 @@ WORK=[
   line="Making serious noise for Australia\u2019s most celebrated screen composers.",
   splats=[('241M','media reach')],
   bullets=["Amplified Jono Ma\u2019s euphoric Sydney NYE 9 x tonnes firework anthem, Higher Together",'<b>425 million</b> globally tuned in \u2013 we reached 241 million more',"Antony Partos\u2019 Artful Dodger score won a <b>2026 Screen Music Award</b>",'Backed his challenge taking on AI copyright dodgers with <b>3 million impressions</b>'],
-  img=None,link=None),
+  img='sonar-music',link=None,alt='Antony Partos with his 2026 Screen Music Award, the Sonar Music team wearing Human Made badges, and the Higher Together EP artwork for Jono Ma\u2019s Sydney NYE fireworks soundtrack',
+  ext=[('The Sydney Morning Herald','\u2018Big and explosive\u2019: Musician behind NYE fireworks reveals his gameplan','https://www.smh.com.au/culture/music/big-and-explosive-musician-behind-nye-fireworks-reveals-his-gameplan-20251226-p5nq4q.html'),
+       ('LBB','Sonar Music co-founders lead Sydney NYE and new Sydney Sweeney film','https://lbbonline.com/news/sonar-music-sydney-nye-jono-mar'),
+       ('ABC News','Tales from Outer Suburbia composers win big at 2026 Screen Music Awards','https://www.abc.net.au/news/2026-10-28/screen-music-awards-winners-2026/107289982'),
+       ('Campaign Brief','Composers wear Human Made badges at Screen Music Awards as Antony Partos takes on AI','https://campaignbrief.com/composers-wear-human-made-badges-at-screen-music-awards-as-antony-partos-takes-on-ai/')]),
  dict(title='MMAD \u2013 Futures Radio',desc='World-first \u201cradio rehab\u201d for young Australians in detention centres',
   line='Adult crime = adult time? No. Futures replaces the silence of the cell with positive programming \u2013 and it works.',
   splats=[],
@@ -90,7 +94,11 @@ WORK=[
   line='When life got too much, Monique emailed her family from the airport \u2014 and took off.',
   splats=[],
   bullets=['Launched A Grown-Up\u2019s Gap Year, her unapologetic tale of midlife reinvention.','Secured national Tier 1 coverage and helped propel it to <b>#1 bestseller</b>.','Established Monique as a media go-to on relationships, family, work and running away from it all.'],
-  img=None,link=None),
+  img='monique-van-tulder',link=None,alt='The cover of A Grown-Up\u2019s Gap Year by Monique van Tulder, with the 9honey headline about her book',
+  ext=[('Nine.com.au / 9honey','Fed up with the mental load, Monique drove away from her husband and kids and didn\u2019t return for months','https://www.nine.com.au/lifestyle/grown-up-gap-year-monique-van-tulder-book-exclusive-20250111-p5qp7x.html'),
+       ('The Sydney Morning Herald','Midlife gap years and solo travel: why more mums are opting out of the mental load','https://www.smh.com.au/lifestyle/life-and-relationships/after-years-caring-for-her-family-monique-found-a-new-priority-herself-20250703-p5mc6i.html'),
+       ('Mamamia','The Gap Year That Saved A Marriage','https://www.mamamia.com.au/podcasts/mid/monique-van-tulder-grown-up-gap-year/'),
+       ('Booktopia','A Grown Up\u2019s Gap Year (the book)','https://www.booktopia.com.au/a-grown-up-s-gap-year-monique-van-tulder/book/9781923289543.html')]),
  dict(title='A Lasting Tale',desc='Making every life story count',
   line='Reached more than <b>27 million</b> Australians through launch publicity.',
   splats=[],bullets=[],img='lasting-tale',link='a-lasting-tale'),

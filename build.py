@@ -89,7 +89,7 @@ def volume(quotes, key, heading=True, more=False):
 <div class="volume__controls"><button class="btn btn--sm" type="button" data-volume-next>Next quote →</button><button class="btn btn--sm btn--ghost" type="button" data-volume-pause aria-pressed="false">Pause</button><span class="volume__count">1 / {len(quotes)}</span></div>
 <div class="volume__meter" aria-hidden="true"><div class="volume__fill"></div></div></div>{'<p style="text-align:center;margin-top:36px"><a class="btn btn--ghost" href="/what-people-say/">Hear every voice →</a></p>' if more else ''}</div></section>'''
 def qclips(quotes):
-  cards=''.join(f'''<figure class="qclip" style="--r:{[-1.2,.8,-.5][i%3]}deg"><span class="tape {['tape--p','tape--tt','tape--g'][i%3]}" aria-hidden="true">{pin("left:-14px;top:-12px",-82) if i==1 else ''}</span><blockquote>“{E(q)}”</blockquote><figcaption>{E(w.partition(', ')[0])}<span>{E(w.partition(', ')[2])}</span></figcaption></figure>''' for i,(q,w,pend) in enumerate(quotes))
+  cards=''.join(f'''<figure class="qclip" style="--r:{[-1.2,.8,-.5][i%3]}deg"><span class="tape {['tape--p','tape--tt','tape--g'][i%3]}" aria-hidden="true"></span><blockquote>“{E(q)}”</blockquote><figcaption>{E(w.partition(', ')[0])}<span>{E(w.partition(', ')[2])}</span></figcaption></figure>''' for i,(q,w,pend) in enumerate(quotes))
   return f'''<section class="sec qclips" data-fit-exempt="m" data-fit-reason="three stacked quote cards on mobile" aria-labelledby="qc-h"><div class="wrap"><div class="sec__hd"><div>{kick('','Real words. Real results.','kick--ink')}<h2 id="qc-h">Turn up the volume</h2></div><a class="btn btn--ghost" href="/what-people-say/">Hear every voice →</a></div><div class="qclips__g">{cards}</div></div></section>'''
 TICKS=['World-first legislation','Global conversations','Ideas into impact','Campaigns into action','Front-page headlines']
 def cta_band(home=False,label=None):
@@ -124,12 +124,16 @@ home=hero('We make noise.','That matters.','Some stories get coverage. <span cla
 page('index.html',"WaldeComms | PR that makes noise, Sydney","WaldeComms is a Sydney PR agency that turns businesses into brands people can't ignore.",home,home=True)
 # WORK
 def camp(c,k):
+  assert c['img'] and (c['link'] or c.get('ext')),f"Work card {c['title']} needs an image and a coverage link"
   sp=''.join(f'<li class="stamp" style="--r:{[-6,4,-3][j%3]}deg"><b>{E(n)}</b><span>{E(l)}</span></li>' for j,(n,l) in enumerate(c['splats']))
   qs=''.join(f'<blockquote class="camp__q">{E(q)}</blockquote>' for q in c.get('quotes',[]))
   bl=''.join(f'<li>{x}</li>' for x in c['bullets'])
   tall=c['img'] in ('lasting-tale','noasis')
-  media=(f'<div class="camp__m{" camp__m--tall" if tall else ""}{" camp__m--crop" if c.get("crop") else ""}"><span class="tape{['',' tape--p',' tape--y',' tape--g'][k%4]}" aria-hidden="true"></span><img src="/img/deck-{c["img"]}.webp" alt="{E(c["title"])} coverage collage" loading="lazy" width="{733 if tall else 1467}" height="826"></div>' if c['img'] else '<div class="camp__m camp__m--tartan" aria-hidden="true"><div class="tartan"></div></div>')
-  lk=(f'<a class="lnk" href="/work/{c["link"]}/">See the coverage<span class="sr"> for {E(c["title"])}</span> →</a>' if c['link'] else '')
+  alt=c.get('alt') or f"{c['title']} coverage collage"
+  # every Work image sits in a red tartan frame, held on by one silver safety pin (decorative)
+  media=(f'<div class="camp__m{" camp__m--tall" if tall else ""}{" camp__m--crop" if c.get("crop") else ""} camp__m--p{k%2}"><div class="camp__i"><img src="/img/deck-{c["img"]}.webp" alt="{E(alt)}" loading="lazy" width="{733 if tall else 1467}" height="826"></div>{pin("",78)}</div>')
+  if c['link']:lk=f'<a class="lnk" href="/work/{c["link"]}/">See the coverage<span class="sr"> for {E(c["title"])}</span> \u2192</a>'
+  else:lk='<div class="cov"><p class="cov__h">See the coverage</p><ul class="cov__l">'+''.join(f'<li><a class="lnk" href="{u}" target="_blank" rel="noopener"><b>{E(o)}</b> {E(h)}<span class="sr"> (opens in a new tab)</span> \u2197</a></li>' for o,h,u in c['ext'])+'</ul></div>'
   return f'''<article class="camp{' camp--flip' if k%2 else ''}"><div class="camp__t"><p class="camp__n">No. {k+1:02d}</p><h2>{E(c['title'])}</h2><p class="camp__d">{E(c['desc'])}</p>{f'<p class="camp__l">{c["line"]}</p>' if c['line'] else ''}{f'<ul class="stamps">{sp}</ul>' if sp else ''}{qs}{f'<ul class="camp__b">{bl}</ul>' if bl else ''}{lk}</div>{media}</article>'''
 work=hero('Recent work','that made noise','Coverage is good. Impact is better.',('WORK',''),'rebel')+f'''
 <!-- PENDING PERMISSION: masthead/network names below stand in for masthead logos until usage rights are confirmed -->

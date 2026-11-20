@@ -186,6 +186,17 @@ with sync_playwright() as p:
         check(not rc['muted'] and rc['controls'] and rc['t']<3 and rc['playing'],f'{tag}: Sound on did not unmute and restart with controls {rc}')
         pg.evaluate("document.querySelector('[data-reel] video').pause();scrollTo(0,0)")
     if path=='/work/':check(f['mast'],f'{tag}: masthead row missing from Work')
+    if path=='/work/':
+      pg.evaluate("document.querySelectorAll('img[loading=lazy]').forEach(i=>i.loading='eager')");pg.wait_for_timeout(1500)
+      _wk=pg.evaluate("[...document.querySelectorAll('article.camp')].map(a=>{const m=a.querySelector('.camp__m'),i=m&&m.querySelector('img'),L=[...a.querySelectorAll('.camp__t a')];return {t:a.querySelector('h2').textContent,img:!!i&&i.complete&&i.naturalWidth>0,tartan:!!a.querySelector('.camp__m--tartan'),frame:!!m&&getComputedStyle(m).backgroundImage.includes('tartan-red.svg'),pin:!!(m&&m.querySelector('.pin')),links:L.length,bad:L.filter(l=>/^https?:/.test(l.getAttribute('href'))&&(l.target!=='_blank'||!/noopener/.test(l.rel))).length,li:L.filter(l=>/linkedin/i.test(l.href)).length}})")
+      check(len(_wk)==9 and all(x['img'] and not x['tartan'] for x in _wk),f'{tag}: a Work card has no picture / plain tartan placeholder {[x["t"] for x in _wk if not x["img"] or x["tartan"]]}')
+      check(all(x['links']>=1 and not x['bad'] and not x['li'] for x in _wk),f'{tag}: a Work card has no coverage link, or an outside link lacks target=_blank rel=noopener {[x["t"] for x in _wk if x["links"]<1 or x["bad"]]}')
+      check(all(x['frame'] and x['pin'] for x in _wk),f'{tag}: a Work image is missing its red tartan frame or safety pin {[x["t"] for x in _wk if not (x["frame"] and x["pin"])]}')
+      check(all(sum(1 for x in _wk if x['t']==t and x['links']>=1)==1 for t in ('Sonar Music','Monique van Tulder')),f'{tag}: Sonar/Monique need real coverage links')
+    _tp=pg.evaluate("[...document.querySelectorAll('.tape')].filter(t=>t.getClientRects().length).map(t=>({bg:getComputedStyle(t).backgroundImage,pin:getComputedStyle(t,'::after').backgroundImage.includes('pin.svg'),aria:t.getAttribute('aria-hidden')==='true',txt:t.textContent.trim()}))")
+    check(all('tartan-punk-' in x['bg'] and x['pin'] and x['aria'] and not x['txt'] for x in _tp),f'{tag}: a tape strip is plain, has no safety pin, is not aria-hidden or carries text {[x for x in _tp if not ("tartan-punk-" in x["bg"] and x["pin"])][:2]}')
+    if path=='/':check(len({x['bg'] for x in _tp})>=3,f'{tag}: tape tartans not varied ({len({x["bg"] for x in _tp})} kinds)')
+
     if path=='/contact/':check(not f['niki'],f'{tag}: Niki still on contact page')
     if path=='/services/':
       want=['Social Smart social strategy that keeps the conversation going long after the headlines fade.','Events We love a party, a conference and the occasional hair-brained stunt that gets everyone talking.','Content Words that work. From punchy copy and compelling profiles to thought leadership and stories worth sharing.']
