@@ -128,4 +128,4 @@ NOW_SHOWING=dict(kick='Now showing',title='NeonDynamo: Time: Warped',text='Where
 REEL=dict(kick='Showreel',h2a='Watch the',h2b='REEL',btn='Sound on',aria='WaldeComms showreel',sm='/video/reel-720.mp4',lg='/video/reel-1080.mp4',poster='/img/reel-poster.jpg')
 
 # TEMP hero bubble: speech bubble from Niki's megaphone on Home. Set to None to remove it. (Nick: temporary.)
-HERO_BUBBLE="I never show up when I say I will"
+HERO_BUBBLE=None
