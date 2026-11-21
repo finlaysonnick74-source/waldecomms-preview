@@ -2,7 +2,7 @@
 import html
 E=html.escape
 # CONTACT: PLACEHOLDER. The deck has no email/phone. Confirm Niki's real address + number, then set PHONE.
-EMAIL='hello@waldecomms.com'  # confirmed
+EMAIL='niki@waldecomms.com'  # confirmed
 INSTAGRAM='https://instagram.com/waldecomms'
 PHONE=('+61410898863','0410 898 863')
 NAV=[('/work/','Work'),('/services/','Services'),('/noise-makers/','Noise-Makers'),('/what-people-say/','What People Say'),('/contact/','Contact')]
