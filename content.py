@@ -115,7 +115,7 @@ SERVICES=[
 ]
 
 # ---- Westwood Zine redesign (19 Nov 2026): small UI copy, all in one place ----
-HOME_KICK=('PR','Sydney')   # ransom tiles + label (the old "Communications & content · Sydney" tagline stays deleted)
+HOME_KICK=('PR','Australia')   # ransom tiles + label (the old "Communications & content · Sydney" tagline stays deleted)
 PIN_NOTE='That\u2019s Niki Waldegrave \u00b7 Noise with impact'
 CLIPPINGS_H='The clippings'
 MASTHEADS=['Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List']  # PENDING PERMISSION: names stand in for masthead logos

@@ -62,7 +62,7 @@ def page(path,title,desc,body,cur='',home=False):
 <a class="mnav-open" href="#mmenu" role="button" aria-expanded="false" aria-controls="mmenu" aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="mnav-l">Menu</span></a></div></div><div class="tartan" aria-hidden="true">{pin("left:26px",84)}</div></header>
 <div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Site menu"><div class="mmenu__top"><img src="/img/waldecomms-lockup-white.svg?v={LOGOV}" alt="" width="207" height="46"><a class="mmenu__close" href="#" role="button" aria-label="Close menu">Close ✕</a></div><nav aria-label="Mobile"><a href="/"{' aria-current="page"' if cur=='/' else ''}>Home</a>{''.join(f'<a href="{h}"{chr(32)+chr(97)+"ria-current="+chr(34)+"page"+chr(34) if h==cur else ""}>{t}</a>' for h,t in NAV)}</nav><a class="btn btn--teal mmenu__cta" href="/contact/">Make noise →</a></div>
 <main id="main">{body}</main>
-<div class="tt" aria-hidden="true">{pin("right:22px",-76,True)}</div><footer class="ftr"><div class="wrap ftr__in"><div><img class="ftr__lock" src="/img/waldecomms-lockup-white.svg?v={LOGOV}" alt="WaldeComms" width="272" height="60"><p>Communications &amp; content, Sydney.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p><p><a href="{INSTAGRAM}" rel="noopener" target="_blank">Instagram @waldecomms</a></p></div>
+<div class="tt" aria-hidden="true">{pin("right:22px",-76,True)}</div><footer class="ftr"><div class="wrap ftr__in"><div><img class="ftr__lock" src="/img/waldecomms-lockup-white.svg?v={LOGOV}" alt="WaldeComms" width="272" height="60"><p>Communications &amp; content, Australia-wide.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p><p><a href="{INSTAGRAM}" rel="noopener" target="_blank">Instagram @waldecomms</a></p></div>
 <nav aria-label="Footer"><a href="/">Home</a>{''.join(f'<a href="{h}">{t}</a>' for h,t in NAV)}</nav>
 <div><p class="ftr__h">Ready to make noise?</p><a class="btn btn--teal" href="/contact/">Brief us →</a><p><small>© 2026 WaldeComms</small></p></div></div></footer>
 <div class="lb" role="dialog" aria-modal="true" aria-label="Viewer"><button class="btn btn--teal btn--sm" type="button">Close ✕</button></div>
@@ -121,7 +121,7 @@ home=hero('We make noise.','That matters.','Some stories get coverage. <span cla
 <div class="tt" aria-hidden="true">{pin("right:40px",-82,True)}</div>
 {qclips(QUOTES[:3])}
 {cta_band(True)}'''
-page('index.html',"WaldeComms | PR that makes noise, Sydney","WaldeComms is a Sydney PR agency that turns businesses into brands people can't ignore.",home,home=True)
+page('index.html',"WaldeComms | PR that makes noise, Australia-wide","WaldeComms is an Australian PR agency that turns businesses into brands people can't ignore.",home,home=True)
 # WORK
 def camp(c,k):
   assert c['img'] and (c['link'] or c.get('ext')),f"Work card {c['title']} needs an image and a coverage link"
@@ -176,7 +176,7 @@ tst=hero('What people say','Turn up the volume','The voices behind the results, 
 {volume(QUOTES,'all-volume',heading=False)}{cta_band()}'''
 page('what-people-say/index.html','What people say | WaldeComms','Testimonials from AUSactive, Nova, Sunrise, the Today Show, Urban List and more.',tst,'/what-people-say/')
 # CONTACT
-con=hero('Let’s talk','Make noise','Email Niki and the team directly:',('CONTACT',''),extra=f'<p style="margin-top:14px">{contact_links("big-link")}</p><p style="margin-top:14px"><a class="big-link" href="{INSTAGRAM}" rel="noopener" target="_blank">Instagram @waldecomms</a></p><p style="margin-top:14px">Sydney, Australia</p>')+f'''
+con=hero('Let’s talk','Make noise','Email Niki and the team directly:',('CONTACT',''),extra=f'<p style="margin-top:14px">{contact_links("big-link")}</p><p style="margin-top:14px"><a class="big-link" href="{INSTAGRAM}" rel="noopener" target="_blank">Instagram @waldecomms</a></p><p style="margin-top:14px">Australia-wide</p>')+f'''
 <section class="sec" data-fit-exempt="all" data-fit-reason="contact form"><div class="wrap"><h2>Brief us</h2><p class="lead" style="margin:12px 0 28px">Fill this in and it opens as an email to us, ready to send.</p>
 <form class="form" data-mailto="{EMAIL}" name="brief"><label>Your name<input name="name" required autocomplete="name"></label><label>Company<input name="company" autocomplete="organization"></label><label>Email<input name="email" type="email" required autocomplete="email"></label>
 <label>What do you need?<select name="need"><option>Media relations</option><option>Content</option><option>Social</option><option>AI strategy</option><option>Events</option><option>Not sure yet</option></select></label><label>The story<textarea name="story" rows="5" required></textarea></label><button class="btn" type="submit">Send the brief →</button><p class="msg" aria-live="polite"></p></form></div></section>'''
