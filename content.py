@@ -126,3 +126,6 @@ CASE_POSE={'36-months':'rebel','a-lasting-tale':'rebel','national-expansion':'re
 NOW_SHOWING=dict(kick='Now showing',title='NeonDynamo: Time: Warped',text='Where Vivid meets Glastonbury. When Vivid Sydney\u2019s Time: Warped turned Argyle Cut into a rave, we turned it into mainstream front-page news.',youtube='TSCt61_0Z-E',cap='Play the video')
 # Showreel (Home). Files in /video, poster in /img.
 REEL=dict(kick='Showreel',h2a='Watch the',h2b='REEL',btn='Sound on',aria='WaldeComms showreel',sm='/video/reel-720.mp4',lg='/video/reel-1080.mp4',poster='/img/reel-poster.jpg')
+
+# TEMP hero bubble: speech bubble from Niki's megaphone on Home. Set to None to remove it. (Nick: temporary.)
+HERO_BUBBLE="I never show up when I say I will"

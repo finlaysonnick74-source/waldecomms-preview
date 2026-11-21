@@ -40,10 +40,10 @@ def kick(tiles,label='',cls=''):
 def figure(pose,cls='hero__me',patch=False,eager=True):
   f,alt=POSES[pose]
   return f'<figure class="{cls}"><div class="halo" aria-hidden="true"></div>{"<div class=\"patch tartan\" aria-hidden=\"true\"></div>" if patch else ""}<img src="/img/{f}" alt="{E(alt)}" width="1024" height="1536" data-pose="{pose}"{" fetchpriority=\"high\"" if eager else " loading=\"lazy\""}></figure>'
-def hero(h1a,h1b,sub='',k=('',''),pose=None,extra='',patch=False,video=False):
+def hero(h1a,h1b,sub='',k=('',''),pose=None,extra='',patch=False,video=False,bubble=None):
   if video:
     f,alt=POSES[pose]
-    fig=f'<figure class="hero__me hero__me--vid"><video class="hero__vid" autoplay muted loop playsinline preload="auto" poster="/img/{f}" width="720" height="1226" aria-label="{E(alt)}" data-pose="{pose}"><source src="/video/niki-hero-loop-alpha.webm" type="video/webm; codecs=vp9"></video><img class="hero__still" src="/img/{f}" alt="{E(alt)}" width="1024" height="1536" data-pose="{pose}"></figure>'
+    fig=f'<figure class="hero__me hero__me--vid"><video class="hero__vid" autoplay muted loop playsinline preload="auto" poster="/img/{f}" width="720" height="1226" aria-label="{E(alt)}" data-pose="{pose}"><source src="/video/niki-hero-loop-alpha.webm" type="video/webm; codecs=vp9"></video><img class="hero__still" src="/img/{f}" alt="{E(alt)}" width="1024" height="1536" data-pose="{pose}">{f'<p class="tbub" data-hero-bubble>{E(bubble)}</p>' if bubble else ''}</figure>'
   else: fig=figure(pose,patch=patch) if pose else ''
   return f'''<section class="hero{'' if pose else ' hero--plain'}{' hero--video' if video else ''}"><div class="wrap hero__in"><div class="hero__t">{kick(*k)}<h1 class="h1"><span class="h1__a">{h1a}</span> <span class="h1__b">{h1b}</span></h1>{f'<p class="sub">{sub}</p>' if sub else ''}{extra}</div>{fig}</div></section>'''
 def page(path,title,desc,body,cur='',home=False):
@@ -107,7 +107,7 @@ def reel():
 # HOME
 HOME_CASES=list(CASES)  # all 7, as on live
 home=hero('We make noise.','That matters.','Some stories get coverage. <span class="hl hl--p">Some change everything.</span>',HOME_KICK,'instigator',
-  extra=f'<div class="ctas"><a class="btn" href="/work/" data-cta>See the work →</a></div><p class="pinnote"><span class="pin-ico" aria-hidden="true"></span>{E(PIN_NOTE)}</p>',video=True)+f'''
+  extra=f'<div class="ctas"><a class="btn" href="/work/" data-cta>See the work →</a></div><p class="pinnote"><span class="pin-ico" aria-hidden="true"></span>{E(PIN_NOTE)}</p>',video=True,bubble=HERO_BUBBLE)+f'''
 <section class="band" aria-label="WaldeComms in numbers"><div class="wrap band__in"><p><b>2.3B</b><span>media impressions for one campaign alone</span></p><p><b>14+</b><span>international awards</span></p></div></section>
 <div class="tt" aria-hidden="true">{pin("left:26px",72)}</div>
 {reel()}

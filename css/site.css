@@ -363,3 +363,10 @@ html.menu-open body{position:fixed;left:0;right:0;width:100%}
 .tape .pin{margin-top:0}
 .clip>.pin{margin-top:0;z-index:7}
 @media (max-width:820px){.pin--d{display:none}}
+
+/* TEMP hero bubble (remove this block + HERO_BUBBLE in content.py) */
+.tbub{position:absolute;z-index:6;right:86%;top:-7%;width:max-content;max-width:300px;margin:0;padding:12px 16px 10px;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:18px 22px 20px 6px;box-shadow:5px 5px 0 var(--pink);font:400 26px/1.05 var(--d);text-transform:uppercase;letter-spacing:.01em;transform:rotate(-3deg);pointer-events:none}
+.tbub::before{content:"";position:absolute;left:78%;top:100%;width:34px;height:40px;margin-top:-3px;background:var(--ink);clip-path:polygon(0 0,100% 100%,60% 0)}
+.tbub::after{content:"";position:absolute;left:78%;top:100%;width:34px;height:40px;margin:-6px 0 0 -1px;background:#fff;clip-path:polygon(4% 0,86% 88%,56% 0)}
+@media (max-width:820px){.tbub{right:auto;left:10px;top:-24px;max-width:178px;font-size:17px;padding:7px 11px 5px}.tbub::before,.tbub::after{left:12%;width:26px;height:30px}.tbub::before{clip-path:polygon(100% 0,0 100%,40% 0)}.tbub::after{clip-path:polygon(96% 0,14% 88%,44% 0)}}
+/* /TEMP hero bubble */

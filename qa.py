@@ -105,6 +105,11 @@ with sync_playwright() as p:
     o=pg.evaluate(PAGEJS)
     check(not errs,f'{tag}: console/page errors {errs[:2]}')
     check(not o['tall'],f'{tag}: section taller than screen {o["tall"]}')
+    if path=='/':
+     import content as _ct
+     _bb=pg.evaluate("(()=>{const b=document.querySelector('[data-hero-bubble]');if(!b)return null;const r=b.getBoundingClientRect(),t=document.querySelector('.hero__t h1').getBoundingClientRect(),i=document.querySelector('.hero__vid,.hero__still').getBoundingClientRect();return {txt:b.textContent,l:r.left,rt:r.right,t:r.top,b:r.bottom,w:innerWidth,h1b:t.bottom,h1r:t.right}})()")
+     if _ct.HERO_BUBBLE:check(bool(_bb) and _bb['txt']==_ct.HERO_BUBBLE and _bb['l']>=0 and _bb['rt']<=_bb['w'],f'{tag}: TEMP hero bubble missing/offscreen {_bb}')
+     else:check(_bb is None,f'{tag}: hero bubble present though disabled')
     check(not o['wide'],f'{tag}: element wider than screen {o["wide"][:3]}')
     check(not o['niki'],f'{tag}: Niki taller than screen {o["niki"]}')
     check(not o['mq'],f'{tag}: marquee name wraps {o["mq"]}')
