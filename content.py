@@ -2,8 +2,9 @@
 import html
 E=html.escape
 # CONTACT: PLACEHOLDER. The deck has no email/phone. Confirm Niki's real address + number, then set PHONE.
-EMAIL='hello@waldecomms.com'  # UNCONFIRMED: Niki isn't sure this mailbox exists
-PHONE=None  # e.g. ('+614xxxxxxxx','04xx xxx xxx') once confirmed
+EMAIL='hello@waldecomms.com'  # confirmed
+INSTAGRAM='https://instagram.com/waldecomms'
+PHONE=('+61410898863','0410 898 863')
 NAV=[('/work/','Work'),('/services/','Services'),('/noise-makers/','Noise-Makers'),('/what-people-say/','What People Say'),('/contact/','Contact')]
 import json as _json, os as _os
 COV=_json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','coverage','coverage.json'))) if _os.path.exists(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','coverage','coverage.json')) else _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'coverage.json')))

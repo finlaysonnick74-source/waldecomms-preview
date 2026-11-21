@@ -22,7 +22,7 @@ from content import *  # all copy/data lives in content.py
 STALEGUARD='''<script>(function(){try{var v=document.querySelector('meta[name=wc-ver]').content,k='wcv-'+location.pathname;fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="wc-ver" content="([0-9a-f]+)"/);if(m&&m[1]!==v&&sessionStorage.getItem(k)!==m[1]){sessionStorage.setItem(k,m[1]);var q=new URLSearchParams(location.search);q.set('v',m[1]);location.replace(location.pathname+'?'+q+location.hash)}})}catch(e){}})()</script>'''
 def contact_links(cls=''):
   s=f'<a class="{cls}" href="mailto:{EMAIL}?subject=Ready%20to%20make%20noise">{EMAIL}</a>'
-  if PHONE: s+=f' <a class="{cls}" href="tel:{PHONE[0]}">{PHONE[1]}</a>'
+  if PHONE: s+=f' <a class="{cls}" style="white-space:nowrap" href="tel:{PHONE[0]}">{PHONE[1]}</a>'
   return s
 def ransom(text):
   rots=[-3,2,-1.5,3,-2,1,-2.5,2.5];k=0;words=[]
@@ -62,7 +62,7 @@ def page(path,title,desc,body,cur='',home=False):
 <a class="mnav-open" href="#mmenu" role="button" aria-expanded="false" aria-controls="mmenu" aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="mnav-l">Menu</span></a></div></div><div class="tartan" aria-hidden="true">{pin("left:26px",84)}</div></header>
 <div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Site menu"><div class="mmenu__top"><img src="/img/waldecomms-lockup-white.svg?v={LOGOV}" alt="" width="207" height="46"><a class="mmenu__close" href="#" role="button" aria-label="Close menu">Close ✕</a></div><nav aria-label="Mobile"><a href="/"{' aria-current="page"' if cur=='/' else ''}>Home</a>{''.join(f'<a href="{h}"{chr(32)+chr(97)+"ria-current="+chr(34)+"page"+chr(34) if h==cur else ""}>{t}</a>' for h,t in NAV)}</nav><a class="btn btn--teal mmenu__cta" href="/contact/">Make noise →</a></div>
 <main id="main">{body}</main>
-<div class="tt" aria-hidden="true">{pin("right:22px",-76,True)}</div><footer class="ftr"><div class="wrap ftr__in"><div><img class="ftr__lock" src="/img/waldecomms-lockup-white.svg?v={LOGOV}" alt="WaldeComms" width="272" height="60"><p>Communications &amp; content, Sydney.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p></div>
+<div class="tt" aria-hidden="true">{pin("right:22px",-76,True)}</div><footer class="ftr"><div class="wrap ftr__in"><div><img class="ftr__lock" src="/img/waldecomms-lockup-white.svg?v={LOGOV}" alt="WaldeComms" width="272" height="60"><p>Communications &amp; content, Sydney.<br>Some stories get coverage. Some change everything.</p><p>{contact_links()}</p><p><a href="{INSTAGRAM}" rel="noopener" target="_blank">Instagram @waldecomms</a></p></div>
 <nav aria-label="Footer"><a href="/">Home</a>{''.join(f'<a href="{h}">{t}</a>' for h,t in NAV)}</nav>
 <div><p class="ftr__h">Ready to make noise?</p><a class="btn btn--teal" href="/contact/">Brief us →</a><p><small>© 2026 WaldeComms</small></p></div></div></footer>
 <div class="lb" role="dialog" aria-modal="true" aria-label="Viewer"><button class="btn btn--teal btn--sm" type="button">Close ✕</button></div>
@@ -176,8 +176,7 @@ tst=hero('What people say','Turn up the volume','The voices behind the results, 
 {volume(QUOTES,'all-volume',heading=False)}{cta_band()}'''
 page('what-people-say/index.html','What people say | WaldeComms','Testimonials from AUSactive, Nova, Sunrise, the Today Show, Urban List and more.',tst,'/what-people-say/')
 # CONTACT
-con=hero('Let’s talk','Make noise','Email Niki and the team directly:',('CONTACT',''),extra=f'<p style="margin-top:14px">{contact_links("big-link")}</p>')+f'''
-<!-- PLACEHOLDER CONTACT: deck has no email/phone. Confirm before launch; add tel: link via PHONE in content.py -->
+con=hero('Let’s talk','Make noise','Email Niki and the team directly:',('CONTACT',''),extra=f'<p style="margin-top:14px">{contact_links("big-link")}</p><p style="margin-top:14px"><a class="big-link" href="{INSTAGRAM}" rel="noopener" target="_blank">Instagram @waldecomms</a></p><p style="margin-top:14px">Sydney, Australia</p>')+f'''
 <section class="sec" data-fit-exempt="all" data-fit-reason="contact form"><div class="wrap"><h2>Brief us</h2><p class="lead" style="margin:12px 0 28px">Fill this in and it opens as an email to us, ready to send.</p>
 <form class="form" data-mailto="{EMAIL}" name="brief"><label>Your name<input name="name" required autocomplete="name"></label><label>Company<input name="company" autocomplete="organization"></label><label>Email<input name="email" type="email" required autocomplete="email"></label>
 <label>What do you need?<select name="need"><option>Media relations</option><option>Content</option><option>Social</option><option>AI strategy</option><option>Events</option><option>Not sure yet</option></select></label><label>The story<textarea name="story" rows="5" required></textarea></label><button class="btn" type="submit">Send the brief →</button><p class="msg" aria-live="polite"></p></form></div></section>'''
