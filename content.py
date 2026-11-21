@@ -111,11 +111,10 @@ WORK=[
 _WO=['36 Months','AUSactive','Sonar Music','NeonDynamo','The Sundays, Hamilton Island','NOASIS','MMAD \u2013 Futures Radio','Monique van Tulder','A Lasting Tale']
 WORK=[{c['title']:c for c in WORK}[k] for k in _WO]
 
-# Services blocks (copy from Niki, 30 Oct 2026)
+# Services blocks (copy from Niki, 30 Oct 2026). Social removed 21 Nov 2026 (Niki: no crisis comms or social media management; project work only)
 SERVICES=[
  ('Shape the news','Sharp news sense and premium contacts, so the story is told your way.'),
  ('Dominate the headlines','Precision execution that turns coverage into impact.'),
- ('Social','Smart social strategy that keeps the conversation going long after the headlines fade.'),
  ('Events','We love a party, a conference and the occasional hair-brained stunt that gets everyone talking.'),
  ('Content','Words that work. From punchy copy and compelling profiles to thought leadership and stories worth sharing.'),
 ]
