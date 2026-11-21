@@ -371,3 +371,10 @@ html.menu-open body{position:fixed;left:0;right:0;width:100%}
 .tbub::after{content:"";position:absolute;left:78%;top:100%;width:34px;height:40px;margin:-6px 0 0 -1px;background:#fff;clip-path:polygon(4% 0,86% 88%,56% 0)}
 @media (max-width:820px){.tbub{right:auto;left:10px;top:-24px;max-width:178px;font-size:17px;padding:7px 11px 5px}.tbub::before,.tbub::after{left:12%;width:26px;height:30px}.tbub::before{clip-path:polygon(100% 0,0 100%,40% 0)}.tbub::after{clip-path:polygon(96% 0,14% 88%,44% 0)}}
 /* /TEMP hero bubble */
+/* Niki's changes, 21 Nov 2026 */
+.hero--video .kick .rt--1{background:var(--yellow)}
+.hdr-cta .btn,.mmenu__cta{background:var(--yellow);color:var(--ink);border-color:var(--ink)}
+.hdr-cta .btn:hover,.mmenu__cta:hover{background:var(--yellow);border-color:var(--ink);box-shadow:7px 7px 0 var(--ink)}
+.sub--home{font-family:var(--m);font-style:normal;font-weight:700;letter-spacing:-.01em}
+.tm img{filter:none}
+.big-link[href^="mailto"],.ftr a[href^="mailto"]{overflow-wrap:normal;word-break:keep-all;white-space:nowrap}

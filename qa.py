@@ -89,7 +89,7 @@ def _parity():
     check(len(want)>=(1 if 'contact' in pth else 4),f'parity {pth}: could not read live content ({len(want)} items)')
   for _w in ['7,000+','Cannes Lion','UN General Assembly','241M','425 million','Screen Music Award','3 million','MMAD','Futures Radio','Monique van Tulder']:check(_w in open(os.path.join(_here,'work','index.html')).read(),f'parity /work/: {_w} missing')
   _hm=open(os.path.join(_here,'index.html')).read()
-  for _w in ['500+','27M reach','$80k new business','#1','World-first','Oasis reunion','Vivid + NYE','Million Moves','Fit for Office','Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List','Wipfli','Albanese','Barrie']:check(_w in _hm.replace('&amp;','&'),f'parity /: {_w} missing from Home')
+  for _w in ['500+','27M reach','$80k new business','#1','World-first','Oasis reunion','Vivid + NYE','Million Moves','Fit for Office','Sunrise','Today Show','Nova','Channel 9','AFR Weekend','Good Weekend','Urban List','Wipfli','Albanese','Campanaro']:check(_w in _hm.replace('&amp;','&'),f'parity /: {_w} missing from Home')
 if '--no-parity' not in A:_parity()
 with sync_playwright() as p:
  for br in BROWSERS:
@@ -142,7 +142,7 @@ with sync_playwright() as p:
     if _cm and path in('/','/noise-makers/','/work/'):
       for _k in ORIG:
         _r=pg.request.get(BASE+'/img/'+_k);check(_r.ok and md5(_r.body())==_cm[_k],f'{tag}: served img/{_k} differs from original character file')
-    if f['q']:check('Wippa' in f['q'][0] and 'Albanese' in (f['q'][1:2] or [''])[0] and 'Barrie' in (f['q'][2:3] or [''])[0],f'{tag}: quote order not Wippa, Albanese, Barrie {f["q"]}')
+    if f['q']:check('Wippa' in f['q'][0] and 'Albanese' in (f['q'][1:2] or [''])[0] and 'Campanaro' in (f['q'][2:3] or [''])[0],f'{tag}: quote order not Wippa, Albanese, Campanaro {f["q"]}')
     if path=='/':
       check(not f['tag'],f'{tag}: deleted tagline still on home');check(not f['mq'],f'{tag}: marquee still on home')
       check(f['ns']=='TSCt61_0Z-E',f'{tag}: NeonDynamo Now showing missing {f["ns"]}')
@@ -219,7 +219,7 @@ with sync_playwright() as p:
       check(pg.evaluate("[...document.querySelectorAll('.tm h3')].map(h=>h.textContent).join('|')")=='NIKI|LEE|ELOISE|RISHAM',f'{tag}: team is not Niki|Lee|Eloise|Risham')
       check(pg.evaluate("[...document.querySelectorAll('.tm__t')].map(h=>h.textContent).join('|')")=='NOISE WITH IMPACT|DATA KING + AI WIZARD|ENGINE BEHIND THE OUTREACH|STORYTELLER + BRAND SPECIALIST',f'{tag}: team titles wrong')
     if path=='/work/':
-      check(pg.evaluate("[...document.querySelectorAll('.camp h2')].map(h=>h.textContent).join('|')")=='36 Months|AUSactive|The Sundays, Hamilton Island|NeonDynamo|Sonar Music|MMAD \u2013 Futures Radio|NOASIS|Monique van Tulder|A Lasting Tale',f'{tag}: campaigns not in Niki\'s order')
+      check(pg.evaluate("[...document.querySelectorAll('.camp h2')].map(h=>h.textContent).join('|')")=='36 Months|AUSactive|Sonar Music|NeonDynamo|The Sundays, Hamilton Island|NOASIS|MMAD \u2013 Futures Radio|Monique van Tulder|A Lasting Tale',f'{tag}: campaigns not in Niki\'s order')
       check(not pg.evaluate("[...document.querySelectorAll('.camp')].some(c=>{const r=c.querySelector('.camp__m').getBoundingClientRect(),t=c.querySelector('.camp__t').getBoundingClientRect();return r.height>innerHeight})"),f'{tag}: a campaign image is taller than the screen')
     check(o['meta'][0],f'{tag}: no-cache meta missing');vers.add(o['meta'][1])
     check(not o['unver'],f'{tag}: unversioned refs {o["unver"][:3]}')

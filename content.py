@@ -4,12 +4,12 @@ E=html.escape
 # CONTACT: PLACEHOLDER. The deck has no email/phone. Confirm Niki's real address + number, then set PHONE.
 EMAIL='niki@waldecomms.com'  # confirmed
 INSTAGRAM='https://instagram.com/waldecomms'
-PHONE=('+61410898863','0410 898 863')
+PHONE=None  # Niki 21 Nov 2026: number removed from the site
 NAV=[('/work/','Work'),('/services/','Services'),('/noise-makers/','Noise-Makers'),('/what-people-say/','What People Say'),('/contact/','Contact')]
 import json as _json, os as _os
 COV=_json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','coverage','coverage.json'))) if _os.path.exists(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','coverage','coverage.json')) else _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'coverage.json')))
 CASES=[
- dict(slug='hamilton-island',title='Hamilton Island',tape='Island of paradise',tags='travel',tag='Travel',img='hamilton-island',stat='#1',statl="Australia's most Google-searched destination, 2025",
+ dict(slug='hamilton-island',title='The Sundays, Hamilton Island',tape='Island of paradise',tags='travel',tag='Travel',img='hamilton-island',stat='#1',statl="Australia's most Google-searched destination, 2025",
   line="Helped Hamilton Island become Australia's #1 Google searched destination in 2025.",
   coverage=["Sunrise: “Island of Paradise”","AFR Weekend","“No trouble in paradise: Oatleys dig in on island”"],counters=[('#1','',"Google-searched destination in Australia, 2025")]),
  dict(slug='million-moves-ausactive',title='AUSactive & Million Moves',tape='Fit for Office',tags='health',tag='Health / Fitness',img='million-moves',stat='Million Moves',statl='+ Fit for Office campaigns for AUSactive',
@@ -29,18 +29,20 @@ CASES=[
   line="36 Months: the campaign that drove Australia's landmark world-first legislation change.",
   quote=("WaldeComms are weapons. Gritty hustlers who know the media landscape inside out and pitch like machines. They were mission critical in the success of 36 Months driving Australia’s landmark world-first legislation change.","Michael “Wippa” Wipfli, Nova host & 36 Months co-founder"),
   coverage=['14 international awards','7,000 stories','2.3 billion impressions'],counters=[(14,'','international awards'),(7000,'','stories'),(2.3,' billion','impressions')]),
- dict(slug='national-expansion',title='National Expansion',tape='500+ stories',tags='expansion',tag='Expansion',img='national-expansion',stat='500+',statl='stories',
+ dict(slug='national-expansion',title='Music Making a Difference',tape='500+ stories',tags='expansion',tag='Expansion',img='national-expansion',stat='500+',statl='stories',
   line='A national expansion pushed into 500+ stories.',
   coverage=['Futures','“Music saved me”','Mouse Man'],counters=[(500,'+','stories')]),
 ]
+# Clippings order (Niki, 21 Nov 2026). A Lasting Tale wasn't in her list, so it stays last.
+_CO=['36-months','million-moves-ausactive','neon-dynamo-sonar-music','national-expansion','hamilton-island','noasis','a-lasting-tale']
+CASES=[{c['slug']:c for c in CASES}[k] for k in _CO]
 FILTERS=[('all','All'),('travel','Travel'),('health','Health / Fitness'),('music','Music / Events'),('impact','Social impact'),('expansion','Expansion')]
 # QUOTES: Albanese (PM), Sunrise, Today Show quotes are PENDING PERMISSION to publish (see site-plan.md). Shown for v1 review only.
 QUOTES=[
  ("WaldeComms are weapons. Gritty hustlers who know the media landscape inside out and pitch like machines. They were mission critical in the success of 36 Months driving Australia’s landmark world-first legislation change.","Michael “Wippa” Wipfli, Nova host & 36 Months co-founder",False),
  ("Thank you again for all the commitment, determination and energy you have poured into 36 Months. You are making a difference, one that will change so many lives for the better.","Anthony Albanese, Prime Minister",True),
- ("WaldeComms are absolute PR guns of the highest calibre. Creative, persistent and lateral thinkers, they were the driving force behind the success of our Million Moves and Fit for Office campaigns.","Barrie Elvish, CEO, AUSactive",False),
+ ("Niki and the team at WaldeComms were enthusiastic, determined and refreshingly creative in the way they pitched and presented NeonDynamo and our hero projects. They came up with fresh angles and secured us incredible coverage, domestically and internationally. The SMH front cover – I mean... how can you top that?!","Heath Campanaro, NeonDynamo",False),
  ("I wanted to say a big thank you for Saturday, was such a pleasure! Only YOU could find Guinness World Record-holding sheep, miniature ponies and a llama with just 24 hours’ notice! We really appreciate you bringing all the animals down from the Hunter Valley. It made our year – looking forward to the next one!","Ashleigh McCurtayne, Producer, Sunrise",True),
- ("Thank you so much for your help in coordinating today’s segment! Sarah and Jayne loved talking to Kathryn. It was such a great segment and an important chat.","Ruby Busutti, Producer, Today Show",True),
  ("Oh my goodness, what a weekend! I will treasure these memories for life! There are so many places this news can go. Thank you so much for going the extra mile to make it so special, and the fun times throughout!","Susannah George, Founder, Urban List",False),
  ("Thank you for putting my name to Channel 9. I’m now flooded with enquiries wanting to join my classes. This has made my 21-year effort serving the community worthwhile.","Dominic Yam, 88, Tai Chi Teacher",False),
 ]
@@ -83,18 +85,18 @@ WORK=[
        ('ABC News','Tales from Outer Suburbia composers win big at 2026 Screen Music Awards','https://www.abc.net.au/news/2026-10-28/screen-music-awards-winners-2026/107289982'),
        ('Campaign Brief','Composers wear Human Made badges at Screen Music Awards as Antony Partos takes on AI','https://campaignbrief.com/composers-wear-human-made-badges-at-screen-music-awards-as-antony-partos-takes-on-ai/')]),
  dict(title='MMAD \u2013 Futures Radio',desc='World-first \u201cradio rehab\u201d for young Australians in detention centres',
-  line='Adult crime = adult time? No. Futures replaces the silence of the cell with positive programming \u2013 and it works.',
+  line='<em>Straight Outta Cobham.</em> Into the National Conversation.',
   splats=[],
-  quotes=['\u201cIt only takes one person to believe in you \u2013 I never had that until Futures\u201d','\u201cIf it wasn\u2019t for Music Making a Difference, I wouldn\u2019t be here\u201d'],
-  bullets=['Launched Futures \u201cStraight Outta Cobham\u201d with blanket Tier 1 coverage','Secured NSW Youth Justice Minister Jihad Dib and Tupac\u2019s friend, \u2018Mouseman\u2019','<b>500+ stories</b> helped national expansion; their voices changed perceptions #proud'],
+  quotes=['\u201cIt only takes one person to believe in you \u2013 I never had that until Futures\u201d'],
+  bullets=['<b>500+ stories</b> for a launch with a powerful message.','Brought Mouseman and NSW Youth Justice Minister Jihad Dib together.','From youth detention to national expansion \u2014 giving young voices a platform.','Adult crime, adult time? No, replace the silence of the cell with \u201crehab radio\u201d.'],
   img='national-expansion',link='national-expansion'),
  dict(title='NOASIS',desc='Australia\u2019s supersonic rock n roll family half the world away',
-  line='A baker by day, when he takes the stage, he turns into his father\u2019s older brother as Noel Gallagher \u2013 IYKYK',
+  line='A baker by day, when he takes the stage, Tom Spiby turns into his father Darren\u2019s (Liam\u2019s) older brother, Noel Gallagher \u2013 IYKYK.',
   splats=[],bullets=[],img='noasis',link='noasis'),  # FLAG: Niki's NOASIS bullets are garbled, so only the descriptor and baker line are shown
  dict(title='Monique van Tulder',desc='From family breakdown to bestseller',
-  line='When life got too much, Monique emailed her family from the airport \u2014 and took off.',
+  line='At 53. It all got too much. She ran away. Became a bestseller.',
   splats=[],
-  bullets=['Launched A Grown-Up\u2019s Gap Year, her unapologetic tale of midlife reinvention.','Secured national Tier 1 coverage and helped propel it to <b>#1 bestseller</b>.','Established Monique as a media go-to on relationships, family, work and running away from it all.'],
+  bullets=['Turned a midlife escape into a media sensation.','Launched A Grown-Up\u2019s Gap Year, her unapologetic tale of midlife reinvention, to <b>#1 bestseller</b> status.','From runaway mum to sought-after media commentator.'],
   img='monique-van-tulder',link=None,alt='The cover of A Grown-Up\u2019s Gap Year by Monique van Tulder, with the 9honey headline about her book',
   ext=[('Nine.com.au / 9honey','Fed up with the mental load, Monique drove away from her husband and kids and didn\u2019t return for months','https://www.nine.com.au/lifestyle/grown-up-gap-year-monique-van-tulder-book-exclusive-20250111-p5qp7x.html'),
        ('The Sydney Morning Herald','Midlife gap years and solo travel: why more mums are opting out of the mental load','https://www.smh.com.au/lifestyle/life-and-relationships/after-years-caring-for-her-family-monique-found-a-new-priority-herself-20250703-p5mc6i.html'),
@@ -104,6 +106,10 @@ WORK=[
   line='Reached more than <b>27 million</b> Australians through launch publicity.',
   splats=[],bullets=[],img='lasting-tale',link='a-lasting-tale'),
 ]
+
+# Work page order (Niki, 21 Nov 2026): 36 Months, AUSactive, Sonar Music, NeonDynamo, The Sundays, Hamilton Island, NOASIS, MMAD – Futures Radio. Monique and A Lasting Tale weren't in her list, so they follow.
+_WO=['36 Months','AUSactive','Sonar Music','NeonDynamo','The Sundays, Hamilton Island','NOASIS','MMAD \u2013 Futures Radio','Monique van Tulder','A Lasting Tale']
+WORK=[{c['title']:c for c in WORK}[k] for k in _WO]
 
 # Services blocks (copy from Niki, 30 Oct 2026)
 SERVICES=[

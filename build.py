@@ -114,13 +114,14 @@ home=hero('We make noise.','That matters.','Some stories get coverage. <span cla
 <div class="tt tt--thin" aria-hidden="true"></div>
 {now_showing()}
 <section class="sec sec--yellow" aria-labelledby="ci-h"><div class="wrap">{kick('','Recent work that made noise','kick--ink')}<h2 id="ci-h" class="sr">Coverage is good. Impact is better.</h2><p class="headline" aria-hidden="true">Coverage is good.<br><em class="hl hl--p">Impact is better.</em></p>
-<div class="cols"><div><b>500+</b><span>stories for a national expansion</span></div><div><b>27M</b><span>reach = $80k new business (A Lasting Tale)</span></div><div><b>#1</b><span>Google-searched destination in Australia, 2025 (Hamilton Island)</span></div><div><b>World-first</b><span>legislation change (36 Months)</span></div></div></div></section>
+<div class="cols"><div><b>World-first</b><span>legislation change (36 Months)</span></div><div><b>500+</b><span>stories for a national expansion</span></div><div><b>27M</b><span>reach = $80k new business (A Lasting Tale)</span></div><div><b>#1</b><span>Google-searched destination in Australia, 2025 (Hamilton Island)</span></div></div></div></section>
 <section class="sec" data-fit-exempt="all" data-fit-reason="six-card grid"><div class="wrap"><div class="sec__hd"><h2>{E(CLIPPINGS_H)}</h2><a class="btn btn--ghost" href="/work/">Explore all the work →</a></div>
 <div class="grid grid--4">{''.join(card(c,k) for k,c in enumerate(HOME_CASES))}<a class="card card--more" href="/work/"><span class="card--more__n">{len(CASES)}</span><span class="card--more__t">Explore all the work →</span></a></div></div></section>
 <div class="mast" aria-label="Where our stories land"><div class="wrap mast__in">{''.join('<span>'+m+'</span>' for m in MASTHEADS)}</div></div>
 <div class="tt" aria-hidden="true">{pin("right:40px",-82,True)}</div>
 {qclips(QUOTES[:3])}
 {cta_band(True)}'''
+home=home.replace('<p class="sub">','<p class="sub sub--home">',1)
 page('index.html',"WaldeComms | PR that makes noise, Australia-wide","WaldeComms is an Australian PR agency that turns businesses into brands people can't ignore.",home,home=True)
 # WORK
 def camp(c,k):
@@ -139,7 +140,7 @@ work=hero('Recent work','that made noise','Coverage is good. Impact is better.',
 <!-- PENDING PERMISSION: masthead/network names below stand in for masthead logos until usage rights are confirmed -->
 <div class="mast" aria-label="Where our stories land"><div class="wrap mast__in">{''.join('<span>'+m+'</span>' for m in MASTHEADS)}</div></div><div class="tt tt--thin" aria-hidden="true">{pin("right:30px",80)}</div>
 <section class="sec" data-fit-exempt="all" data-fit-reason="nine campaign write-ups"><div class="wrap camps">{''.join(camp(c,k) for k,c in enumerate(WORK))}</div></section>{cta_band()}'''
-page('work/index.html','Work | WaldeComms','Campaigns by WaldeComms: 36 Months, AUSactive, The Sundays Hamilton Island, NeonDynamo, Sonar Music, MMAD Futures Radio, NOASIS, Monique van Tulder and A Lasting Tale.',work,'/work/')
+page('work/index.html','Work | WaldeComms','Campaigns by WaldeComms: 36 Months, AUSactive, Sonar Music, NeonDynamo, The Sundays Hamilton Island, NOASIS, MMAD Futures Radio, Monique van Tulder and A Lasting Tale.',work,'/work/')
 # CASE STUDIES
 import datetime as _dt
 def _d(x):
@@ -174,9 +175,9 @@ page('noise-makers/index.html','Noise-Makers | WaldeComms','Meet the WaldeComms 
 # WHAT PEOPLE SAY
 tst=hero('What people say','Turn up the volume','The voices behind the results, one at a time.',('VOICES','Real words. Real results.'))+f'''
 {volume(QUOTES,'all-volume',heading=False)}{cta_band()}'''
-page('what-people-say/index.html','What people say | WaldeComms','Testimonials from AUSactive, Nova, Sunrise, the Today Show, Urban List and more.',tst,'/what-people-say/')
+page('what-people-say/index.html','What people say | WaldeComms','Testimonials from Nova, NeonDynamo, Sunrise, Urban List and more.',tst,'/what-people-say/')
 # CONTACT
-con=hero('Let’s talk','Make noise','Email Niki and the team directly:',('CONTACT',''),extra=f'<p style="margin-top:14px">{contact_links("big-link")}</p><p style="margin-top:14px"><a class="big-link" href="{INSTAGRAM}" rel="noopener" target="_blank">Instagram @waldecomms</a></p><p style="margin-top:14px">Australia-wide</p>')+f'''
+con=hero('Let’s talk','Make noise','',('CONTACT',''),extra=f'<p style="margin-top:14px">{contact_links("big-link")}</p><p style="margin-top:14px"><a class="big-link" href="{INSTAGRAM}" rel="noopener" target="_blank">Instagram @waldecomms</a></p><p style="margin-top:14px">Australia-wide</p>')+f'''
 <section class="sec" data-fit-exempt="all" data-fit-reason="contact form"><div class="wrap"><h2>Brief us</h2><p class="lead" style="margin:12px 0 28px">Fill this in and it opens as an email to us, ready to send.</p>
 <form class="form" data-mailto="{EMAIL}" name="brief"><label>Your name<input name="name" required autocomplete="name"></label><label>Company<input name="company" autocomplete="organization"></label><label>Email<input name="email" type="email" required autocomplete="email"></label>
 <label>What do you need?<select name="need"><option>Media relations</option><option>Content</option><option>Social</option><option>AI strategy</option><option>Events</option><option>Not sure yet</option></select></label><label>The story<textarea name="story" rows="5" required></textarea></label><button class="btn" type="submit">Send the brief →</button><p class="msg" aria-live="polite"></p></form></div></section>'''
