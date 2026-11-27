@@ -66,7 +66,7 @@ def page(path,title,desc,body,cur='',home=False):
 <nav aria-label="Footer"><a href="/">Home</a>{''.join(f'<a href="{h}">{t}</a>' for h,t in NAV)}</nav>
 <div><p class="ftr__h">Ready to make noise?</p><a class="btn btn--teal" href="/contact/">Brief us →</a><p><small>© 2026 WaldeComms</small></p></div></div></footer>
 <div class="lb" role="dialog" aria-modal="true" aria-label="Viewer"><button class="btn btn--teal btn--sm" type="button">Close ✕</button></div>
-{'<script src="/js/intro.js?v='+VER+'"></script>' if home else ''}<script src="/js/site.js?v={VER}" defer></script></body></html>'''
+<script src="/js/hubspot-attribution.js?v={VER}"></script><!--WC-HS-->{'<script src="/js/intro.js?v='+VER+'"></script>' if home else ''}<script src="/js/site.js?v={VER}" defer></script></body></html>'''
   import re
   depth=path.count('/');pre='../'*depth or './'
   d=d.replace('<meta charset="utf-8">','<meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="wc-ver" content="'+VER+'">'+STALEGUARD)
@@ -74,6 +74,9 @@ def page(path,title,desc,body,cur='',home=False):
   d=re.sub(r'(href="/(?:[a-z0-9-]+/)*)(")',lambda m:m.group(1)+'?v='+VER+m.group(2),d)
   d=re.sub(r'(href="/(?:[a-z0-9-]+/)*)\?intro=1"',lambda m:m.group(1)+'?intro=1&amp;v='+VER+'"',d)
   d=re.sub(r'(href|src|data-full|poster|data-src-sm|data-src-lg)="/(?!/)',lambda m:f'{m.group(1)}="{pre}',d)
+  # Native HubSpot Starter loader (portal 443929027, AP1). Inserted after asset
+  # rewrites so the external URL is not rewritten or cache-busted.
+  d=d.replace('<!--WC-HS-->','<script async defer id="hs-script-loader" src="https://js-ap1.hs-scripts.com/443929027.js"></script>')
   os.makedirs(os.path.dirname(path) or '.',exist_ok=True);open(path,'w').write(d)
 ROT=[-1.2,.9,-.6,1.1,-.9,.7]
 def card(c,k):
