@@ -70,6 +70,19 @@ check(os.path.exists(os.path.join(_here,'video','niki-hero-loop-alpha.webm')),'t
 for _x in ['niki-hero-loop.webm','niki-hero-loop.mp4']:check(not os.path.exists(os.path.join(_here,'video',_x)),f'old boxed hero loop still in video/: {_x}')
 check(os.path.exists(os.path.join(_here,'img','tartan-red.svg')),'red tartan pattern file missing')
 check(os.path.exists(os.path.join(_here,'img/neon-poster.webp')),'Now showing poster missing')
+# HubSpot Starter loader + journey attribution must survive every rebuild.
+_HS_LOADER=re.compile(r'<script\b[^>]*\bid="hs-script-loader"[^>]*>',re.I)
+for _r,_d,_fs in os.walk(_here):
+  _d[:]=[x for x in _d if x not in('.git','testing','__pycache__','shots','1204','brand','node_modules')]
+  for _f in _fs:
+    if not _f.endswith('.html'):continue
+    _hp=os.path.join(_r,_f);_ht=open(_hp,errors='ignore').read()
+    if '<html' not in _ht.lower():continue
+    _rel=os.path.relpath(_hp,_here)
+    _tag=_HS_LOADER.search(_ht)
+    check(bool(_tag) and 'async' in _tag.group(0) and 'defer' in _tag.group(0) and 'js-ap1.hs-scripts.com/443929027.js' in _tag.group(0),f'{_rel}: HubSpot loader missing (portal 443929027, AP1)')
+    check(_ht.count('id="hs-script-loader"')==1,f'{_rel}: HubSpot loader should appear once')
+    check('hubspot-attribution.js?v=' in _ht and _ht.find('hubspot-attribution.js')<_ht.find('hs-script-loader'),f'{_rel}: versioned attribution script must precede the HubSpot loader')
 def _parity():
   import html as _h,urllib.request as _u
   T=lambda x:' '.join(_h.unescape(re.sub(r'<[^>]+>',' ',x)).split())
